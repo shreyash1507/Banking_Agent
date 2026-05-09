@@ -7,11 +7,11 @@ load_dotenv()
 # AWS Bedrock Model IDs
 # Referencing the models requested in the plan
 MODEL_INTENT_CLASSIFIER = "amazon.nova-micro-v1:0"
-MODEL_TASK_DECOMPOSER = "anthropic.claude-3-5-haiku-20241022-v1:0"
-MODEL_ORCHESTRATOR = "us.anthropic.claude-3-7-sonnet-20250219-v1:0"
-MODEL_POLICY_RAG_DEFAULT = "anthropic.claude-3-5-haiku-20241022-v1:0"
-MODEL_POLICY_RAG_FALLBACK = "us.anthropic.claude-3-7-sonnet-20250219-v1:0"
-MODEL_LOAN_ELIGIBILITY = "us.anthropic.claude-3-7-sonnet-20250219-v1:0"
+MODEL_TASK_DECOMPOSER = "anthropic.claude-haiku-4-5-20251001-v1:0"
+MODEL_ORCHESTRATOR = "us.anthropic.claude-sonnet-4-5-20250929-v1:0"
+MODEL_POLICY_RAG_DEFAULT = "anthropic.claude-haiku-4-5-20251001-v1:0"
+MODEL_POLICY_RAG_FALLBACK = "us.anthropic.claude-sonnet-4-5-20250929-v1:0"
+MODEL_LOAN_ELIGIBILITY = "us.   anthropic.claude-sonnet-4-5-20250929-v1:0"
 
 def get_bedrock_client():
     """Initializes and returns an AWS Bedrock Runtime client."""
