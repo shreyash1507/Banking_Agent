@@ -1,0 +1,11 @@
+tools:
+  - name: consult_policy_expert
+    description: Queries the policy database to answer rules/terms related questions.
+    input_property: task
+    module: banking_agents.agents.domain.policy_rag_agent
+    class_name: PolicyRAGAgent
+  - name: consult_loan_expert
+    description: Queries the loan guidelines to answer eligibility and numeric loan questions.
+    input_property: task
+    module: banking_agents.agents.domain.loan_eligibility_rag_agent
+    class_name: LoanEligibilityRAGAgent

@@ -1,0 +1,7 @@
+intents:
+  - name: POLICY
+    description: Questions about bank policies, terms, compliance, guidelines
+  - name: LOAN_ELIGIBILITY
+    description: Questions about loan eligibility, EMI, credit score, loan products
+  - name: FRAUD_ALERT
+    description: Reports of unauthorized transactions, suspicious activity, account compromise
