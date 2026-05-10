@@ -1,0 +1,27 @@
+input:
+  min_length: 5
+  max_length: 2000
+  injection_patterns:
+    - "ignore previous instructions"
+    - "ignore all instructions"
+    - "you are now"
+    - "act as"
+    - "pretend you are"
+    - "jailbreak"
+
+orchestrator:
+  max_iterations: 5
+  max_subtasks: 4
+  per_hop_timeout_seconds: 30
+  fallback_message: "I'm having trouble completing your request. Please try rephrasing."
+
+rag:
+  hard_distance_threshold: 1.2
+  soft_distance_threshold: 0.9
+  no_result_message: "I don't have sufficient information in our documents to answer this. Please contact your bank directly."
+  low_confidence_disclaimer: "This answer is based on partial matches. Please verify with a bank representative."
+
+output:
+  empty_response_fallback: "I wasn't able to generate a response. Please try again."
+  intent_disclaimers:
+    LOAN_ELIGIBILITY: "This assessment is indicative only. Final loan eligibility is subject to bank verification and approval."

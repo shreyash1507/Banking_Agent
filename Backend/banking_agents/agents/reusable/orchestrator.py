@@ -11,13 +11,19 @@ logger = logging.getLogger(__name__)
 
 
 class OrchestratorAgent:
-    def __init__(self, intents_config: dict, orchestrator_config: dict):
+    def __init__(self, intents_config: dict, orchestrator_config: dict, guardrails_config: dict):
         logger.info("[OrchestratorAgent] Initializing OrchestratorAgent...")
+        self.orchestrator_config = orchestrator_config
         self.client: Groq = get_groq_client()
         self.model_id = MODEL_ORCHESTRATOR
-        logger.info("[OrchestratorAgent] Using model: %s", self.model_id)
-
-        self.orchestrator_config = orchestrator_config
+        self.guardrails_config = guardrails_config
+        
+        # Guardrails setup
+        oc = guardrails_config.get("orchestrator", {})
+        self.max_iterations = oc.get("max_iterations", 5)
+        self.max_subtasks = oc.get("max_subtasks", 4)
+        self.fallback_msg = oc.get("fallback_message", "I'm sorry, I'm having trouble.")
+        self.timeout = oc.get("per_hop_timeout_seconds", 30)
 
         logger.debug("[OrchestratorAgent] Loading IntentClassifierAgent and TaskDecomposerAgent...")
         self.intent_classifier = IntentClassifierAgent(intents=intents_config.get("intents", []))
@@ -80,7 +86,8 @@ class OrchestratorAgent:
             logger.debug("[OrchestratorAgent._build_dynamic_tools] Loading tool '%s' from %s.%s", name, module_path, class_name)
             module = importlib.import_module(module_path)
             agent_class = getattr(module, class_name)
-            self.tool_instances[name] = agent_class()
+            # Pass the guardrails config if the agent supports it
+            self.tool_instances[name] = agent_class(guardrails_config=self.guardrails_config)
             logger.info("[OrchestratorAgent._build_dynamic_tools] Tool '%s' loaded successfully.", name)
 
             self.tools_schema.append({
@@ -113,6 +120,13 @@ class OrchestratorAgent:
             elif tool_name == "decompose_task":
                 logger.debug("[OrchestratorAgent._execute_tool] Delegating to TaskDecomposerAgent.decompose()")
                 tasks = self.task_decomposer.decompose(input_data["query"], input_data["intent"])
+                # Apply max_subtasks guardrail to prevent flooding domain agents
+                if len(tasks) > self.max_subtasks:
+                    logger.warning(
+                        "[OrchestratorAgent._execute_tool] TaskDecomposer returned %d tasks, truncating to %d (max_subtasks).",
+                        len(tasks), self.max_subtasks
+                    )
+                    tasks = tasks[:self.max_subtasks]
                 logger.info("[OrchestratorAgent._execute_tool] <<< decompose_task result: %s", tasks)
                 return json.dumps(tasks)
 
@@ -141,7 +155,7 @@ class OrchestratorAgent:
 Your job is to resolve customer queries efficiently.
 DO NOT answer from your own knowledge or memory.
 You MUST use your tools to classify the intent, decompose the query if complex, and consult the policy or loan experts for accurate answers.
-Once you have all necessary information, synthesize a final, polite, and helpful response for the user."""
+Synthesize a final, polite, and helpful response for the user based on the tool outputs."""
 
         # Groq message format: system + user history
         messages = [
@@ -149,9 +163,10 @@ Once you have all necessary information, synthesize a final, polite, and helpful
             {"role": "user",   "content": user_query.query},
         ]
 
+        intermediate_steps = []
+
         iteration = 0
-        MAX_ITERATIONS = 3
-        while iteration < MAX_ITERATIONS:
+        while iteration < self.max_iterations:
             iteration += 1
             logger.debug("[OrchestratorAgent.run] --- Iteration #%d | Messages: %d ---", iteration, len(messages))
             logger.info("[OrchestratorAgent.run] Calling Groq API | Model: %s", self.model_id)
@@ -163,10 +178,27 @@ Once you have all necessary information, synthesize a final, polite, and helpful
                     tools=self.tools_schema,
                     tool_choice="auto",
                     temperature=0.2,
+                    timeout=self.timeout
                 )
                 logger.debug("[OrchestratorAgent.run] Groq response | finish_reason: %s", response.choices[0].finish_reason)
             except Exception as e:
+                import groq
+                from fastapi import HTTPException
                 logger.error("[OrchestratorAgent.run] Error calling Groq API: %s", e, exc_info=True)
+                
+                if isinstance(e, groq.RateLimitError):
+                    raise HTTPException(status_code=429, detail="Too many requests. Please try again shortly.")
+                elif isinstance(e, groq.APITimeoutError):
+                    logger.warning("[OrchestratorAgent.run] Groq API timed out. Returning fallback.")
+                    return AgentResponse(
+                        response=self._build_structured_response(intermediate_steps, self.fallback_msg),
+                        final=self.fallback_msg,
+                        context=context,
+                        intermediate_steps=intermediate_steps
+                    )
+                elif isinstance(e, groq.APIConnectionError):
+                    raise HTTPException(status_code=503, detail="Service temporarily unavailable. Please check your connection.")
+                
                 raise e
 
             choice = response.choices[0]
@@ -179,9 +211,16 @@ Once you have all necessary information, synthesize a final, polite, and helpful
             if choice.finish_reason != "tool_calls" or not assistant_message.tool_calls:
                 final_text = assistant_message.content or ""
                 logger.info("[OrchestratorAgent.run] <<< Done after %d iteration(s). Returning response.", iteration)
-                logger.debug("[OrchestratorAgent.run] Final response preview: %s...", final_text[:200])
+                
+                structured_response = self._build_structured_response(intermediate_steps, final_text)
+                
                 context.history.append({"user": user_query.query, "assistant": final_text})
-                return AgentResponse(response=final_text, context=context)
+                return AgentResponse(
+                    response=structured_response, 
+                    final=final_text,
+                    context=context, 
+                    intermediate_steps=intermediate_steps
+                )
 
             # Execute all tool calls and add results
             for tool_call in assistant_message.tool_calls:
@@ -192,6 +231,13 @@ Once you have all necessary information, synthesize a final, polite, and helpful
                 logger.debug("[OrchestratorAgent.run] Tool call: '%s' (id: %s)", tool_name, tool_id)
                 result_str = self._execute_tool(tool_name, tool_input)
 
+                # Record intermediate step
+                intermediate_steps.append({
+                    "agent": tool_name,
+                    "input": tool_input,
+                    "output": result_str
+                })
+
                 # Groq tool result format
                 messages.append({
                     "role":         "tool",
@@ -201,6 +247,41 @@ Once you have all necessary information, synthesize a final, polite, and helpful
 
             logger.debug("[OrchestratorAgent.run] Sent %d tool result(s) back to model.", len(assistant_message.tool_calls))
 
-        logger.warning("[OrchestratorAgent.run] Exceeded MAX_ITERATIONS (%d). Returning fallback response.", MAX_ITERATIONS)
-        fallback_msg = "I'm sorry, but I'm having trouble completing your request after multiple steps. Please try rephrasing your query."
-        return AgentResponse(response=fallback_msg, context=context)
+        logger.warning("[OrchestratorAgent.run] Exceeded self.max_iterations (%d). Returning fallback response.", self.max_iterations)
+        structured_response = self._build_structured_response(intermediate_steps, self.fallback_msg)
+        return AgentResponse(
+            response=structured_response, 
+            final=self.fallback_msg, 
+            context=context, 
+            intermediate_steps=intermediate_steps
+        )
+
+    def _build_structured_response(self, intermediate_steps: list, final_text: str) -> dict:
+        """Helper to build a structured dictionary of agent outputs (matches d.json)."""
+        response_dict = {}
+        for step in intermediate_steps:
+            agent_label = step["agent"]
+            if step["agent"] in self.tool_instances:
+                agent_label = type(self.tool_instances[step["agent"]]).__name__
+            elif step["agent"] == "classify_intent":
+                agent_label = "IntentClassifierAgent"
+            elif step["agent"] == "decompose_task":
+                agent_label = "TaskDecomposerAgent"
+            
+            # Try to parse the output as JSON if it's a string that looks like JSON
+            output_val = step["output"]
+            if isinstance(output_val, str):
+                try:
+                    cleaned_output = output_val.strip()
+                    if cleaned_output.startswith("```json"): cleaned_output = cleaned_output[7:]
+                    if cleaned_output.startswith("```"): cleaned_output = cleaned_output[3:]
+                    if cleaned_output.endswith("```"): cleaned_output = cleaned_output[:-3]
+                    output_val = json.loads(cleaned_output.strip())
+                except:
+                    pass # Keep as string if not JSON
+                    
+            response_dict[agent_label] = output_val
+        
+        # Add Orchestrator's final synthesis
+        response_dict["Orchestrator"] = final_text
+        return response_dict
