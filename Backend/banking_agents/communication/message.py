@@ -49,7 +49,6 @@ class AgentContext(BaseModel):
     current_intent: Optional[Intent] = None
 
 class AgentResponse(BaseModel):
-    response: Any
     final: str
     context: AgentContext
-    intermediate_steps: List[Dict[str, Any]] = Field(default_factory=list)
+    audit_trail: List[Dict[str, Any]] = Field(default_factory=list)

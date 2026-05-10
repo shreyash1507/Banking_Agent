@@ -62,10 +62,9 @@ class ChatRequest(BaseModel):
     session_id: str = None
 
 class ChatResponse(BaseModel):
-    response: Any
     final: str
     session_id: str
-    intermediate_steps: Optional[List[Dict[str, Any]]] = None
+    audit_trail: Optional[List[Dict[str, Any]]] = None
 
 @app.post("/api/v1/chat", response_model=ChatResponse)
 async def chat_endpoint(request: ChatRequest):
@@ -97,10 +96,9 @@ async def chat_endpoint(request: ChatRequest):
         session_contexts[session_id] = agent_response.context
         
         return ChatResponse(
-            response=agent_response.response,
             final=final_response_text,
             session_id=session_id,
-            intermediate_steps=agent_response.intermediate_steps
+            audit_trail=agent_response.audit_trail
         )
         
     except Exception as e:

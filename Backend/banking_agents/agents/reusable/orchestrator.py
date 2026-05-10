@@ -163,7 +163,7 @@ Synthesize a final, polite, and helpful response for the user based on the tool 
             {"role": "user",   "content": user_query.query},
         ]
 
-        intermediate_steps = []
+        audit_trail = []
 
         iteration = 0
         while iteration < self.max_iterations:
@@ -191,10 +191,9 @@ Synthesize a final, polite, and helpful response for the user based on the tool 
                 elif isinstance(e, groq.APITimeoutError):
                     logger.warning("[OrchestratorAgent.run] Groq API timed out. Returning fallback.")
                     return AgentResponse(
-                        response=self._build_structured_response(intermediate_steps, self.fallback_msg),
                         final=self.fallback_msg,
                         context=context,
-                        intermediate_steps=intermediate_steps
+                        audit_trail=audit_trail
                     )
                 elif isinstance(e, groq.APIConnectionError):
                     raise HTTPException(status_code=503, detail="Service temporarily unavailable. Please check your connection.")
@@ -212,14 +211,21 @@ Synthesize a final, polite, and helpful response for the user based on the tool 
                 final_text = assistant_message.content or ""
                 logger.info("[OrchestratorAgent.run] <<< Done after %d iteration(s). Returning response.", iteration)
                 
-                structured_response = self._build_structured_response(intermediate_steps, final_text)
-                
+                # Add final synthesis as an audit step
+                audit_trail.append({
+                    "step": len(audit_trail) + 1,
+                    "action": "Final Synthesis",
+                    "agent": "Orchestrator",
+                    "input": "Synthesize all agent findings into a cohesive response.",
+                    "finding": final_text
+                })
+
                 context.history.append({"user": user_query.query, "assistant": final_text})
+                print(f"\n[DEBUG] AUDIT TRAIL LOG: {json.dumps(audit_trail, indent=2)}\n")
                 return AgentResponse(
-                    response=structured_response, 
                     final=final_text,
                     context=context, 
-                    intermediate_steps=intermediate_steps
+                    audit_trail=audit_trail
                 )
 
             # Execute all tool calls and add results
@@ -231,11 +237,25 @@ Synthesize a final, polite, and helpful response for the user based on the tool 
                 logger.debug("[OrchestratorAgent.run] Tool call: '%s' (id: %s)", tool_name, tool_id)
                 result_str = self._execute_tool(tool_name, tool_input)
 
-                # Record intermediate step
-                intermediate_steps.append({
-                    "agent": tool_name,
+                # Determine semantic action label
+                action = "Domain Consultation"
+                agent_label = tool_name
+                if tool_name == "classify_intent":
+                    action = "Analyzing Intent"
+                    agent_label = "Classifier"
+                elif tool_name == "decompose_task":
+                    action = "Strategic Planning"
+                    agent_label = "Planner"
+                elif tool_name in self.tool_instances:
+                    agent_label = type(self.tool_instances[tool_name]).__name__
+
+                # Record audit step
+                audit_trail.append({
+                    "step": len(audit_trail) + 1,
+                    "action": action,
+                    "agent": agent_label,
                     "input": tool_input,
-                    "output": result_str
+                    "finding": result_str
                 })
 
                 # Groq tool result format
@@ -248,40 +268,9 @@ Synthesize a final, polite, and helpful response for the user based on the tool 
             logger.debug("[OrchestratorAgent.run] Sent %d tool result(s) back to model.", len(assistant_message.tool_calls))
 
         logger.warning("[OrchestratorAgent.run] Exceeded self.max_iterations (%d). Returning fallback response.", self.max_iterations)
-        structured_response = self._build_structured_response(intermediate_steps, self.fallback_msg)
         return AgentResponse(
-            response=structured_response, 
             final=self.fallback_msg, 
             context=context, 
-            intermediate_steps=intermediate_steps
+            audit_trail=audit_trail
         )
 
-    def _build_structured_response(self, intermediate_steps: list, final_text: str) -> dict:
-        """Helper to build a structured dictionary of agent outputs (matches d.json)."""
-        response_dict = {}
-        for step in intermediate_steps:
-            agent_label = step["agent"]
-            if step["agent"] in self.tool_instances:
-                agent_label = type(self.tool_instances[step["agent"]]).__name__
-            elif step["agent"] == "classify_intent":
-                agent_label = "IntentClassifierAgent"
-            elif step["agent"] == "decompose_task":
-                agent_label = "TaskDecomposerAgent"
-            
-            # Try to parse the output as JSON if it's a string that looks like JSON
-            output_val = step["output"]
-            if isinstance(output_val, str):
-                try:
-                    cleaned_output = output_val.strip()
-                    if cleaned_output.startswith("```json"): cleaned_output = cleaned_output[7:]
-                    if cleaned_output.startswith("```"): cleaned_output = cleaned_output[3:]
-                    if cleaned_output.endswith("```"): cleaned_output = cleaned_output[:-3]
-                    output_val = json.loads(cleaned_output.strip())
-                except:
-                    pass # Keep as string if not JSON
-                    
-            response_dict[agent_label] = output_val
-        
-        # Add Orchestrator's final synthesis
-        response_dict["Orchestrator"] = final_text
-        return response_dict

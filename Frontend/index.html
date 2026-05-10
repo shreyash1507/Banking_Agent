@@ -1,0 +1,4192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bank · EY AI AI Platform</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=IBM+Plex+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --ey-yellow: #FFE600;
+      --ey-yellow-dim: #F5D800;
+      --ey-yellow-pale: #FFFBE0;
+      --Bank-blue: #003087;
+      --Bank-blue-mid: #00419A;
+      --Bank-blue-light: #0050C8;
+      --navy: #0A1628;
+      --navy-mid: #0D1E38;
+      --navy-light: #152A4A;
+      --slate: #A8B8CF;
+      --slate-dim: #607090;
+      --white: #F8FAFC;
+      --surface: #0E1E36;
+      --surface2: #162847;
+      --border: rgba(255, 230, 0, 0.15);
+      --border-subtle: rgba(168, 184, 207, 0.1);
+      --green: #2ECC71;
+      --amber: #F0A540;
+      --red: #E05252;
+      --teal: #00C4CC;
+      --AI-purple: #7C5FF5;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--navy);
+      color: var(--white);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── HEADER ── */
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 28px;
+      height: 58px;
+      background: var(--navy-mid);
+      border-bottom: 2px solid var(--ey-yellow);
+      position: sticky;
+      top: 0;
+      z-index: 200;
+    }
+
+    .header-brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .AI-badge {
+      background: var(--ey-yellow);
+      color: var(--navy);
+      font-family: 'DM Serif Display', serif;
+      font-size: 15px;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 6px;
+      letter-spacing: 0.04em;
+    }
+
+    .brand-divider {
+      width: 1px;
+      height: 24px;
+      background: var(--border-subtle);
+    }
+
+    .Bank-logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .Bank-icon {
+      width: 30px;
+      height: 30px;
+      border-radius: 6px;
+      background: linear-gradient(135deg, var(--Bank-blue), var(--Bank-blue-light));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 700;
+      color: white;
+    }
+
+    .brand-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--white);
+    }
+
+    .brand-sub {
+      font-size: 10px;
+      color: var(--slate-dim);
+      font-family: 'IBM Plex Mono', monospace;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .header-pill {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      color: var(--green);
+      background: rgba(46, 204, 113, 0.08);
+      border: 1px solid rgba(46, 204, 113, 0.2);
+      border-radius: 20px;
+      padding: 3px 10px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .header-pill::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--green);
+      animation: pulse 1.8s infinite;
+      display: block;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 1
+      }
+
+      50% {
+        opacity: .3
+      }
+    }
+
+    .header-tag {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 9px;
+      color: var(--ey-yellow);
+      background: rgba(255, 230, 0, 0.08);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 3px 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .user-chip {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--slate);
+      cursor: pointer;
+    }
+
+    .user-avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--Bank-blue-light), var(--teal));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      color: white;
+    }
+
+    /* ── LAYOUT ── */
+    .layout {
+      display: block;
+      position: relative;
+    }
+
+    /* ── SIDEBAR ── */
+    .sidebar {
+      width: 240px;
+      flex-shrink: 0;
+      background: var(--navy-mid);
+      border-right: 1px solid var(--border-subtle);
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      position: fixed;
+      top: 58px;
+      left: 0;
+      bottom: 24px;
+      z-index: 100;
+    }
+
+    .sidebar::-webkit-scrollbar {
+      width: 3px;
+    }
+
+    .sidebar::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .sidebar::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 3px;
+    }
+
+    .sidebar-section-label {
+      padding: 16px 18px 5px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 9px;
+      color: var(--slate-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .sidebar-section-label::before {
+      content: '';
+      display: block;
+      width: 12px;
+      height: 1px;
+      background: var(--ey-yellow);
+      opacity: 0.5;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 8px 14px;
+      cursor: pointer;
+      border-radius: 7px;
+      margin: 1px 8px;
+      font-size: 12.5px;
+      color: var(--slate);
+      font-weight: 400;
+      transition: all 0.18s;
+      position: relative;
+    }
+
+    .nav-item:hover {
+      background: rgba(255, 230, 0, 0.05);
+      color: var(--white);
+    }
+
+    .nav-item.active {
+      background: rgba(255, 230, 0, 0.1);
+      color: var(--ey-yellow);
+    }
+
+    .nav-item.active::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 20%;
+      bottom: 20%;
+      width: 3px;
+      border-radius: 0 2px 2px 0;
+      background: var(--ey-yellow);
+      margin-left: -8px;
+    }
+
+    .nav-icon {
+      font-size: 14px;
+      flex-shrink: 0;
+      opacity: 0.8;
+    }
+
+    .nav-badge {
+      margin-left: auto;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 9px;
+      background: rgba(0, 196, 204, 0.12);
+      color: var(--teal);
+      border: 1px solid rgba(0, 196, 204, 0.2);
+      border-radius: 10px;
+      padding: 1px 6px;
+    }
+
+    .nav-badge.yellow {
+      background: rgba(255, 230, 0, 0.1);
+      color: var(--ey-yellow);
+      border-color: var(--border);
+    }
+
+    .nav-badge.green {
+      background: rgba(46, 204, 113, 0.1);
+      color: var(--green);
+      border-color: rgba(46, 204, 113, 0.2);
+    }
+
+    .nav-sub {
+      padding-left: 28px;
+      font-size: 12px;
+    }
+
+    .sidebar-divider {
+      height: 1px;
+      background: var(--border-subtle);
+      margin: 8px 14px;
+    }
+
+    /* Collapsible groups */
+    .nav-group-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      cursor: pointer;
+      border-radius: 7px;
+      margin: 1px 8px;
+      font-size: 12.5px;
+      color: var(--slate);
+      font-weight: 500;
+      transition: all 0.18s;
+    }
+
+    .nav-group-header:hover {
+      background: rgba(255, 230, 0, 0.04);
+      color: var(--white);
+    }
+
+    .nav-group-header .chevron {
+      margin-left: auto;
+      font-size: 10px;
+      transition: transform 0.2s;
+    }
+
+    .nav-group-header.open .chevron {
+      transform: rotate(90deg);
+    }
+
+    .nav-group-children {
+      overflow: hidden;
+      transition: max-height 0.25s;
+      max-height: 0;
+    }
+
+    .nav-group-children.open {
+      max-height: 500px;
+    }
+
+    /* ── MAIN ── */
+    .main {
+      background: var(--navy);
+      margin-left: 240px;
+      min-height: calc(100vh - 82px);
+    }
+
+    .main::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .main::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .main::-webkit-scrollbar-thumb {
+      background: var(--border-subtle);
+      border-radius: 4px;
+    }
+
+    .tab-pane {
+      display: none;
+      padding: 26px 30px 50px;
+      animation: fadeIn 0.22s;
+    }
+
+    .tab-pane.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(8px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
+
+    /* ── PAGE HEADER ── */
+    .page-header {
+      margin-bottom: 22px;
+    }
+
+    .page-header-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+
+    .page-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 24px;
+      color: var(--white);
+      line-height: 1.2;
+    }
+
+    .page-subtitle {
+      font-size: 12.5px;
+      color: var(--slate);
+      max-width: 640px;
+      line-height: 1.55;
+      margin-top: 5px;
+    }
+
+    .page-tag {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      padding: 4px 10px;
+      border-radius: 20px;
+      border: 1px solid;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .tag-agentic {
+      color: var(--AI-purple);
+      border-color: rgba(124, 95, 245, 0.3);
+      background: rgba(124, 95, 245, 0.08);
+    }
+
+    .tag-genai {
+      color: var(--ey-yellow);
+      border-color: var(--border);
+      background: rgba(255, 230, 0, 0.06);
+    }
+
+    .tag-wave1 {
+      color: var(--teal);
+      border-color: rgba(0, 196, 204, 0.3);
+      background: rgba(0, 196, 204, 0.06);
+    }
+
+    .tag-AI {
+      color: var(--green);
+      border-color: rgba(46, 204, 113, 0.3);
+      background: rgba(46, 204, 113, 0.06);
+    }
+
+    /* ── CARDS ── */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      padding: 18px;
+    }
+
+    .card-yellow {
+      border-color: var(--border);
+    }
+
+    .card-title {
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--slate);
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card-title-icon {
+      font-size: 14px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 16px;
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    .grid-5 {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 14px;
+    }
+
+    .grid-12 {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 16px;
+    }
+
+    .grid-21 {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 16px;
+    }
+
+    /* ── STAT CARDS ── */
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      padding: 16px 18px;
+      transition: border-color 0.2s;
+    }
+
+    .stat-card:hover {
+      border-color: var(--border);
+    }
+
+    .stat-label {
+      font-size: 10.5px;
+      color: var(--slate-dim);
+      margin-bottom: 5px;
+      font-weight: 500;
+      font-family: 'IBM Plex Mono', monospace;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .stat-value {
+      font-family: 'DM Serif Display', serif;
+      font-size: 26px;
+      color: var(--white);
+    }
+
+    .stat-delta {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      margin-top: 4px;
+    }
+
+    .delta-up {
+      color: var(--green);
+    }
+
+    .delta-down {
+      color: var(--red);
+    }
+
+    .delta-yellow {
+      color: var(--ey-yellow);
+    }
+
+    /* ── BUTTONS ── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      border-radius: 7px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      border: none;
+      transition: all 0.18s;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .btn-primary {
+      background: var(--ey-yellow);
+      color: var(--navy);
+    }
+
+    .btn-primary:hover {
+      background: var(--ey-yellow-dim);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 14px rgba(255, 230, 0, 0.25);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 230, 0, 0.08);
+      color: var(--ey-yellow);
+      border: 1px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 230, 0, 0.14);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--slate);
+      border: 1px solid var(--border-subtle);
+    }
+
+    .btn-ghost:hover {
+      color: var(--white);
+      border-color: var(--border);
+    }
+
+    .btn-danger {
+      background: rgba(224, 82, 82, 0.1);
+      color: var(--red);
+      border: 1px solid rgba(224, 82, 82, 0.2);
+    }
+
+    .btn-teal {
+      background: rgba(0, 196, 204, 0.1);
+      color: var(--teal);
+      border: 1px solid rgba(0, 196, 204, 0.2);
+    }
+
+    .btn-sm {
+      padding: 5px 10px;
+      font-size: 11px;
+      border-radius: 6px;
+    }
+
+    /* ── DATA TABLE ── */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12.5px;
+    }
+
+    .data-table th {
+      text-align: left;
+      padding: 8px 12px;
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--slate-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .data-table td {
+      padding: 10px 12px;
+      border-bottom: 1px solid rgba(168, 184, 207, 0.05);
+      color: var(--slate);
+    }
+
+    .data-table td:first-child {
+      color: var(--white);
+      font-weight: 500;
+    }
+
+    .data-table tr:hover td {
+      background: rgba(255, 230, 0, 0.02);
+    }
+
+    /* ── BADGES ── */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 9px;
+      padding: 2px 8px;
+      border-radius: 20px;
+      font-weight: 500;
+    }
+
+    .badge-green {
+      background: rgba(46, 204, 113, 0.1);
+      color: var(--green);
+      border: 1px solid rgba(46, 204, 113, 0.2);
+    }
+
+    .badge-amber {
+      background: rgba(240, 165, 64, 0.1);
+      color: var(--amber);
+      border: 1px solid rgba(240, 165, 64, 0.2);
+    }
+
+    .badge-red {
+      background: rgba(224, 82, 82, 0.1);
+      color: var(--red);
+      border: 1px solid rgba(224, 82, 82, 0.2);
+    }
+
+    .badge-teal {
+      background: rgba(0, 196, 204, 0.1);
+      color: var(--teal);
+      border: 1px solid rgba(0, 196, 204, 0.2);
+    }
+
+    .badge-yellow {
+      background: rgba(255, 230, 0, 0.1);
+      color: var(--ey-yellow);
+      border: 1px solid var(--border);
+    }
+
+    .badge-AI {
+      background: rgba(124, 95, 245, 0.1);
+      color: var(--AI-purple);
+      border: 1px solid rgba(124, 95, 245, 0.2);
+    }
+
+    .badge-dim {
+      background: rgba(96, 112, 144, 0.1);
+      color: var(--slate-dim);
+      border: 1px solid rgba(96, 112, 144, 0.15);
+    }
+
+    /* ── ALERT BOXES ── */
+    .alert-box {
+      padding: 9px 13px;
+      border-radius: 7px;
+      font-size: 12px;
+      margin-bottom: 8px;
+      border: 1px solid;
+      line-height: 1.5;
+    }
+
+    .alert-danger {
+      background: rgba(224, 82, 82, 0.07);
+      border-color: rgba(224, 82, 82, 0.2);
+      color: #f8a0a0;
+    }
+
+    .alert-warn {
+      background: rgba(240, 165, 64, 0.07);
+      border-color: rgba(240, 165, 64, 0.2);
+      color: #ffc87a;
+    }
+
+    .alert-info {
+      background: rgba(0, 196, 204, 0.07);
+      border-color: rgba(0, 196, 204, 0.2);
+      color: var(--teal);
+    }
+
+    .alert-success {
+      background: rgba(46, 204, 113, 0.07);
+      border-color: rgba(46, 204, 113, 0.2);
+      color: var(--green);
+    }
+
+    /* ── STEP FLOW ── */
+    .step-flow {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      margin-bottom: 20px;
+      overflow-x: auto;
+    }
+
+    .step-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 16px;
+      background: var(--surface);
+      border: 1px solid var(--border-subtle);
+      font-size: 12px;
+      color: var(--slate-dim);
+      cursor: pointer;
+      transition: all 0.18s;
+      flex-shrink: 0;
+    }
+
+    .step-item:first-child {
+      border-radius: 8px 0 0 8px;
+    }
+
+    .step-item:last-child {
+      border-radius: 0 8px 8px 0;
+    }
+
+    .step-item.done {
+      border-color: rgba(46, 204, 113, 0.2);
+      background: rgba(46, 204, 113, 0.05);
+      color: var(--green);
+    }
+
+    .step-item.active {
+      border-color: var(--border);
+      background: rgba(255, 230, 0, 0.08);
+      color: var(--ey-yellow);
+      font-weight: 600;
+    }
+
+    .step-num {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 9px;
+      opacity: 0.7;
+    }
+
+    .step-arrow {
+      color: var(--slate-dim);
+      font-size: 12px;
+      margin-left: 8px;
+    }
+
+    /* ── AUDIT ENTRIES ── */
+    .audit-entry {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 12px;
+      align-items: flex-start;
+    }
+
+    .audit-time {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      color: var(--slate-dim);
+      flex-shrink: 0;
+      min-width: 60px;
+      padding-top: 2px;
+    }
+
+    .audit-action {
+      font-size: 12.5px;
+      color: var(--white);
+      font-weight: 500;
+      margin-bottom: 2px;
+    }
+
+    .audit-detail {
+      font-size: 11px;
+      color: var(--slate-dim);
+    }
+
+    /* ── AGENT CARDS ── */
+    .agent-card {
+      background: var(--surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      padding: 16px;
+      transition: all 0.2s;
+      cursor: default;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .agent-card:hover {
+      border-color: var(--border);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .agent-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--ey-yellow);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .agent-card:hover::before {
+      opacity: 1;
+    }
+
+    .agent-icon {
+      font-size: 22px;
+      margin-bottom: 8px;
+    }
+
+    .agent-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 5px;
+    }
+
+    .agent-desc {
+      font-size: 11px;
+      color: var(--slate-dim);
+      line-height: 1.5;
+    }
+
+    .agent-tags {
+      display: flex;
+      gap: 5px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+
+    /* ── SEARCH BAR ── */
+    .search-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--surface2);
+      border: 1px solid var(--border-subtle);
+      border-radius: 9px;
+      padding: 9px 14px;
+      margin-bottom: 18px;
+    }
+
+    .search-bar input {
+      flex: 1;
+      background: none;
+      border: none;
+      outline: none;
+      color: var(--white);
+      font-size: 13.5px;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .search-bar input::placeholder {
+      color: var(--slate-dim);
+    }
+
+    /* ── AI ARCHITECTURE ── */
+    .arch-layer {
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin-bottom: 12px;
+    }
+
+    .arch-layer-title {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .arch-nodes {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .arch-node {
+      padding: 5px 11px;
+      border-radius: 20px;
+      font-size: 11.5px;
+      border: 1px solid;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .arch-node:hover {
+      transform: scale(1.03);
+    }
+
+    /* ── WORKFLOW FLOW ── */
+    .flow-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .flow-node {
+      flex: 1;
+      background: var(--surface2);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 12px;
+      color: var(--white);
+      text-align: center;
+    }
+
+    .flow-arrow {
+      color: var(--ey-yellow);
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .flow-node.highlight {
+      border-color: var(--border);
+      background: rgba(255, 230, 0, 0.07);
+    }
+
+    .flow-node.done {
+      border-color: rgba(46, 204, 113, 0.3);
+      background: rgba(46, 204, 113, 0.05);
+      color: var(--green);
+    }
+
+    .flow-node.active {
+      border-color: var(--border);
+      background: rgba(255, 230, 0, 0.1);
+      color: var(--ey-yellow);
+    }
+
+    /* ── AI BADGE ── */
+    .AI-already {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(255, 230, 0, 0.08);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 3px 10px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 9px;
+      color: var(--ey-yellow);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .AI-already::before {
+      content: '✦';
+      font-size: 10px;
+    }
+
+    /* ── TABS (inner) ── */
+    .inner-tabs {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 20px;
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 0;
+    }
+
+    .inner-tab {
+      padding: 8px 16px;
+      font-size: 12.5px;
+      color: var(--slate-dim);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      transition: all 0.18s;
+      font-weight: 500;
+    }
+
+    .inner-tab:hover {
+      color: var(--white);
+    }
+
+    .inner-tab.active {
+      color: var(--ey-yellow);
+      border-bottom-color: var(--ey-yellow);
+    }
+
+    /* ── CHAT PANE ── */
+    .chat-window {
+      background: var(--surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      height: 320px;
+    }
+
+    .chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 14px;
+    }
+
+    .chat-messages::-webkit-scrollbar {
+      width: 3px;
+    }
+
+    .chat-messages::-webkit-scrollbar-thumb {
+      background: var(--border-subtle);
+      border-radius: 3px;
+    }
+
+    .chat-msg {
+      margin-bottom: 12px;
+    }
+
+    .chat-msg.user .bubble {
+      background: rgba(255, 230, 0, 0.1);
+      border: 1px solid var(--border);
+      color: var(--white);
+      margin-left: auto;
+      max-width: 75%;
+    }
+
+    .chat-msg.ai .bubble {
+      background: var(--surface2);
+      border: 1px solid var(--border-subtle);
+      color: var(--slate);
+      max-width: 85%;
+    }
+
+    .bubble {
+      padding: 9px 13px;
+      border-radius: 10px;
+      font-size: 12.5px;
+      line-height: 1.55;
+      width: fit-content;
+    }
+
+    .chat-sender {
+      font-size: 10px;
+      color: var(--slate-dim);
+      margin-bottom: 3px;
+      font-family: 'IBM Plex Mono', monospace;
+    }
+
+    .chat-msg.user .chat-sender {
+      text-align: right;
+    }
+
+    .chat-input-row {
+      display: flex;
+      gap: 8px;
+      padding: 12px;
+      border-top: 1px solid var(--border-subtle);
+    }
+
+    .chat-input-row input {
+      flex: 1;
+      background: var(--surface2);
+      border: 1px solid var(--border-subtle);
+      border-radius: 7px;
+      padding: 8px 12px;
+      color: var(--white);
+      font-size: 12.5px;
+      font-family: 'DM Sans', sans-serif;
+      outline: none;
+    }
+
+    .chat-input-row input::placeholder {
+      color: var(--slate-dim);
+    }
+
+    .chat-input-row input:focus {
+      border-color: var(--border);
+    }
+
+    /* ── LOADING DOTS ── */
+    @keyframes ldots {
+      0% {
+        opacity: 0.3
+      }
+
+      50% {
+        opacity: 1
+      }
+
+      100% {
+        opacity: 0.3
+      }
+    }
+
+    .ldot {
+      display: inline-block;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--ey-yellow);
+      animation: ldots 1.2s infinite;
+      margin: 0 2px;
+    }
+
+    .ldot:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+
+    .ldot:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+
+    .loading-dots {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      padding: 6px 0;
+    }
+
+    /* Responsive section tags strip */
+    .tags-strip {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+
+    /* ── REUSABILITY METER ── */
+    .reuse-bar {
+      background: var(--surface2);
+      border-radius: 20px;
+      height: 6px;
+      margin: 6px 0;
+      overflow: hidden;
+    }
+
+    .reuse-fill {
+      height: 100%;
+      border-radius: 20px;
+      background: linear-gradient(90deg, var(--ey-yellow), var(--teal));
+      transition: width 1s ease;
+    }
+
+    /* ── WAVE1 DOMAIN BOX ── */
+    .domain-box {
+      background: var(--surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      padding: 14px;
+    }
+
+    .domain-title {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--slate);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 10px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .use-case-chip {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 7px 10px;
+      background: var(--surface2);
+      border: 1px solid var(--border-subtle);
+      border-radius: 7px;
+      font-size: 12px;
+      color: var(--slate);
+      margin-bottom: 6px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .use-case-chip:hover {
+      background: rgba(255, 230, 0, 0.06);
+      color: var(--white);
+      border-color: var(--border);
+    }
+
+    .use-case-chip.active {
+      background: rgba(255, 230, 0, 0.1);
+      color: var(--ey-yellow);
+      border-color: var(--border);
+    }
+
+    .use-case-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    /* ── PROGRESS TIMELINE ── */
+    .timeline {
+      position: relative;
+      padding-left: 20px;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 6px;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background: var(--border-subtle);
+    }
+
+    .tl-item {
+      position: relative;
+      margin-bottom: 14px;
+    }
+
+    .tl-dot {
+      position: absolute;
+      left: -17px;
+      top: 3px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      border: 2px solid;
+    }
+
+    .tl-dot.done {
+      border-color: var(--green);
+      background: rgba(46, 204, 113, 0.3);
+    }
+
+    .tl-dot.active {
+      border-color: var(--ey-yellow);
+      background: rgba(255, 230, 0, 0.3);
+    }
+
+    .tl-dot.pending {
+      border-color: var(--slate-dim);
+      background: transparent;
+    }
+
+    .tl-label {
+      font-size: 12px;
+      color: var(--white);
+      font-weight: 500;
+    }
+
+    .tl-sub {
+      font-size: 11px;
+      color: var(--slate-dim);
+      margin-top: 2px;
+    }
+
+    /* ── SECTION HEADER ACCENT ── */
+    .section-accent {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 18px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .section-accent-line {
+      width: 4px;
+      height: 24px;
+      border-radius: 2px;
+      background: var(--ey-yellow);
+      flex-shrink: 0;
+    }
+
+    .section-accent-text h3 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 18px;
+      color: var(--white);
+    }
+
+    .section-accent-text p {
+      font-size: 12px;
+      color: var(--slate-dim);
+      margin-top: 3px;
+    }
+
+    /* ── MINI PILL ── */
+    .mini-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: rgba(255, 230, 0, 0.06);
+      border: 1px solid var(--border);
+      color: var(--ey-yellow);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 9px;
+      padding: 2px 8px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    /* ── DEMO MODAL ── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 500;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-overlay.open {
+      display: flex;
+    }
+
+    .modal {
+      background: var(--navy-mid);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 28px;
+      width: 700px;
+      max-width: 95vw;
+      max-height: 85vh;
+      overflow-y: auto;
+      animation: fadeIn 0.2s;
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .modal-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 22px;
+      color: var(--white);
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      color: var(--slate);
+      cursor: pointer;
+      font-size: 18px;
+      padding: 4px;
+    }
+
+    .modal-close:hover {
+      color: var(--white);
+    }
+
+    /* Agent network viz */
+    .agent-network {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .agent-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .agent-node-box {
+      background: var(--surface2);
+      border: 1px solid var(--border-subtle);
+      border-radius: 9px;
+      padding: 10px 14px;
+      font-size: 12px;
+      min-width: 140px;
+      text-align: center;
+      transition: all 0.2s;
+    }
+
+    .agent-node-box.orchestrator {
+      border-color: var(--border);
+      background: rgba(255, 230, 0, 0.07);
+      color: var(--ey-yellow);
+      font-weight: 600;
+    }
+
+    .agent-node-box.active {
+      border-color: rgba(46, 204, 113, 0.3);
+      background: rgba(46, 204, 113, 0.05);
+      color: var(--green);
+    }
+
+    .agent-node-box.running {
+      border-color: rgba(0, 196, 204, 0.3);
+      background: rgba(0, 196, 204, 0.05);
+      color: var(--teal);
+      animation: pulse 1.5s infinite;
+    }
+
+    .conn-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border-subtle);
+      position: relative;
+    }
+
+    .conn-line::after {
+      content: '▶';
+      position: absolute;
+      right: -4px;
+      top: -7px;
+      color: var(--border-subtle);
+      font-size: 10px;
+    }
+
+
+
+    /* ── FOOTER STATUS BAR ── */
+    .status-bar {
+      position: fixed;
+      bottom: 0;
+      right: 0;
+      left: 240px;
+      height: 24px;
+      background: var(--navy-mid);
+      border-top: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 0 20px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      color: var(--slate-dim);
+      z-index: 100;
+    }
+
+    .status-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .status-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+    }
+    
+    /* ── LIVE UPDATE FLASH ── */
+    @keyframes flashGreen {
+      0% { color: var(--white); }
+      30% { color: var(--green); }
+      100% { color: var(--white); }
+    }
+    .stat-value[data-val] {
+      transition: opacity 0.4s;
+    }
+    
+    /* ── AGENT RUNNING PULSE ── */
+    .agent-node-box.running {
+      animation: agentPulse 0.8s infinite alternate;
+    }
+    @keyframes agentPulse {
+      from { box-shadow: 0 0 0 0 rgba(0,196,204,0.3); }
+      to { box-shadow: 0 0 12px 4px rgba(0,196,204,0.15); }
+    }
+    
+    /* ── IMPROVED STEP FLOW ── */
+    .step-flow {
+      background: var(--surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      padding: 4px;
+    }
+    .step-item {
+      border-radius: 7px !important;
+      border: none !important;
+    }
+    .step-item.done {
+      background: rgba(46, 204, 113, 0.08) !important;
+    }
+    .step-item.active {
+      background: rgba(255, 230, 0, 0.12) !important;
+    }
+    
+    /* ── HOVER LIFT ── */
+    .stat-card {
+      transition: all 0.2s;
+    }
+    .stat-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    }
+    
+    /* ── OVERVIEW PULSE METRIC ── */
+    .live-metric {
+      position: relative;
+    }
+    .live-metric::after {
+      content: '';
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--green);
+      animation: pulse 2s infinite;
+    }
+  
+    /* --- NEW LIVE BOTS CSS --- */
+    .live-bot-container {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      height: calc(100vh - 120px);
+    }
+    .live-bot-input-area {
+      background: var(--surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      padding: 20px;
+    }
+    .live-bot-input {
+      width: 100%;
+      padding: 12px 16px;
+      background: var(--surface2);
+      border: 1px solid var(--border-subtle);
+      color: var(--white);
+      border-radius: 6px;
+      font-size: 14px;
+      font-family: inherit;
+      outline: none;
+      transition: all 0.2s;
+    }
+    .live-bot-input:focus {
+      border-color: var(--ey-yellow);
+      box-shadow: 0 0 0 2px rgba(255, 230, 0, 0.1);
+    }
+    .live-bot-btn {
+      margin-top: 10px;
+      background: var(--ey-yellow);
+      color: var(--navy);
+      font-weight: 600;
+      padding: 10px 24px;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+      font-size: 14px;
+      transition: opacity 0.2s;
+    }
+    .live-bot-btn:hover { opacity: 0.9; }
+    .live-bot-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    
+    .live-bot-results {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      overflow-y: auto;
+    }
+    .live-bot-graph, .live-bot-final {
+      background: var(--surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      padding: 20px;
+      width: 100%;
+    }
+    .live-bot-graph {
+      min-height: 300px;
+      overflow-x: auto;
+    }
+    .live-bot-final {
+      min-height: 200px;
+    }
+    
+    .graph-container {
+      display: flex;
+      align-items: center;
+      padding: 10px 0;
+    }
+
+    .graph-node {
+      background: var(--surface2);
+      border: 1px solid var(--border-subtle);
+      border-top: 3px solid var(--ey-yellow);
+      border-radius: 8px;
+      padding: 16px;
+      width: 320px;
+      flex-shrink: 0;
+      position: relative;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      transition: transform 0.2s;
+    }
+    .graph-node:hover {
+      transform: translateY(-2px);
+      border-color: var(--ey-yellow);
+    }
+    
+    .node-connector {
+      width: 40px;
+      height: 2px;
+      background: var(--border-subtle);
+      flex-shrink: 0;
+      position: relative;
+    }
+    .node-connector::after {
+      content: '▶';
+      position: absolute;
+      right: -4px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--border-subtle);
+      font-size: 12px;
+    }
+    .node-header {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      color: var(--slate);
+      margin-bottom: 6px;
+      display: flex;
+      justify-content: space-between;
+    }
+    .node-content {
+      font-size: 13px;
+      color: var(--white);
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+    .final-output-text {
+      font-size: 15px;
+      line-height: 1.6;
+      color: var(--white);
+      white-space: pre-wrap;
+    }
+    .loader {
+      border: 3px solid var(--surface2);
+      border-top: 3px solid var(--ey-yellow);
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+      animation: spin 1s linear infinite;
+      margin: 20px auto;
+    }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+  
+    /* --- NEW LIVE BOTS CSS --- */
+    .live-bot-container {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      height: calc(100vh - 120px);
+    }
+    .live-bot-input-area {
+      background: var(--surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      padding: 20px;
+    }
+    .live-bot-input {
+      width: 100%;
+      padding: 12px 16px;
+      background: var(--surface2);
+      border: 1px solid var(--border-subtle);
+      color: var(--white);
+      border-radius: 6px;
+      font-size: 14px;
+      font-family: inherit;
+      outline: none;
+      transition: all 0.2s;
+    }
+    .live-bot-input:focus {
+      border-color: var(--ey-yellow);
+      box-shadow: 0 0 0 2px rgba(255, 230, 0, 0.1);
+    }
+    .live-bot-btn {
+      margin-top: 10px;
+      background: var(--ey-yellow);
+      color: var(--navy);
+      font-weight: 600;
+      padding: 10px 24px;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+      font-size: 14px;
+      transition: opacity 0.2s;
+    }
+    .live-bot-btn:hover { opacity: 0.9; }
+    .live-bot-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    
+    .live-bot-results {
+      flex: 1;
+      display: flex;
+      gap: 20px;
+      overflow: hidden;
+    }
+    .live-bot-graph, .live-bot-final {
+      background: var(--surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      padding: 20px;
+      overflow-y: auto;
+      flex: 1;
+    }
+    
+    .graph-node {
+      background: var(--surface2);
+      border-left: 3px solid var(--ey-yellow);
+      border-radius: 4px;
+      padding: 12px;
+      margin-bottom: 12px;
+      position: relative;
+    }
+    .graph-node::before {
+      content: '';
+      position: absolute;
+      left: 16px;
+      top: -12px;
+      height: 12px;
+      width: 2px;
+      background: var(--border-subtle);
+    }
+    .graph-node:first-child::before { display: none; }
+    .node-header {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      color: var(--slate);
+      margin-bottom: 6px;
+      display: flex;
+      justify-content: space-between;
+    }
+    .node-content {
+      font-size: 13px;
+      color: var(--white);
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+    .final-output-text {
+      font-size: 15px;
+      line-height: 1.6;
+      color: var(--white);
+      white-space: pre-wrap;
+    }
+    .loader {
+      border: 3px solid var(--surface2);
+      border-top: 3px solid var(--ey-yellow);
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+      animation: spin 1s linear infinite;
+      margin: 20px auto;
+    }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- ══════════════════════ HEADER ══════════════════════ -->
+  <div class="header">
+    <div class="header-brand">
+      <div class="AI-badge">AI</div>
+      <div class="brand-divider"></div>
+      <div class="Bank-logo">
+        <div class="Bank-icon">CB</div>
+        <div>
+          <div class="brand-name">Bank</div>
+          <div class="brand-sub">AI Solutions Platform · EY</div>
+        </div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="header-pill">All Systems Operational</div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--slate-dim);display:flex;align-items:center;gap:6px;">
+        <span style="color:var(--green);font-size:10px">●</span>
+        <span id="live-clock">--:--:--</span>
+      </div>
+      <div class="header-tag">Wave 1 · Live</div>
+      <div class="user-chip">
+        <div class="user-avatar">EY</div>
+        <div>
+          <div style="font-size:12px;color:var(--white)">Sahil Kataria</div>
+          <div style="font-size:10px;color:var(--slate-dim)">Partner, EY India</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════ LAYOUT ══════════════════════ -->
+  <div class="layout">
+
+    <!-- ════════════ SIDEBAR ════════════ -->
+    <div class="sidebar">
+
+      <!-- AI Platform -->
+      <div class="sidebar-section-label">Platform</div>
+      <div class="nav-item active" onclick="showTab('overview')">
+        <span class="nav-icon">🌐</span> AI Overview
+        <span class="nav-badge green">Live</span>
+      </div>
+
+      <div class="sidebar-divider"></div>
+
+      <!-- FOUNDATIONAL AGENTS -->
+      <div class="sidebar-section-label">Foundational Agents</div>
+      <div class="nav-group-header open" id="grp-foundational" onclick="toggleGroup('foundational')">
+        <span class="nav-icon">🧱</span> Layer 1–5 Agents
+        <span class="chevron">▶</span>
+      </div>
+      <div class="nav-group-children open" id="grp-foundational-ch">
+        <div class="nav-item nav-sub" onclick="showTab('fa-knowledge')">
+          <span class="nav-icon">📚</span> Knowledge & Reasoning
+        </div>
+        <div class="nav-item nav-sub" onclick="showTab('fa-multimodal')">
+          <span class="nav-icon">👁️</span> Multi-Modal Intelligence
+        </div>
+        <div class="nav-item nav-sub" onclick="showTab('fa-conversation')">
+          <span class="nav-icon">💬</span> Conversation & Interaction
+        </div>
+        <div class="nav-item nav-sub" onclick="showTab('fa-orchestration')">
+          <span class="nav-icon">🔀</span> Agent Orchestration
+        </div>
+        <div class="nav-item nav-sub" onclick="showTab('fa-risk')">
+          <span class="nav-icon">🛡️</span> Risk, Guardrails & Eval
+        </div>
+      </div>
+
+      <div class="sidebar-divider"></div>
+
+      <!-- USE CASE SPECIFIC AGENTS -->
+      <div class="sidebar-section-label">Use Case Specific Agents</div>
+      <div class="nav-group-header open" id="grp-ucspecific" onclick="toggleGroup('ucspecific')">
+        <span class="nav-icon">⚙️</span> Specialized Agents
+        <span class="chevron">▶</span>
+      </div>
+      <div class="nav-group-children open" id="grp-ucspecific-ch">
+        <div class="nav-item nav-sub" onclick="showTab('uca-credit')">
+          <span class="nav-icon">📄</span> Credit & Risk Agents
+        </div>
+        <div class="nav-item nav-sub" onclick="showTab('uca-ops')">
+          <span class="nav-icon">🔧</span> Operations Agents
+        </div>
+        <div class="nav-item nav-sub" onclick="showTab('uca-sales')">
+          <span class="nav-icon">📊</span> Sales & Analytics
+        </div>
+      </div>
+
+      <div class="sidebar-divider"></div>
+
+      
+        <div class="nav-section">LIVE BOTS (API INTEGRATED)</div>
+        <div class="nav-item nav-sub" onclick="showTab('live-policy')">
+          <div style="display:flex;align-items:center;gap:8px">
+            <div style="width:16px;height:16px;border-radius:4px;background:rgba(46,204,113,0.15);display:flex;align-items:center;justify-content:center;color:var(--green)">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+            </div>
+            Policy Bot
+          </div>
+        </div>
+        <div class="nav-item nav-sub" onclick="showTab('live-loan')">
+          <div style="display:flex;align-items:center;gap:8px">
+            <div style="width:16px;height:16px;border-radius:4px;background:rgba(46,204,113,0.15);display:flex;align-items:center;justify-content:center;color:var(--green)">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+            </div>
+            Loan Eligibility Bot
+          </div>
+        </div>
+
+        <!-- WAVE 1 USE CASES -->
+      <div class="sidebar-section-label">Wave 1 Use Cases</div>
+      <div class="nav-group-header open" id="grp-credit" onclick="toggleGroup('credit')">
+        <span class="nav-icon">🏦</span> Credit & Risk
+        <span class="chevron">▶</span>
+      </div>
+      <div class="nav-group-children open" id="grp-credit-ch">
+        <div class="nav-item nav-sub" onclick="showTab('uc-credit-memo')">
+          <span class="nav-icon">📝</span> Credit Memo Generator
+          
+        </div>
+        <div class="nav-item nav-sub" onclick="showTab('uc-doc-checker')">
+          <span class="nav-icon">✅</span> Document Checker BOT
+        </div>
+        <div class="nav-item nav-sub" onclick="showTab('uc-anomaly')">
+          <span class="nav-icon">⚠️</span> Anomaly Detection
+        </div>
+      </div>
+
+      <div class="nav-group-header" id="grp-service" onclick="toggleGroup('service')">
+        <span class="nav-icon">🎧</span> Service
+        <span class="chevron">▶</span>
+      </div>
+      <div class="nav-group-children" id="grp-service-ch">
+        <div class="nav-item nav-sub" onclick="showTab('uc-selfcure')">
+          <span class="nav-icon">🌐</span> Multi-Lingual Self Cure
+        </div>
+        <div class="nav-item nav-sub" onclick="showTab('uc-livecall')">
+          <span class="nav-icon">📞</span> Live Call Co-Pilot
+        </div>
+        <div class="nav-item nav-sub" onclick="showTab('uc-frontline')">
+          <span class="nav-icon">🤖</span> Frontline AI Assistant
+        </div>
+      </div>
+
+      <div class="nav-group-header" id="grp-salesrm" onclick="toggleGroup('salesrm')">
+        <span class="nav-icon">💼</span> Sales & RM
+        <span class="chevron">▶</span>
+      </div>
+      <div class="nav-group-children" id="grp-salesrm-ch">
+        <div class="nav-item nav-sub" onclick="showTab('uc-product-rec')">
+          <span class="nav-icon">🎯</span> Product Recommendation
+        </div>
+        <div class="nav-item nav-sub" onclick="showTab('uc-salescoach')">
+          <span class="nav-icon">🏋️</span> Pre Sales Coach
+        </div>
+      </div>
+
+      <div class="nav-group-header" id="grp-ops" onclick="toggleGroup('ops')">
+        <span class="nav-icon">⚙️</span> Operations
+        <span class="chevron">▶</span>
+      </div>
+      <div class="nav-group-children" id="grp-ops-ch">
+        <div class="nav-item nav-sub" onclick="showTab('uc-policy-nav')">
+          <span class="nav-icon">📋</span> Policy Navigator BOT
+        </div>
+        <div class="nav-item nav-sub" onclick="showTab('uc-repayment')">
+          <span class="nav-icon">💰</span> Repayment Reminder
+        </div>
+        <div class="nav-item nav-sub" onclick="showTab('uc-doc-prep')">
+          <span class="nav-icon">🗂️</span> Document Preparation
+        </div>
+      </div>
+
+      <div style="height: 40px;"></div>
+    </div>
+    <!-- /sidebar -->
+
+    <!-- ════════════ MAIN CONTENT ════════════ -->
+    <div class="main">
+
+      <!-- ══════════════════════════════════════════════
+         TAB: OVERVIEW
+    ══════════════════════════════════════════════ -->
+      <div class="tab-pane active" id="tab-overview">
+        <div class="page-header">
+          <div class="page-header-top">
+            <div>
+              <div class="page-title">AI · Bank AI Platform</div>
+              <div class="page-subtitle">EY's proprietary Agentic AI platform powering 13 Wave 1 use cases across Credit
+                & Risk, Service, Sales & RM, and Operations — built on reusable foundational agents with 80%
+                cross-use-case reusability.</div>
+            </div>
+            <div style="display:flex;gap:8px;align-items:center;flex-shrink:0;">
+              <span class="page-tag tag-AI">✦ Already in AI</span>
+              <span class="page-tag tag-wave1">Wave 1</span>
+              <button class="btn btn-primary btn-sm" onclick="showTab('uc-credit-memo');setTimeout(()=>showToast('🚀 Credit Memo Generator activated — all 5 agent layers online','info'),500)">▶ Launch Demo</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- KPI STRIP -->
+        <div class="grid-4" style="margin-bottom:20px">
+          <div class="stat-card live-metric">
+            <div class="stat-label">Wave 1 Use Cases</div>
+            <div class="stat-value">13</div>
+            <div class="stat-delta delta-yellow">4 domains covered</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Foundational Agents</div>
+            <div class="stat-value">5</div>
+            <div class="stat-delta delta-up">80% reusability</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">UC-Specific Agents</div>
+            <div class="stat-value">10</div>
+            <div class="stat-delta" style="color:var(--teal)">20% reusability</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Deployment Timeline</div>
+            <div class="stat-value">12m</div>
+            <div class="stat-delta delta-up">Wave 1 completion</div>
+          </div>
+        </div>
+
+        <!-- LIVE AGENT ACTIVITY STRIP -->
+        <div style="background:var(--surface);border:1px solid var(--border-subtle);border-radius:10px;padding:12px 18px;margin-bottom:18px;display:flex;align-items:center;gap:20px;overflow:hidden">
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--ey-yellow);text-transform:uppercase;letter-spacing:0.1em;flex-shrink:0">● Live Activity</div>
+          <div style="display:flex;gap:16px;flex:1;flex-wrap:wrap">
+            <div style="display:flex;align-items:center;gap:8px">
+              <div style="width:8px;height:8px;border-radius:50%;background:var(--green);animation:pulse 1.5s infinite"></div>
+              <span style="font-size:11.5px;color:var(--slate)">Credit Memo Agent — <span style="color:var(--ey-yellow)">Drafting CN-2026-0441</span></span>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px">
+              <div style="width:8px;height:8px;border-radius:50%;background:var(--teal);animation:pulse 1.5s infinite 0.5s"></div>
+              <span style="font-size:11.5px;color:var(--slate)">Self-Cure Bot — <span style="color:var(--teal)" id="lm-active-calls">312</span> active concurrent sessions</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px">
+              <div style="width:8px;height:8px;border-radius:50%;background:var(--AI-purple);animation:pulse 1.5s infinite 1s"></div>
+              <span style="font-size:11.5px;color:var(--slate)">Guardrail Engine — <span style="color:var(--green)">All checks passing</span></span>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px">
+              <div style="width:8px;height:8px;border-radius:50%;background:var(--amber);animation:pulse 1.5s infinite 1.5s"></div>
+              <span style="font-size:11.5px;color:var(--slate)">HITL Gate — <span style="color:var(--amber)">1 pending officer review</span></span>
+            </div>
+          </div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--slate-dim);flex-shrink:0" id="agent-tick">Processing</div>
+        </div>
+
+        <!-- MAIN ARCHITECTURE VIEW -->
+        <div class="grid-2" style="gap:18px;margin-bottom:18px">
+          <!-- Left: Agent Layers -->
+          <div>
+            <div class="section-accent">
+              <div class="section-accent-line"></div>
+              <div class="section-accent-text">
+                <h3>Foundational / Reusable Agents</h3>
+                <p>5 layers powering all 13 Wave 1 use cases — 80% reusability</p>
+              </div>
+              <div class="AI-already" style="margin-left:auto">In AI</div>
+            </div>
+
+            <div class="arch-layer" style="border-color:rgba(255,230,0,0.15)">
+              <div class="arch-layer-title" style="color:var(--ey-yellow)">⬡ 1 · Knowledge & Reasoning Agents</div>
+              <div class="arch-nodes">
+                <div class="arch-node"
+                  style="border-color:rgba(255,230,0,0.2);color:var(--ey-yellow);background:rgba(255,230,0,0.05)"
+                  onclick="showTab('fa-knowledge')">Policy Interpretation</div>
+                <div class="arch-node"
+                  style="border-color:rgba(255,230,0,0.2);color:var(--ey-yellow);background:rgba(255,230,0,0.05)">
+                  Regulatory Reasoning</div>
+                <div class="arch-node"
+                  style="border-color:rgba(255,230,0,0.2);color:var(--ey-yellow);background:rgba(255,230,0,0.05)">
+                  Product & SOP Knowledge</div>
+              </div>
+            </div>
+            <div class="arch-layer" style="border-color:rgba(0,196,204,0.15)">
+              <div class="arch-layer-title" style="color:var(--teal)">⬡ 2 · Multi-Modal Intelligence Agents</div>
+              <div class="arch-nodes">
+                <div class="arch-node"
+                  style="border-color:rgba(0,196,204,0.2);color:var(--teal);background:rgba(0,196,204,0.05)"
+                  onclick="showTab('fa-multimodal')">Speech-to-Text</div>
+                <div class="arch-node"
+                  style="border-color:rgba(0,196,204,0.2);color:var(--teal);background:rgba(0,196,204,0.05)">
+                  Multilingual Language</div>
+                <div class="arch-node"
+                  style="border-color:rgba(0,196,204,0.2);color:var(--teal);background:rgba(0,196,204,0.05)">Vision /
+                  Document Understanding</div>
+              </div>
+            </div>
+            <div class="arch-layer" style="border-color:rgba(124,95,245,0.15)">
+              <div class="arch-layer-title" style="color:var(--AI-purple)">⬡ 3 · Conversation & Interaction Agents
+              </div>
+              <div class="arch-nodes">
+                <div class="arch-node"
+                  style="border-color:rgba(124,95,245,0.2);color:var(--AI-purple);background:rgba(124,95,245,0.05)"
+                  onclick="showTab('fa-conversation')">Intent Detection</div>
+                <div class="arch-node"
+                  style="border-color:rgba(124,95,245,0.2);color:var(--AI-purple);background:rgba(124,95,245,0.05)">
+                  Sentiment & Urgency</div>
+                <div class="arch-node"
+                  style="border-color:rgba(124,95,245,0.2);color:var(--AI-purple);background:rgba(124,95,245,0.05)">
+                  Conversation State Manager</div>
+              </div>
+            </div>
+            <div class="arch-layer" style="border-color:rgba(46,204,113,0.15)">
+              <div class="arch-layer-title" style="color:var(--green)">⬡ 4 · Agent Orchestration & Workflow Agents</div>
+              <div class="arch-nodes">
+                <div class="arch-node"
+                  style="border-color:rgba(46,204,113,0.2);color:var(--green);background:rgba(46,204,113,0.05)"
+                  onclick="showTab('fa-orchestration')">Task Decomposition</div>
+                <div class="arch-node"
+                  style="border-color:rgba(46,204,113,0.2);color:var(--green);background:rgba(46,204,113,0.05)">
+                  Multi-Agent Orchestrator</div>
+                <div class="arch-node"
+                  style="border-color:rgba(46,204,113,0.2);color:var(--green);background:rgba(46,204,113,0.05)">
+                  Human-in-the-Loop Controller</div>
+              </div>
+            </div>
+            <div class="arch-layer" style="border-color:rgba(224,82,82,0.15)">
+              <div class="arch-layer-title" style="color:#f8a0a0">⬡ 5 · Risk, Guardrails & Evaluation Agents</div>
+              <div class="arch-nodes">
+                <div class="arch-node"
+                  style="border-color:rgba(224,82,82,0.2);color:#f8a0a0;background:rgba(224,82,82,0.05)"
+                  onclick="showTab('fa-risk')">AI Output Evaluation</div>
+                <div class="arch-node"
+                  style="border-color:rgba(224,82,82,0.2);color:#f8a0a0;background:rgba(224,82,82,0.05)">Confidence &
+                  Explainability</div>
+                <div class="arch-node"
+                  style="border-color:rgba(224,82,82,0.2);color:#f8a0a0;background:rgba(224,82,82,0.05)">Approval &
+                  Audit</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Wave 1 Use Cases + Stats -->
+          <div>
+            <div class="section-accent">
+              <div class="section-accent-line" style="background:var(--teal)"></div>
+              <div class="section-accent-text">
+                <h3>Wave 1 Use Cases</h3>
+                <p>13 production use cases across 4 banking domains</p>
+              </div>
+            </div>
+
+            <div class="grid-2" style="gap:10px;margin-bottom:16px">
+              <div class="domain-box">
+                <div class="domain-title" style="color:#f8a0a0">🏦 Credit & Risk</div>
+                <div class="use-case-chip" onclick="showTab('uc-credit-memo')">
+                  <div class="use-case-dot" style="background:var(--amber)"></div>
+                  Credit Memo Generator
+                  
+                </div>
+                <div class="use-case-chip" onclick="showTab('uc-doc-checker')">
+                  <div class="use-case-dot" style="background:var(--amber)"></div>
+                  Document Checker BOT
+                </div>
+                <div class="use-case-chip" onclick="showTab('uc-anomaly')">
+                  <div class="use-case-dot" style="background:var(--amber)"></div>
+                  Anomaly Detection Engine
+                </div>
+              </div>
+              <div class="domain-box">
+                <div class="domain-title" style="color:var(--teal)">🎧 Service</div>
+                <div class="use-case-chip" onclick="showTab('uc-selfcure')">
+                  <div class="use-case-dot" style="background:var(--teal)"></div>
+                  Multi-Lingual Self Cure BOT
+                </div>
+                <div class="use-case-chip" onclick="showTab('uc-livecall')">
+                  <div class="use-case-dot" style="background:var(--teal)"></div>
+                  Live Call Co-Pilot
+                </div>
+                <div class="use-case-chip" onclick="showTab('uc-frontline')">
+                  <div class="use-case-dot" style="background:var(--teal)"></div>
+                  Frontline AI Assistant
+                </div>
+              </div>
+              <div class="domain-box">
+                <div class="domain-title" style="color:var(--green)">💼 Sales & RM</div>
+                <div class="use-case-chip" onclick="showTab('uc-product-rec')">
+                  <div class="use-case-dot" style="background:var(--green)"></div>
+                  Product Recommendation Agent
+                </div>
+                <div class="use-case-chip" onclick="showTab('uc-salescoach')">
+                  <div class="use-case-dot" style="background:var(--green)"></div>
+                  Pre Sales Coach
+                </div>
+              </div>
+              <div class="domain-box">
+                <div class="domain-title" style="color:var(--AI-purple)">⚙️ Operations</div>
+                <div class="use-case-chip" onclick="showTab('uc-policy-nav')">
+                  <div class="use-case-dot" style="background:var(--AI-purple)"></div>
+                  Policy Navigator BOT
+                </div>
+                <div class="use-case-chip" onclick="showTab('uc-repayment')">
+                  <div class="use-case-dot" style="background:var(--AI-purple)"></div>
+                  Repayment Reminder
+                </div>
+                <div class="use-case-chip" onclick="showTab('uc-doc-prep')">
+                  <div class="use-case-dot" style="background:var(--AI-purple)"></div>
+                  Document Preparation BOT
+                </div>
+                <div class="use-case-chip">
+                  <div class="use-case-dot" style="background:var(--AI-purple)"></div>
+                  Content Personalization BOT
+                </div>
+              </div>
+            </div>
+
+            <!-- Reusability indicator -->
+            <div class="card">
+              <div class="card-title">♻️ Agent Reusability Architecture</div>
+              <div style="margin-bottom:12px">
+                <div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:4px">
+                  <span style="color:var(--slate)">Foundational Agents</span>
+                  <span style="color:var(--ey-yellow)">80% reuse</span>
+                </div>
+                <div class="reuse-bar">
+                  <div class="reuse-fill" style="width:80%"></div>
+                </div>
+              </div>
+              <div>
+                <div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:4px">
+                  <span style="color:var(--slate)">Use Case Specific Agents</span>
+                  <span style="color:var(--teal)">20% reuse</span>
+                </div>
+                <div class="reuse-bar">
+                  <div class="reuse-fill"
+                    style="width:20%;background:linear-gradient(90deg,var(--teal),var(--AI-purple))"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Alert / CTA -->
+        <div class="alert-info" style="display:flex;align-items:center;justify-content:space-between">
+          <span>🎯 Credit Memo Generator — all 5 foundational agent layers orchestrating a complete credit note workflow</span>
+          <button class="btn btn-primary btn-sm" onclick="showTab('uc-credit-memo')">Launch Demo →</button>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════════════════
+         FOUNDATIONAL AGENT: KNOWLEDGE & REASONING
+    ══════════════════════════════════════════════ -->
+      <div class="tab-pane" id="tab-fa-knowledge">
+        <div class="page-header">
+          <div class="page-header-top">
+            <div>
+              <div class="page-title">Layer 1 · Knowledge & Reasoning Agents</div>
+              <div class="page-subtitle">The intelligence backbone — interprets RBI/government policies, applies
+                regulatory reasoning, and answers questions from SOPs and product manuals across all use cases.</div>
+            </div>
+            <div style="display:flex;gap:8px"><span class="page-tag tag-genai">GenAI + RAG</span>
+              <div class="AI-already">In AI</div>
+            </div>
+          </div>
+        </div>
+        <div class="grid-3" style="margin-bottom:20px">
+          <div class="agent-card">
+            <div class="agent-icon">📜</div>
+            <div class="agent-name">Policy Interpretation Agent</div>
+            <div class="agent-desc">Parses RBI Master Circulars, government schemes, and bank circulars. Provides
+              context-aware policy answers with source citation and confidence scoring.</div>
+            <div class="agent-tags">
+              <span class="badge badge-yellow">RAG</span>
+              <span class="badge badge-teal">RBI Compliant</span>
+              <span class="badge badge-green">Live</span>
+            </div>
+          </div>
+          <div class="agent-card">
+            <div class="agent-icon">⚖️</div>
+            <div class="agent-name">Regulatory Reasoning Agent</div>
+            <div class="agent-desc">Cross-references multiple regulatory sources to derive compliance posture. Flags
+              potential violations and maps requirements to internal workflows.</div>
+            <div class="agent-tags">
+              <span class="badge badge-yellow">FRSB</span>
+              <span class="badge badge-amber">BASEL III</span>
+              <span class="badge badge-AI">Chain-of-Thought</span>
+            </div>
+          </div>
+          <div class="agent-card">
+            <div class="agent-icon">📘</div>
+            <div class="agent-name">Product & SOP Knowledge Agent</div>
+            <div class="agent-desc">Maintains a live knowledge graph of Bank products, lending SOPs, and process
+              documentation. Powers frontline assistants and credit officer tools.</div>
+            <div class="agent-tags">
+              <span class="badge badge-teal">Knowledge Graph</span>
+              <span class="badge badge-green">35+ SOPs</span>
+            </div>
+          </div>
+        </div>
+        <div class="grid-2" style="gap:18px">
+          <div class="card">
+            <div class="card-title">🔗 Used By (Use Cases)</div>
+            <div class="data-table" style="font-size:12px">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Use Case</th>
+                    <th>Domain</th>
+                    <th>Agent Usage</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Credit Memo Generator</td>
+                    <td style="color:var(--amber)">Credit & Risk</td>
+                    <td style="color:var(--green)">Policy + SOP</td>
+                  </tr>
+                  <tr>
+                    <td>Document Checker BOT</td>
+                    <td style="color:var(--amber)">Credit & Risk</td>
+                    <td style="color:var(--green)">Regulatory Reasoning</td>
+                  </tr>
+                  <tr>
+                    <td>Frontline AI Assistant</td>
+                    <td style="color:var(--teal)">Service</td>
+                    <td style="color:var(--green)">Product Knowledge</td>
+                  </tr>
+                  <tr>
+                    <td>Policy Navigator BOT</td>
+                    <td style="color:var(--AI-purple)">Operations</td>
+                    <td style="color:var(--green)">All 3 sub-agents</td>
+                  </tr>
+                  <tr>
+                    <td>Pre Sales Coach</td>
+                    <td style="color:var(--green)">Sales & RM</td>
+                    <td style="color:var(--green)">Product Knowledge</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div>
+            <div class="card" style="margin-bottom:14px">
+              <div class="card-title">📊 Performance Metrics</div>
+              <div style="font-size:12px;line-height:2.4">
+                <div style="display:flex;justify-content:space-between"><span style="color:var(--slate-dim)">Policy Q&A
+                    Accuracy</span><span style="color:var(--green)">94.2%</span></div>
+                <div style="display:flex;justify-content:space-between"><span style="color:var(--slate-dim)">Avg.
+                    Response Latency</span><span style="color:var(--white)">1.4s</span></div>
+                <div style="display:flex;justify-content:space-between"><span style="color:var(--slate-dim)">Regulatory
+                    Sources</span><span style="color:var(--white)">142 RBI docs</span></div>
+                <div style="display:flex;justify-content:space-between"><span style="color:var(--slate-dim)">Last
+                    Knowledge Update</span><span style="color:var(--amber)">Today 9:00 AM</span></div>
+              </div>
+            </div>
+            <div class="alert-success">✅ This foundational layer is already available and running in EY's AI
+              platform — zero build time required for Bank deployment.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FOUNDATIONAL: MULTIMODAL -->
+      <div class="tab-pane" id="tab-fa-multimodal">
+        <div class="page-header">
+          <div class="page-header-top">
+            <div>
+              <div class="page-title">Layer 2 · Multi-Modal Intelligence Agents</div>
+              <div class="page-subtitle">Processes voice, documents, and images across 22 Indian languages. Powers
+                vernacular banking, document understanding, and call analytics.</div>
+            </div>
+            <div style="display:flex;gap:8px"><span class="page-tag tag-agentic">Multi-Modal</span>
+              <div class="AI-already">In AI</div>
+            </div>
+          </div>
+        </div>
+        <div class="grid-3" style="margin-bottom:20px">
+          <div class="agent-card">
+            <div class="agent-icon">🎙️</div>
+            <div class="agent-name">Speech-to-Text Agent</div>
+            <div class="agent-desc">Real-time transcription with banking-domain vocabulary. Handles telephony audio,
+              branch recordings, and video calls with speaker diarization.</div>
+            <div class="agent-tags"><span class="badge badge-teal">22 Languages</span><span
+                class="badge badge-green">Real-time</span></div>
+          </div>
+          <div class="agent-card">
+            <div class="agent-icon">🗣️</div>
+            <div class="agent-name">Multilingual Language Agent</div>
+            <div class="agent-desc">NLU/NLG across Hindi, Tamil, Kannada, Telugu, and 18 other Indian languages.
+              Code-switch aware, handles mixed-language customer queries seamlessly.</div>
+            <div class="agent-tags"><span class="badge badge-yellow">Indic NLP</span><span
+                class="badge badge-AI">Code-Switch</span></div>
+          </div>
+          <div class="agent-card">
+            <div class="agent-icon">📋</div>
+            <div class="agent-name">Vision / Document Understanding Agent</div>
+            <div class="agent-desc">Extracts structured data from KYC documents, financial statements, invoices, and
+              handwritten forms with OCR + LLM reasoning layers.</div>
+            <div class="agent-tags"><span class="badge badge-amber">OCR+LLM</span><span class="badge badge-teal">Layout
+                Analysis</span></div>
+          </div>
+        </div>
+        <div class="alert-info">🔵 Multilingual agents power the <strong>Multi-Lingual Self Cure BOT</strong> and
+          <strong>Live Call Co-Pilot</strong> — both Wave 1 service use cases.</div>
+      </div>
+
+      <!-- FOUNDATIONAL: CONVERSATION -->
+      <div class="tab-pane" id="tab-fa-conversation">
+        <div class="page-header">
+          <div class="page-header-top">
+            <div>
+              <div class="page-title">Layer 3 · Conversation & Interaction Agents</div>
+              <div class="page-subtitle">Manages multi-turn dialogue, detects customer intent and emotional state, and
+                maintains conversation context across channels and sessions.</div>
+            </div>
+            <div style="display:flex;gap:8px"><span class="page-tag tag-agentic">Conversational AI</span>
+              <div class="AI-already">In AI</div>
+            </div>
+          </div>
+        </div>
+        <div class="grid-3" style="margin-bottom:20px">
+          <div class="agent-card">
+            <div class="agent-icon">🎯</div>
+            <div class="agent-name">Intent Detection Agent</div>
+            <div class="agent-desc">Classifies 200+ banking intents with contextual disambiguation. Routes queries to
+              the right workflow agent and escalation path.</div>
+            <div class="agent-tags"><span class="badge badge-yellow">200+ Intents</span><span
+                class="badge badge-green">97.3% Accuracy</span></div>
+          </div>
+          <div class="agent-card">
+            <div class="agent-icon">😟</div>
+            <div class="agent-name">Sentiment & Urgency Agent</div>
+            <div class="agent-desc">Detects frustration, urgency, and distress in real-time. Triggers escalations,
+              adjusts tone of AI responses, and flags at-risk customer interactions.</div>
+            <div class="agent-tags"><span class="badge badge-amber">Real-time</span><span
+                class="badge badge-teal">Escalation Triggers</span></div>
+          </div>
+          <div class="agent-card">
+            <div class="agent-icon">🔄</div>
+            <div class="agent-name">Conversation State Manager</div>
+            <div class="agent-desc">Maintains session context across multi-turn interactions, handoffs between bots and
+              humans, and cross-channel continuity (call → chat → branch).</div>
+            <div class="agent-tags"><span class="badge badge-AI">State Machine</span><span
+                class="badge badge-green">Cross-Channel</span></div>
+          </div>
+        </div>
+        <div class="alert-info">🔵 Powers the <strong>Live Call Co-Pilot</strong>, <strong>Frontline AI
+            Assistant</strong>, and <strong>Multi-Lingual Self Cure BOT</strong>.</div>
+      </div>
+
+      <!-- FOUNDATIONAL: ORCHESTRATION -->
+      <div class="tab-pane" id="tab-fa-orchestration">
+        <div class="page-header">
+          <div class="page-header-top">
+            <div>
+              <div class="page-title">Layer 4 · Agent Orchestration & Workflow Agents</div>
+              <div class="page-subtitle">The command layer that decomposes complex tasks into sub-tasks, coordinates
+                multiple specialized agents in parallel or sequentially, and manages human approval checkpoints.</div>
+            </div>
+            <div style="display:flex;gap:8px"><span class="page-tag tag-agentic">Agentic Orchestration</span>
+              <div class="AI-already">In AI</div>
+            </div>
+          </div>
+        </div>
+        <div class="grid-3" style="margin-bottom:20px">
+          <div class="agent-card" style="border-color:rgba(46,204,113,0.2)">
+            <div class="agent-icon">📐</div>
+            <div class="agent-name">Task Decomposition Agent</div>
+            <div class="agent-desc">Breaks a high-level instruction (e.g., "draft credit memo for borrower X") into
+              10–20 atomic sub-tasks dispatched to specialized agents.</div>
+            <div class="agent-tags"><span class="badge badge-green">DAG Planner</span><span
+                class="badge badge-yellow">Auto-retry</span></div>
+          </div>
+          <div class="agent-card" style="border-color:rgba(46,204,113,0.2)">
+            <div class="agent-icon">🌐</div>
+            <div class="agent-name">Multi-Agent Orchestrator</div>
+            <div class="agent-desc">Manages a fleet of specialized agents — assigns tasks, handles failures, aggregates
+              outputs, and ensures coherent final deliverable synthesis.</div>
+            <div class="agent-tags"><span class="badge badge-green">Fleet Mgmt</span><span
+                class="badge badge-teal">Parallel Execution</span></div>
+          </div>
+          <div class="agent-card" style="border-color:rgba(46,204,113,0.2)">
+            <div class="agent-icon">👤</div>
+            <div class="agent-name">Human-in-the-Loop Controller</div>
+            <div class="agent-desc">Identifies decision points requiring human judgment. Pauses agent workflows,
+              presents structured summaries to officers, captures approvals, and resumes.</div>
+            <div class="agent-tags"><span class="badge badge-amber">Approval Gates</span><span
+                class="badge badge-AI">Audit Trail</span></div>
+          </div>
+        </div>
+        <!-- Mini workflow viz -->
+        <div class="card">
+          <div class="card-title">🔀 Example: Credit Memo Orchestration Flow</div>
+          <div class="agent-network">
+            <div class="agent-row" style="justify-content:center">
+              <div class="agent-node-box orchestrator">Multi-Agent Orchestrator</div>
+            </div>
+            <div class="agent-row">
+              <div class="agent-node-box active">Task Decomposition → 8 sub-tasks</div>
+              <div class="conn-line"></div>
+              <div class="agent-node-box active">Knowledge Agent → Policy fetch</div>
+              <div class="conn-line"></div>
+              <div class="agent-node-box running">Vision Agent → Doc parse</div>
+              <div class="conn-line"></div>
+              <div class="agent-node-box active">Risk Agent → Score</div>
+            </div>
+            <div class="agent-row" style="justify-content:center">
+              <div class="agent-node-box" style="border-color:rgba(255,230,0,0.3);color:var(--amber)">⏸ HITL Gate —
+                Officer Review Required</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FOUNDATIONAL: RISK GUARDRAILS -->
+      <div class="tab-pane" id="tab-fa-risk">
+        <div class="page-header">
+          <div class="page-header-top">
+            <div>
+              <div class="page-title">Layer 5 · Risk, Guardrails & Evaluation Agents</div>
+              <div class="page-subtitle">Ensures every AI output meets quality, accuracy, and compliance standards
+                before reaching a banker or customer. Maintains full audit trails for RBI oversight.</div>
+            </div>
+            <div style="display:flex;gap:8px"><span class="page-tag tag-genai">AI Governance</span>
+              <div class="AI-already">In AI</div>
+            </div>
+          </div>
+        </div>
+        <div class="grid-3" style="margin-bottom:20px">
+          <div class="agent-card" style="border-color:rgba(224,82,82,0.2)">
+            <div class="agent-icon">🔍</div>
+            <div class="agent-name">AI Output Evaluation Agent</div>
+            <div class="agent-desc">Runs multi-layer quality checks on every AI generation — factual accuracy,
+              hallucination detection, format compliance, and banking regulation alignment.</div>
+            <div class="agent-tags"><span class="badge badge-red">Anti-Hallucination</span><span
+                class="badge badge-yellow">Fact-Check</span></div>
+          </div>
+          <div class="agent-card" style="border-color:rgba(224,82,82,0.2)">
+            <div class="agent-icon">📊</div>
+            <div class="agent-name">Confidence & Explainability Agent</div>
+            <div class="agent-desc">Produces confidence scores, uncertainty estimates, and plain-language explanations
+              for every AI decision — enabling bankers to trust and verify AI outputs.</div>
+            <div class="agent-tags"><span class="badge badge-teal">XAI</span><span class="badge badge-AI">Calibrated
+                Confidence</span></div>
+          </div>
+          <div class="agent-card" style="border-color:rgba(224,82,82,0.2)">
+            <div class="agent-icon">📝</div>
+            <div class="agent-name">Approval & Audit Agent</div>
+            <div class="agent-desc">Maintains tamper-proof audit logs of every AI action, human override, and approval
+              event. Produces compliance reports for RBI FAIR code adherence.</div>
+            <div class="agent-tags"><span class="badge badge-green">RBI FAIR</span><span
+                class="badge badge-amber">Immutable Logs</span></div>
+          </div>
+        </div>
+        <div class="alert-warn">⚠️ All 13 Wave 1 use cases route AI outputs through this layer before surfacing to end
+          users — ensuring zero unvalidated AI content reaches bankers or customers.</div>
+      </div>
+
+      <!-- ══════════════════════════════════════════════
+         USE CASE SPECIFIC AGENTS
+    ══════════════════════════════════════════════ -->
+      <div class="tab-pane" id="tab-uca-credit">
+        <div class="page-header">
+          <div class="page-header-top">
+            <div>
+              <div class="page-title">Use Case Specific · Credit & Risk Agents</div>
+              <div class="page-subtitle">Domain-specialized agents built for credit and risk workflows — 20% reusable
+                across related use cases.</div>
+            </div>
+            <div style="display:flex;gap:8px"><span class="page-tag tag-wave1">20% Reusability</span></div>
+          </div>
+        </div>
+        <div class="grid-3" style="margin-bottom:20px">
+          <div class="agent-card">
+            <div class="agent-icon">📄</div>
+            <div class="agent-name">Credit Memo Composition Agent</div>
+            <div class="agent-desc">Assembles structured credit notes from aggregated data, policy outputs, and risk
+              scores. Maintains Bank's memo format templates.</div>
+            <div class="agent-tags"><span class="badge badge-yellow">Template Engine</span><span
+                class="badge badge-green">14 Sections</span></div>
+          </div>
+          <div class="agent-card">
+            <div class="agent-icon">💸</div>
+            <div class="agent-name">Repayment Reminder Agent</div>
+            <div class="agent-desc">Proactively detects at-risk accounts, personalizes outreach messages, and schedules
+              reminders across SMS, email, and IVR channels.</div>
+            <div class="agent-tags"><span class="badge badge-amber">Multi-Channel</span><span
+                class="badge badge-teal">Predictive</span></div>
+          </div>
+          <div class="agent-card">
+            <div class="agent-icon">🌊</div>
+            <div class="agent-name">Cash Flow Forecasting Agent</div>
+            <div class="agent-desc">Generates 12-month cash flow projections using GST, banking transactions, and
+              industry benchmarks. Supports credit underwriting decisions.</div>
+            <div class="agent-tags"><span class="badge badge-AI">Forecasting</span><span
+                class="badge badge-green">GST-linked</span></div>
+          </div>
+          <div class="agent-card">
+            <div class="agent-icon">✅</div>
+            <div class="agent-name">Compliance Checklist BOT</div>
+            <div class="agent-desc">Verifies pre-disbursement compliance checklist items against CBS, legal, and
+              documentation systems automatically.</div>
+            <div class="agent-tags"><span class="badge badge-red">Pre-Disbursal</span><span
+                class="badge badge-yellow">CBS Integration</span></div>
+          </div>
+          <div class="agent-card">
+            <div class="agent-icon">📃</div>
+            <div class="agent-name">Contract Analyzer Agent</div>
+            <div class="agent-desc">Reads loan agreements, mortgage deeds, and security documents to flag anomalies,
+              missing clauses, and non-standard terms.</div>
+            <div class="agent-tags"><span class="badge badge-teal">NLP Parsing</span><span
+                class="badge badge-amber">Risk Flagging</span></div>
+          </div>
+          <div class="agent-card">
+            <div class="agent-icon">😊</div>
+            <div class="agent-name">Sentiment Analyzer Agent</div>
+            <div class="agent-desc">Analyzes customer communication sentiment across branches, call center, and digital
+              channels. Surfaces early warning signals for credit stress.</div>
+            <div class="agent-tags"><span class="badge badge-AI">Early Warning</span><span
+                class="badge badge-green">Cross-Channel</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-pane" id="tab-uca-ops">
+        <div class="page-header">
+          <div class="page-header-top">
+            <div>
+              <div class="page-title">Use Case Specific · Operations Agents</div>
+              <div class="page-subtitle">Agents specialized for operational workflows — post-call QA, campaign content,
+                and code review automation.</div>
+            </div><span class="page-tag tag-wave1">20% Reusability</span>
+          </div>
+        </div>
+        <div class="grid-3" style="margin-bottom:20px">
+          <div class="agent-card">
+            <div class="agent-icon">🎧</div>
+            <div class="agent-name">Post-Call QA Scoring Agent</div>
+            <div class="agent-desc">Auto-scores 100% of customer service calls against quality rubric — compliance
+              adherence, empathy, resolution quality, and process adherence.</div>
+            <div class="agent-tags"><span class="badge badge-green">100% Coverage</span><span
+                class="badge badge-yellow">Auto-scoring</span></div>
+          </div>
+          <div class="agent-card">
+            <div class="agent-icon">📣</div>
+            <div class="agent-name">Campaign Content Selector</div>
+            <div class="agent-desc">Selects and personalizes campaign messages for each customer segment based on
+              transaction behavior, lifecycle stage, and channel preference.</div>
+            <div class="agent-tags"><span class="badge badge-teal">Personalization</span><span
+                class="badge badge-AI">Segment-aware</span></div>
+          </div>
+          <div class="agent-card">
+            <div class="agent-icon">💻</div>
+            <div class="agent-name">Code Review Assistant</div>
+            <div class="agent-desc">Reviews banking application code for security vulnerabilities, regulatory compliance
+              issues, and code quality — integrated with CI/CD pipelines.</div>
+            <div class="agent-tags"><span class="badge badge-red">Security Scan</span><span
+                class="badge badge-amber">CI/CD</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-pane" id="tab-uca-sales">
+        <div class="page-header">
+          <div class="page-header-top">
+            <div>
+              <div class="page-title">Use Case Specific · Sales & Analytics Agents</div>
+              <div class="page-subtitle">Product recommendation and sales coaching agents that help RMs and front-line
+                staff serve customers better.</div>
+            </div><span class="page-tag tag-wave1">20% Reusability</span>
+          </div>
+        </div>
+        <div class="grid-3" style="margin-bottom:20px">
+          <div class="agent-card">
+            <div class="agent-icon">🎯</div>
+            <div class="agent-name">Product Recommendation Agent</div>
+            <div class="agent-desc">Analyzes customer financial profile, life stage, and banking behavior to recommend
+              best-fit Bank products with regulatory suitability checks.</div>
+            <div class="agent-tags"><span class="badge badge-green">ML Recommendations</span><span
+                class="badge badge-yellow">Suitability</span></div>
+          </div>
+          <div class="agent-card">
+            <div class="agent-icon">🏋️</div>
+            <div class="agent-name">Pre Sales Coach Agent</div>
+            <div class="agent-desc">Trains and preps RMs with customer-specific talking points, objection handlers, and
+              product knowledge Q&A before customer meetings.</div>
+            <div class="agent-tags"><span class="badge badge-teal">RM Enablement</span><span
+                class="badge badge-AI">Coaching</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════════════════
+         WAVE 1 UC: CREDIT MEMO GENERATOR
+    ══════════════════════════════════════════════ -->
+      <div class="tab-pane" id="tab-uc-credit-memo">
+        <div id="crd-dashboard" style="display:block">
+          <div class="page-header">
+            <div class="page-header-top">
+              <div>
+                <div class="page-title">Credit Memo Generator </div>
+                <div class="page-subtitle">AI-powered credit note drafting with multi-source data aggregation, risk
+                  narrative generation, compliance checks, and human-in-the-loop validation — powered by all 5
+                  foundational agent layers.</div>
+              </div>
+              <div style="display:flex;gap:8px;align-items:center;flex-shrink:0">
+                <span class="page-tag tag-agentic">Agentic AI</span>
+                <span class="page-tag tag-genai">GenAI</span>
+                <button class="btn btn-primary btn-sm" onclick="showCrdView('note')">+ New Credit Note</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Agent layers strip for this UC -->
+          <div class="tags-strip" style="margin-bottom:18px">
+            <span style="font-size:11px;color:var(--slate-dim);margin-right:4px">Foundational Agents Used:</span>
+            <span class="badge badge-yellow">📚 Knowledge & Reasoning</span>
+            <span class="badge badge-teal">👁️ Multi-Modal (Vision)</span>
+            <span class="badge badge-AI">🔀 Orchestration</span>
+            <span class="badge"
+              style="background:rgba(224,82,82,0.1);color:#f8a0a0;border:1px solid rgba(224,82,82,0.2)">🛡️ Risk
+              Guardrails</span>
+            <span class="AI-already" style="margin-left:auto">Credit Memo Composition Agent</span>
+          </div>
+
+          <div class="grid-4" style="margin-bottom:20px">
+            <div class="stat-card">
+              <div class="stat-label">Notes In Progress</div>
+              <div class="stat-value">4</div>
+              <div class="stat-delta delta-up">2 AI drafts ready</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Pending Review</div>
+              <div class="stat-value">3</div>
+              <div class="stat-delta" style="color:var(--amber)">Senior officer queue</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Returned / Queries</div>
+              <div class="stat-value">1</div>
+              <div class="stat-delta delta-down">Action required</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Avg. Drafting Time</div>
+              <div class="stat-value">18m</div>
+              <div class="stat-delta delta-up">↓ 3.4 hrs saved vs manual</div>
+            </div>
+          </div>
+
+          <div class="grid-21" style="gap:18px">
+            <div>
+              <div class="card" style="margin-bottom:16px">
+                <div class="card-title" style="justify-content:space-between">
+                  <span>📋 Credit Note Workload</span>
+                  <button class="btn btn-primary btn-sm" onclick="showCrdView('note')">+ New Note</button>
+                </div>
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>Borrower</th>
+                      <th>Loan ID</th>
+                      <th>Type</th>
+                      <th>Status</th>
+                      <th>Last Updated</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr style="cursor:pointer;transition:background 0.2s" onmouseover="this.style.background='rgba(255,230,0,0.04)'" onmouseout="this.style.background=''" onclick="showCrdView('note')">
+                      <td>Bharat Forge Ltd</td>
+                      <td style="color:var(--slate-dim);font-family:'IBM Plex Mono',monospace;font-size:11px">
+                        CL-2024-8821</td>
+                      <td style="color:var(--slate-dim)">Term Loan</td>
+                      <td><span class="badge badge-amber">Under Edit</span></td>
+                      <td style="color:var(--slate-dim);font-family:'IBM Plex Mono',monospace;font-size:11px">Today
+                        11:44 AM</td>
+                      <td><button class="btn btn-secondary btn-sm"
+                          onclick="event.stopPropagation();showCrdView('note')">Open →</button></td>
+                    </tr>
+                    <tr>
+                      <td>Karnataka Weavers Coop</td>
+                      <td style="color:var(--slate-dim);font-family:'IBM Plex Mono',monospace;font-size:11px">
+                        CL-2024-8804</td>
+                      <td style="color:var(--slate-dim)">CC Limit</td>
+                      <td><span class="badge badge-teal">Under Review</span></td>
+                      <td style="color:var(--slate-dim);font-family:'IBM Plex Mono',monospace;font-size:11px">Yesterday
+                        3:20 PM</td>
+                      <td><button class="btn btn-ghost btn-sm">View</button></td>
+                    </tr>
+                    <tr>
+                      <td>Mysore Steel Pvt Ltd</td>
+                      <td style="color:var(--slate-dim);font-family:'IBM Plex Mono',monospace;font-size:11px">
+                        CL-2024-8791</td>
+                      <td style="color:var(--slate-dim)">WC Loan</td>
+                      <td><span class="badge badge-red">Returned — Query</span></td>
+                      <td style="color:var(--slate-dim);font-family:'IBM Plex Mono',monospace;font-size:11px">2 days ago
+                      </td>
+                      <td><button class="btn btn-danger btn-sm">Resolve</button></td>
+                    </tr>
+                    <tr>
+                      <td>Sunrise Pharma Ltd</td>
+                      <td style="color:var(--slate-dim);font-family:'IBM Plex Mono',monospace;font-size:11px">
+                        CL-2024-8779</td>
+                      <td style="color:var(--slate-dim)">Term Loan</td>
+                      <td><span class="badge badge-green">Approved</span></td>
+                      <td style="color:var(--slate-dim);font-family:'IBM Plex Mono',monospace;font-size:11px">3 days ago
+                      </td>
+                      <td><button class="btn btn-ghost btn-sm">PDF</button></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div>
+              <div class="card" style="margin-bottom:14px">
+                <div class="card-title">🔔 Active Alerts</div>
+                <div class="alert-danger">🔴 Mysore Steel — Query from Risk Head pending 48h</div>
+                <div class="alert-warn">🟡 Bharat Forge — GST Q2 FY24 upload required</div>
+                <div class="alert-info">🔵 Karnataka Weavers — Senior review in queue</div>
+              </div>
+              <div class="card">
+                <div class="card-title">📊 AI Performance (This Week)</div>
+                <div style="font-size:12px;color:var(--slate);line-height:2.3">
+                  <div style="display:flex;justify-content:space-between"><span style="color:var(--slate-dim)">Notes
+                      AI-Drafted</span><span style="color:var(--white)">7</span></div>
+                  <div style="display:flex;justify-content:space-between"><span style="color:var(--slate-dim)">Data
+                      Fetches (APIs)</span><span style="color:var(--white)">56</span></div>
+                  <div style="display:flex;justify-content:space-between"><span style="color:var(--slate-dim)">Avg. AI
+                      Confidence</span><span style="color:var(--green)">81%</span></div>
+                  <div style="display:flex;justify-content:space-between"><span style="color:var(--slate-dim)">Officer
+                      Overrides</span><span style="color:var(--amber)">12</span></div>
+                  <div style="display:flex;justify-content:space-between"><span style="color:var(--slate-dim)">Time
+                      Saved</span><span style="color:var(--ey-yellow)">24.5 hrs</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div><!-- /crd-dashboard -->
+
+        <!-- ── CREDIT NOTE WORKFLOW (5-STEP) ── -->
+        <div id="crd-note" style="display:none">
+          <div class="page-header" style="margin-bottom:14px">
+            <div class="page-header-top">
+              <div style="display:flex;align-items:center;gap:12px">
+                <button class="btn btn-ghost btn-sm" onclick="showCrdView('dashboard')">← Dashboard</button>
+                <div>
+                  <div class="page-title" style="font-size:21px">Credit Note — Bharat Forge Ltd</div>
+                  <div class="page-subtitle" style="font-size:11.5px">CIF 7803241 · Loan CL-2024-8821 · Term Loan ₹350
+                    Cr · Draft ID: CN-2026-0441 · Rahul Shenoy, Zonal Credit</div>
+                </div>
+              </div>
+              <div style="display:flex;gap:8px;align-items:center">
+                <button class="btn btn-ghost btn-sm">Save Draft</button>
+                <span class="badge badge-amber">Under Edit — v0.3</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Agent layer strip -->
+          <div class="tags-strip" style="margin-bottom:14px">
+            <span style="font-size:11px;color:var(--slate-dim)">Active Agents:</span>
+            <span class="badge badge-green">✅ Knowledge Agent</span>
+            <span class="badge badge-green">✅ Vision Agent</span>
+            <span class="badge badge-teal" style="animation:pulse 2s infinite">⟳ Orchestrator — Active</span>
+            <span class="badge badge-amber">⏸ HITL Gate</span>
+            <span class="badge badge-AI">🛡️ Guardrails</span>
+          </div>
+
+          <!-- STEP FLOW -->
+          <div class="step-flow" style="margin-bottom:18px">
+            <div class="step-item done" onclick="cnStep(0)"><span class="step-num">01</span><span class="step-label">✓
+                Initiation</span><span class="step-arrow">›</span></div>
+            <div class="step-item done" onclick="cnStep(1)"><span class="step-num">02</span><span class="step-label">✓
+                Data Fetch</span><span class="step-arrow">›</span></div>
+            <div class="step-item active" id="cs-2" onclick="cnStep(2)"><span class="step-num">03</span><span
+                class="step-label">⬤ AI Draft</span><span class="step-arrow">›</span></div>
+            <div class="step-item" id="cs-3" onclick="cnStep(3)"><span class="step-num">04</span><span
+                class="step-label">Edit & Validate</span><span class="step-arrow">›</span></div>
+            <div class="step-item" id="cs-4" onclick="cnStep(4)"><span class="step-num">05</span><span
+                class="step-label">Review & Approve</span></div>
+          </div>
+
+          <!-- PANE 0: INITIATION -->
+          <div class="cn-pane" id="cnp-0" style="display:none">
+            <div class="grid-21" style="gap:18px">
+              <div>
+                <div class="card">
+                  <div class="card-title">🔍 Borrower Search & Initiation</div>
+                  <div class="search-bar">
+                    <span>🔍</span>
+                    <input type="text" placeholder="Search by Name, CIF, Loan ID…"
+                      value="Bharat Forge Ltd — CIF 7803241">
+                    <span class="badge badge-teal">Customer Loaded</span>
+                  </div>
+                  <table class="data-table" style="margin-bottom:16px">
+                    <thead>
+                      <tr>
+                        <th>Field</th>
+                        <th>Value</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Borrower Name</td>
+                        <td style="color:var(--white)">Bharat Forge Ltd</td>
+                      </tr>
+                      <tr>
+                        <td>CIF Number</td>
+                        <td style="color:var(--white);font-family:'IBM Plex Mono',monospace;font-size:11px">7803241</td>
+                      </tr>
+                      <tr>
+                        <td>Loan Account</td>
+                        <td style="color:var(--white);font-family:'IBM Plex Mono',monospace;font-size:11px">CL-2024-8821
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Facility Type</td>
+                        <td style="color:var(--white)">Term Loan — ₹350 Cr</td>
+                      </tr>
+                      <tr>
+                        <td>Note Purpose</td>
+                        <td style="color:var(--white)">Annual Review — FY26</td>
+                      </tr>
+                      <tr>
+                        <td>Assigned Officer</td>
+                        <td style="color:var(--white)">Rahul Shenoy, Zonal Credit</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <button class="btn btn-primary btn-sm" onclick="cnStep(1)">Initiate — Fetch Data →</button>
+                </div>
+              </div>
+              <div>
+                <div class="card">
+                  <div class="card-title">📋 Prior Notes</div>
+                  <div class="audit-entry"><span class="audit-time">Jan 2025</span>
+                    <div>
+                      <div class="audit-action">Annual Review FY25 — Approved</div>
+                      <div class="audit-detail">Rahul Shenoy · v1.4 · 14 sections</div>
+                    </div>
+                  </div>
+                  <div class="audit-entry"><span class="audit-time">Jul 2024</span>
+                    <div>
+                      <div class="audit-action">Mid-year Review — Approved</div>
+                      <div class="audit-detail">Priya Menon · v1.2 · 11 sections</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- PANE 1: DATA FETCH -->
+          <div class="cn-pane" id="cnp-1" style="display:none">
+            <div class="grid-21" style="gap:18px">
+              <div>
+                <div class="card">
+                  <div class="card-title">⚡ AI Data Aggregation — 8 Sources
+                    <span class="badge badge-AI" style="margin-left:auto">Knowledge Agent + Vision Agent</span>
+                  </div>
+                  <table class="data-table" style="margin-bottom:14px">
+                    <thead>
+                      <tr>
+                        <th>Source</th>
+                        <th>Data Pulled</th>
+                        <th>Status</th>
+                        <th>Time</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>MCA Filings</td>
+                        <td style="color:var(--slate-dim)">ROC data, directors, 3 filings</td>
+                        <td><span class="badge badge-green">Done</span></td>
+                        <td style="color:var(--slate-dim);font-family:'IBM Plex Mono',monospace;font-size:11px">11:31
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>GST Returns</td>
+                        <td style="color:var(--slate-dim)">FY24 + FY25 quarterly</td>
+                        <td><span class="badge badge-green">Done</span></td>
+                        <td style="color:var(--slate-dim);font-family:'IBM Plex Mono',monospace;font-size:11px">11:31
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>ITR Summary</td>
+                        <td style="color:var(--slate-dim)">AY 2023-24, 2024-25</td>
+                        <td><span class="badge badge-green">Done</span></td>
+                        <td style="color:var(--slate-dim);font-family:'IBM Plex Mono',monospace;font-size:11px">11:32
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>CERSAI</td>
+                        <td style="color:var(--slate-dim)">2 existing charges — ₹240 Cr</td>
+                        <td><span class="badge badge-green">Done</span></td>
+                        <td style="color:var(--slate-dim);font-family:'IBM Plex Mono',monospace;font-size:11px">11:32
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Credit Bureau</td>
+                        <td style="color:var(--slate-dim)">CIBIL Commercial Score 742</td>
+                        <td><span class="badge badge-green">Done</span></td>
+                        <td style="color:var(--slate-dim);font-family:'IBM Plex Mono',monospace;font-size:11px">11:33
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>CBS / Core Banking</td>
+                        <td style="color:var(--slate-dim)">Loan history, account details</td>
+                        <td><span class="badge badge-green">Done</span></td>
+                        <td style="color:var(--slate-dim);font-family:'IBM Plex Mono',monospace;font-size:11px">11:31
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>SEBI Data</td>
+                        <td style="color:var(--slate-dim)">Shareholding pattern FY25</td>
+                        <td><span class="badge badge-amber">Fetching…</span></td>
+                        <td style="color:var(--slate-dim);font-family:'IBM Plex Mono',monospace;font-size:11px">—</td>
+                      </tr>
+                      <tr>
+                        <td>Audited Financials</td>
+                        <td style="color:var(--slate-dim)">Balance Sheet, P&L FY24-25</td>
+                        <td><span class="badge badge-green">Done</span></td>
+                        <td style="color:var(--slate-dim);font-family:'IBM Plex Mono',monospace;font-size:11px">11:33
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div class="alert-info" style="margin-bottom:12px">🔵 7/8 sources available. AI draft will proceed —
+                    SEBI section flagged as pending.</div>
+                  <div style="display:flex;gap:8px">
+                    <button class="btn btn-ghost btn-sm" onclick="cnStep(0)">← Back</button>
+                    <button class="btn btn-primary btn-sm" onclick="cnStep(2)">⚡ Generate AI Draft →</button>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <div class="card">
+                  <div class="card-title">📊 Data Quality</div>
+                  <div style="font-size:12px;line-height:2.4">
+                    <div style="display:flex;justify-content:space-between"><span style="color:var(--slate-dim)">Sources
+                        Available</span><span style="color:var(--white)">7 of 8</span></div>
+                    <div style="display:flex;justify-content:space-between"><span style="color:var(--slate-dim)">Overall
+                        Confidence</span><span style="color:var(--green)">High — 87%</span></div>
+                    <div style="display:flex;justify-content:space-between"><span style="color:var(--slate-dim)">Data
+                        Age</span><span style="color:var(--white)">&lt;2 minutes</span></div>
+                    <div style="display:flex;justify-content:space-between"><span style="color:var(--slate-dim)">CERSAI
+                        Charge</span><span style="color:var(--amber)">₹240 Cr flagged</span></div>
+                    <div style="display:flex;justify-content:space-between"><span
+                        style="color:var(--slate-dim)">Director Flag</span><span style="color:var(--red)">DIN — 1
+                        struck-off</span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- PANE 2: AI DRAFT (DEFAULT ACTIVE) -->
+          <div class="cn-pane" id="cnp-2">
+            <div class="grid-2" style="gap:18px">
+              <!-- LEFT: NOTE EDITOR -->
+              <div>
+                <div class="card" style="margin-bottom:14px">
+                  <div class="card-title" style="justify-content:space-between">
+                    <span>📄 AI Generated Draft — 14 Sections</span>
+                    <span class="badge badge-green">Guardrail: Passed ✓</span>
+                  </div>
+                  <div style="max-height:400px;overflow-y:auto;padding-right:4px">
+                    <div id="note-sections">
+                      <!-- Sections rendered by JS -->
+                    </div>
+                  </div>
+                  <div
+                    style="display:flex;gap:8px;margin-top:14px;padding-top:12px;border-top:1px solid var(--border-subtle)">
+                    <button class="btn btn-ghost btn-sm" onclick="cnStep(1)">← Back</button>
+                    <button class="btn btn-secondary btn-sm">↻ Regenerate Section</button>
+                    <button class="btn btn-primary btn-sm" onclick="cnStep(3)">Proceed to Edit →</button>
+                  </div>
+                </div>
+              </div>
+              <!-- RIGHT: AI INSIGHTS -->
+              <div>
+                <div class="card" style="margin-bottom:14px">
+                  <div class="card-title">🛡️ Risk Guardrail Report</div>
+                  <div style="font-size:12px;line-height:2.3">
+                    <div style="display:flex;justify-content:space-between"><span
+                        style="color:var(--slate-dim)">Hallucination Check</span><span style="color:var(--green)">✓
+                        Passed</span></div>
+                    <div style="display:flex;justify-content:space-between"><span style="color:var(--slate-dim)">Fact
+                        Verification</span><span style="color:var(--green)">✓ 94% match</span></div>
+                    <div style="display:flex;justify-content:space-between"><span style="color:var(--slate-dim)">Policy
+                        Compliance</span><span style="color:var(--green)">✓ RBI MAS 2024</span></div>
+                    <div style="display:flex;justify-content:space-between"><span style="color:var(--slate-dim)">Flags
+                        Raised</span><span style="color:var(--amber)">2 (SEBI, Director)</span></div>
+                    <div style="display:flex;justify-content:space-between"><span style="color:var(--slate-dim)">Overall
+                        Confidence</span><span style="color:var(--green)">81%</span></div>
+                  </div>
+                </div>
+                <div class="card" style="margin-bottom:14px">
+                  <div class="card-title">⚠️ AI Flags — Action Required</div>
+                  <div class="alert-warn">Director DIN 07654321 — flagged as struck-off in MCA database. Recommend board
+                    resolution for replacement.</div>
+                  <div class="alert-warn" style="display:flex;align-items:center;justify-content:space-between">SEBI shareholding data pending — section 8 marked incomplete. <button class="btn btn-secondary btn-sm" onclick="resolveSebiData()" style="margin-left:10px;flex-shrink:0">⚡ Fetch Now</button></div>
+                  <div class="alert-info">CERSAI charge ₹240 Cr noted. Within sanctioned limit — no action required.
+                  </div>
+                </div>
+                <div class="card">
+                  <div class="card-title">💬 AI Reasoning (Explainability)</div>
+                  <div style="font-size:12px;color:var(--slate-dim);line-height:1.7">
+                    Credit profile assessed as <span style="color:var(--green)">BB+ equivalent</span>. Revenue growth
+                    strong at 18% YoY (GST data). Cash flow adequacy ratio 1.45x. Leverage within RBI MSME lending
+                    norms. Minor governance flag on director succession.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- PANE 3: EDIT & VALIDATE -->
+          <div class="cn-pane" id="cnp-3" style="display:none">
+            <div class="grid-21" style="gap:18px">
+              <div>
+                <div class="card">
+                  <div class="card-title" style="justify-content:space-between">
+                    <span>✏️ Edit & Validate — Officer Review</span>
+                    <span class="badge badge-amber">HITL Gate Active</span>
+                  </div>
+                  <div class="alert-warn" style="margin-bottom:14px">⏸ Human-in-the-Loop checkpoint — Officer must
+                    review and confirm AI-generated risk narrative before proceeding to approval.</div>
+                  <div
+                    style="background:var(--surface2);border:1px solid var(--border-subtle);border-radius:8px;padding:14px;margin-bottom:14px;max-height:300px;overflow-y:auto">
+                    <div style="font-size:11.5px;color:var(--slate);line-height:1.8">
+                      <div style="color:var(--ey-yellow);font-weight:600;margin-bottom:8px;font-size:12px">Section 6:
+                        Risk Assessment</div>
+                      Bharat Forge Ltd presents a <span style="color:var(--green)">moderate-low credit risk
+                        profile</span>. Revenue has grown 18% YoY (GST-verified). EBITDA margins stable at 22%.
+                      Debt-service coverage ratio of 1.45x is adequate. However, <span
+                        style="color:var(--amber)">director succession risk is flagged</span> — DIN 07654321 struck off;
+                      board resolution pending. Recommend disbursement subject to board documentation. CERSAI charge of
+                      ₹240 Cr noted and within sanctioned limits.
+                      <div style="color:var(--ey-yellow);font-weight:600;margin:12px 0 8px;font-size:12px">Section 7:
+                        Financial Analysis</div>
+                      FY25 Revenue: ₹4,280 Cr (↑18%). PAT: ₹312 Cr (↑12%). Leverage: 2.1x (Industry: 2.8x). Working
+                      capital cycle: 68 days. GST compliance: <span style="color:var(--green)">Regular, no
+                        defaults</span>.
+                    </div>
+                  </div>
+                  <div style="display:flex;gap:8px">
+                    <button class="btn btn-ghost btn-sm" onclick="cnStep(2)">← Back to Draft</button>
+                    <button class="btn btn-secondary btn-sm">Add Comment</button>
+                    <button class="btn btn-primary btn-sm" onclick="cnStep(4)">✓ Validate & Send for Approval →</button>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <div class="card">
+                  <div class="card-title">👤 Officer Checklist</div>
+                  <div style="font-size:12px;line-height:2.5">
+                    <div><input type="checkbox" checked style="margin-right:8px"><span
+                        style="color:var(--white)">Reviewed financial analysis</span></div>
+                    <div><input type="checkbox" checked style="margin-right:8px"><span
+                        style="color:var(--white)">Verified CERSAI charges</span></div>
+                    <div><input type="checkbox" style="margin-right:8px"><span style="color:var(--amber)">Director
+                        succession resolved</span></div>
+                    <div><input type="checkbox" checked style="margin-right:8px"><span style="color:var(--white)">Risk
+                        rating confirmed</span></div>
+                    <div><input type="checkbox" style="margin-right:8px"><span style="color:var(--slate-dim)">SEBI data
+                        appended</span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- PANE 4: REVIEW & APPROVE -->
+          <div class="cn-pane" id="cnp-4" style="display:none">
+            <div class="grid-2" style="gap:18px">
+              <div>
+                <div class="card">
+                  <div class="card-title">🏆 Credit Note — Ready for Approval</div>
+                  <div class="alert-success" style="margin-bottom:14px">✅ All validations passed. Credit note is ready
+                    for senior officer approval and dispatch to credit committee.</div>
+                  <div style="font-size:12px;line-height:2.4">
+                    <div
+                      style="display:flex;justify-content:space-between;padding-bottom:8px;border-bottom:1px solid var(--border-subtle);margin-bottom:8px">
+                      <span style="color:var(--slate-dim)">Borrower</span><span style="color:var(--white)">Bharat Forge
+                        Ltd</span></div>
+                    <div style="display:flex;justify-content:space-between"><span
+                        style="color:var(--slate-dim)">Facility</span><span style="color:var(--white)">Term Loan ₹350
+                        Cr</span></div>
+                    <div style="display:flex;justify-content:space-between"><span style="color:var(--slate-dim)">Risk
+                        Rating</span><span style="color:var(--green)">BB+ / Low-Moderate</span></div>
+                    <div style="display:flex;justify-content:space-between"><span style="color:var(--slate-dim)">AI
+                        Confidence</span><span style="color:var(--green)">81%</span></div>
+                    <div style="display:flex;justify-content:space-between"><span style="color:var(--slate-dim)">Officer
+                        Sign-off</span><span style="color:var(--green)">Rahul Shenoy ✓</span></div>
+                    <div style="display:flex;justify-content:space-between"><span style="color:var(--slate-dim)">Open
+                        Flags</span><span style="color:var(--amber)">1 (Director succession)</span></div>
+                  </div>
+                  <div style="display:flex;gap:8px;margin-top:16px">
+                    <button class="btn btn-ghost btn-sm" onclick="cnStep(3)">← Back</button>
+                    <button class="btn btn-primary" onclick="showApprovalModal()">📤 Submit to Credit Committee</button>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <div class="card" style="margin-bottom:14px">
+                  <div class="card-title">📜 Audit Trail</div>
+                  <div class="timeline">
+                    <div class="tl-item">
+                      <div class="tl-dot done"></div>
+                      <div class="tl-label">Initiation</div>
+                      <div class="tl-sub">Rahul Shenoy · 11:30 AM</div>
+                    </div>
+                    <div class="tl-item">
+                      <div class="tl-dot done"></div>
+                      <div class="tl-label">Data Fetch (8 APIs)</div>
+                      <div class="tl-sub">AI Agents · 11:31–11:33 AM</div>
+                    </div>
+                    <div class="tl-item">
+                      <div class="tl-dot done"></div>
+                      <div class="tl-label">AI Draft Generated</div>
+                      <div class="tl-sub">Credit Memo Agent · 11:36 AM · 14 sections</div>
+                    </div>
+                    <div class="tl-item">
+                      <div class="tl-dot done"></div>
+                      <div class="tl-label">Guardrail Checks Passed</div>
+                      <div class="tl-sub">Risk Agent · 11:36 AM · 94% confidence</div>
+                    </div>
+                    <div class="tl-item">
+                      <div class="tl-dot done"></div>
+                      <div class="tl-label">Officer Review (HITL)</div>
+                      <div class="tl-sub">Rahul Shenoy · 11:44 AM · 2 edits</div>
+                    </div>
+                    <div class="tl-item">
+                      <div class="tl-dot active"></div>
+                      <div class="tl-label">Pending Approval</div>
+                      <div class="tl-sub">Credit Committee queue</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div><!-- /crd-note -->
+      </div><!-- /tab-uc-credit-memo -->
+
+      <!-- ══════════════════════════════════════════════
+         REMAINING WAVE 1 USE CASES — Quick view cards
+    ══════════════════════════════════════════════ -->
+      <div class="tab-pane" id="tab-uc-doc-checker">
+        <div class="page-header">
+          <div class="page-header-top">
+            <div>
+              <div class="page-title">Document Checker BOT</div>
+              <div class="page-subtitle">Automatically validates completeness and accuracy of KYC, collateral, and
+                sanction-related documents using Vision + Knowledge agents.</div>
+            </div>
+            <div style="display:flex;gap:8px"><span class="page-tag tag-agentic">Vision AI</span><span
+                class="page-tag tag-genai">Agentic</span></div>
+          </div>
+        </div>
+        <div class="grid-4" style="margin-bottom:18px">
+          <div class="stat-card">
+            <div class="stat-label">Documents Checked Today</div>
+            <div class="stat-value" id="lm-docs-checked" data-val="142">142</div>
+            <div class="stat-delta delta-up">↑ 12% vs yesterday</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Auto-Cleared</div>
+            <div class="stat-value">118</div>
+            <div class="stat-delta delta-up">83% clearance rate</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Flagged for Review</div>
+            <div class="stat-value">24</div>
+            <div class="stat-delta" style="color:var(--amber)">Needs officer</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Avg. Check Time</div>
+            <div class="stat-value">45s</div>
+            <div class="stat-delta delta-up">↓ vs 20 min manual</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">🔗 Foundational Agents Used</div>
+          <div class="agent-tags"><span class="badge badge-teal">Vision / Document Understanding</span><span
+              class="badge badge-yellow">Knowledge & Regulatory</span><span
+              class="badge badge-AI">Orchestrator</span><span class="badge"
+              style="background:rgba(224,82,82,0.1);color:#f8a0a0;border:1px solid rgba(224,82,82,0.2)">Risk
+              Guardrails</span></div>
+        </div>
+      </div>
+
+      <div class="tab-pane" id="tab-uc-anomaly">
+        <div class="page-header">
+          <div class="page-header-top">
+            <div>
+              <div class="page-title">Anomaly Detection Engine</div>
+              <div class="page-subtitle">ML-powered detection of transaction anomalies, fraud patterns, and
+                early-warning credit signals across Bank's loan portfolio.</div>
+            </div><span class="page-tag tag-genai">ML + AI</span>
+          </div>
+        </div>
+        <div class="grid-4" style="margin-bottom:18px">
+          <div class="stat-card">
+            <div class="stat-label">Anomalies Detected (MTD)</div>
+            <div class="stat-value">38</div>
+            <div class="stat-delta delta-up">↑ 6 new this week</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">False Positive Rate</div>
+            <div class="stat-value">4.2%</div>
+            <div class="stat-delta delta-up">↓ Industry avg 12%</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Accounts Monitored</div>
+            <div class="stat-value">1.2M</div>
+            <div class="stat-delta" style="color:var(--teal)">Real-time</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Avg. Detection Lead Time</div>
+            <div class="stat-value">14d</div>
+            <div class="stat-delta delta-up">Before default event</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">🔗 Foundational Agents Used</div>
+          <div class="agent-tags"><span class="badge badge-yellow">Knowledge & Reasoning</span><span
+              class="badge badge-AI">Orchestration</span><span class="badge"
+              style="background:rgba(224,82,82,0.1);color:#f8a0a0;border:1px solid rgba(224,82,82,0.2)">Risk Guardrails
+              + Confidence</span></div>
+        </div>
+      </div>
+
+      <!-- SERVICE USE CASES -->
+      <div class="tab-pane" id="tab-uc-selfcure">
+        <div class="page-header">
+          <div class="page-header-top">
+            <div>
+              <div class="page-title">Multi-Lingual Self Cure BOT</div>
+              <div class="page-subtitle">Enables customers to resolve service requests (statement requests, cheque stop,
+                NEFT queries) in their preferred Indian language — reducing call center load by up to 40%.</div>
+            </div><span class="page-tag tag-agentic">Multi-Lingual AI</span>
+          </div>
+        </div>
+        <div class="grid-4" style="margin-bottom:18px">
+          <div class="stat-card">
+            <div class="stat-label">Self-Cure Rate</div>
+            <div class="stat-value">67%</div>
+            <div class="stat-delta delta-up">Target: 70%</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Languages Active</div>
+            <div class="stat-value">8</div>
+            <div class="stat-delta" style="color:var(--teal)">Hindi, Tamil, Kannada +5</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Monthly Interactions</div>
+            <div class="stat-value" id="lm-self-cure" data-val="84000">84K</div>
+            <div class="stat-delta delta-up">↑ 22% MoM</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Avg. Resolution Time</div>
+            <div class="stat-value">3.2m</div>
+            <div class="stat-delta delta-up">↓ 11 min (human)</div>
+          </div>
+        </div>
+        <div class="grid-2" style="gap:16px">
+          <div class="card">
+            <div class="card-title">💬 Live Interaction Demo</div>
+            <div class="chat-window">
+              <div class="chat-messages" id="selfcure-chat">
+                <div class="chat-msg ai">
+                  <div class="chat-sender">AI Self-Cure Bot</div>
+                  <div class="bubble">नमस्ते! मैं आपकी सहायता के लिए यहाँ हूँ। आप हिंदी, English या किसी भी भाषा में बात
+                    कर सकते हैं। आज मैं आपकी किस प्रकार सहायता कर सकता हूँ? (Hello! I'm here to help. How can I assist
+                    you today?)</div>
+                </div>
+                <div class="chat-msg user">
+                  <div class="chat-sender">Customer</div>
+                  <div class="bubble">Mujhe mere account ka last 3 mahine ka statement chahiye</div>
+                </div>
+                <div class="chat-msg ai">
+                  <div class="chat-sender">AI Bot · Intent: Statement Request ✓</div>
+                  <div class="bubble">ज़रूर! आपका 3 महीने का स्टेटमेंट (Oct–Dec 2025) तैयार हो रहा है। मैं इसे आपके
+                    registered email abc***@gmail.com पर भेज दूँगा। क्या यह ठीक है?</div>
+                </div>
+              </div>
+              <div class="chat-input-row">
+                <input type="text" id="selfcure-input" placeholder="Type in any Indian language or English…"
+                  onkeydown="if(event.key==='Enter')sendSelfCureMsg()">
+                <button class="btn btn-primary btn-sm" onclick="sendSelfCureMsg()">Send</button>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title">🔗 Foundational Agents Used</div>
+            <div style="margin-bottom:12px">
+              <div class="agent-tags"><span class="badge badge-teal">Multilingual Language Agent</span><span
+                  class="badge badge-teal">Speech-to-Text</span><span class="badge badge-AI">Intent
+                  Detection</span><span class="badge badge-AI">Sentiment & Urgency</span><span
+                  class="badge badge-AI">Conversation State</span></div>
+            </div>
+            <div class="card-title" style="margin-top:12px">📊 Intent Distribution</div>
+            <div style="font-size:12px;line-height:2.4">
+              <div style="display:flex;justify-content:space-between"><span style="color:var(--slate-dim)">Statement
+                  Requests</span><span style="color:var(--white)">34%</span></div>
+              <div style="display:flex;justify-content:space-between"><span style="color:var(--slate-dim)">Balance
+                  Enquiry</span><span style="color:var(--white)">28%</span></div>
+              <div style="display:flex;justify-content:space-between"><span style="color:var(--slate-dim)">NEFT/RTGS
+                  Queries</span><span style="color:var(--white)">18%</span></div>
+              <div style="display:flex;justify-content:space-between"><span style="color:var(--slate-dim)">Loan EMI
+                  Queries</span><span style="color:var(--white)">12%</span></div>
+              <div style="display:flex;justify-content:space-between"><span
+                  style="color:var(--slate-dim)">Other</span><span style="color:var(--white)">8%</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-pane" id="tab-uc-livecall">
+        <div class="page-header">
+          <div class="page-header-top">
+            <div>
+              <div class="page-title">Live Call Co-Pilot</div>
+              <div class="page-subtitle">Real-time AI assistance for call center agents — transcription, intent
+                detection, suggested responses, compliance alerts, and post-call QA automation.</div>
+            </div><span class="page-tag tag-agentic">Real-Time AI</span>
+          </div>
+        </div>
+        <div class="grid-4" style="margin-bottom:18px">
+          <div class="stat-card">
+            <div class="stat-label">Active Calls Monitored</div>
+            <div class="stat-value" id="lm-active-calls" data-val="312">312</div>
+            <div class="stat-delta" style="color:var(--teal)">● Live right now</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">AHT Reduction</div>
+            <div class="stat-value">28%</div>
+            <div class="stat-delta delta-up">↑ 3% vs last month</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Compliance Alerts Fired</div>
+            <div class="stat-value">14</div>
+            <div class="stat-delta" style="color:var(--amber)">Today</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">CSAT Improvement</div>
+            <div class="stat-value">+0.4</div>
+            <div class="stat-delta delta-up">↑ from 3.8 → 4.2</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">🔗 Foundational Agents Used</div>
+          <div class="agent-tags"><span class="badge badge-teal">Speech-to-Text</span><span
+              class="badge badge-teal">Multilingual Language</span><span class="badge badge-AI">Intent
+              Detection</span><span class="badge badge-AI">Sentiment & Urgency</span><span
+              class="badge badge-yellow">Knowledge Agent</span><span class="badge"
+              style="background:rgba(224,82,82,0.1);color:#f8a0a0;border:1px solid rgba(224,82,82,0.2)">Guardrails</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-pane" id="tab-uc-frontline">
+        <div class="page-header">
+          <div class="page-header-top">
+            <div>
+              <div class="page-title">Frontline AI Assistant</div>
+              <div class="page-subtitle">AI copilot for branch staff — answers product queries, pulls customer 360°,
+                generates service requests, and provides compliance guidance in real-time.</div>
+            </div><span class="page-tag tag-genai">GenAI Copilot</span>
+          </div>
+        </div>
+        <div class="grid-4" style="margin-bottom:18px">
+          <div class="stat-card">
+            <div class="stat-label">Queries Handled/Day</div>
+            <div class="stat-value">1.4K</div>
+            <div class="stat-delta delta-up">Across 120 branches</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">First-Attempt Resolution</div>
+            <div class="stat-value">89%</div>
+            <div class="stat-delta delta-up">No escalation needed</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Product SOPs Covered</div>
+            <div class="stat-value">35+</div>
+            <div class="stat-delta" style="color:var(--teal)">Always up-to-date</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Training Time Saved</div>
+            <div class="stat-value">60%</div>
+            <div class="stat-delta delta-up">For new joiners</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SALES USE CASES -->
+      <div class="tab-pane" id="tab-uc-product-rec">
+        <div class="page-header">
+          <div class="page-header-top">
+            <div>
+              <div class="page-title">Product Recommendation Agent</div>
+              <div class="page-subtitle">AI-powered next-best-product recommendations for Bank customers based on
+                financial profile, life events, and transaction behavior.</div>
+            </div><span class="page-tag tag-genai">ML + GenAI</span>
+          </div>
+        </div>
+        <div class="grid-4" style="margin-bottom:18px">
+          <div class="stat-card">
+            <div class="stat-label">Recommendations/Day</div>
+            <div class="stat-value">8.2K</div>
+            <div class="stat-delta delta-up">Personalized per customer</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Acceptance Rate</div>
+            <div class="stat-value">23%</div>
+            <div class="stat-delta delta-up">↑ from 11% baseline</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Revenue Attributed (MTD)</div>
+            <div class="stat-value">₹4.2Cr</div>
+            <div class="stat-delta delta-yellow">Cross-sell lift</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Products Covered</div>
+            <div class="stat-value">28</div>
+            <div class="stat-delta" style="color:var(--teal)">Deposits, loans, insurance</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-pane" id="tab-uc-salescoach">
+        <div class="page-header">
+          <div class="page-header-top">
+            <div>
+              <div class="page-title">Pre Sales Coach</div>
+              <div class="page-subtitle">AI coaching for Relationship Managers — customer briefings, talking points,
+                objection handlers, and competitor product comparisons before key meetings.</div>
+            </div><span class="page-tag tag-genai">RM Enablement</span>
+          </div>
+        </div>
+        <div class="grid-4" style="margin-bottom:18px">
+          <div class="stat-card">
+            <div class="stat-label">Pre-Meeting Briefs/Day</div>
+            <div class="stat-value">340</div>
+            <div class="stat-delta delta-up">Across 80 RMs</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Meeting Conversion Lift</div>
+            <div class="stat-value">+18%</div>
+            <div class="stat-delta delta-up">↑ vs un-coached</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Objections Covered</div>
+            <div class="stat-value">120+</div>
+            <div class="stat-delta" style="color:var(--teal)">Auto-updated</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">RM Satisfaction</div>
+            <div class="stat-value">4.6/5</div>
+            <div class="stat-delta delta-up">Monthly NPS</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- OPS USE CASES -->
+      <div class="tab-pane" id="tab-uc-policy-nav">
+        <div class="page-header">
+          <div class="page-header-top">
+            <div>
+              <div class="page-title">Policy Navigator BOT</div>
+              <div class="page-subtitle">Instant policy lookup and guidance for bank officers — RBI circulars, internal
+                SOPs, lending norms, and compliance checklists, all conversationally accessible.</div>
+            </div><span class="page-tag tag-genai">Knowledge AI</span>
+          </div>
+        </div>
+        <div class="grid-4" style="margin-bottom:18px">
+          <div class="stat-card">
+            <div class="stat-label">Policy Queries/Day</div>
+            <div class="stat-value">2.1K</div>
+            <div class="stat-delta delta-up">Instant responses</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Answer Accuracy</div>
+            <div class="stat-value">96%</div>
+            <div class="stat-delta delta-up">Officer-verified</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Policy Docs Indexed</div>
+            <div class="stat-value">142</div>
+            <div class="stat-delta" style="color:var(--teal)">RBI + Internal</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Avg. Response Time</div>
+            <div class="stat-value">1.2s</div>
+            <div class="stat-delta delta-up">↓ vs 15 min manual</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-pane" id="tab-uc-repayment">
+        <div class="page-header">
+          <div class="page-header-top">
+            <div>
+              <div class="page-title">Repayment Reminder Agent</div>
+              <div class="page-subtitle">Proactive, AI-personalized repayment reminders across SMS, email, and IVR —
+                targeted at at-risk accounts with empathetic, RBI-compliant messaging.</div>
+            </div><span class="page-tag tag-agentic">Agentic Outreach</span>
+          </div>
+        </div>
+        <div class="grid-4" style="margin-bottom:18px">
+          <div class="stat-card">
+            <div class="stat-label">Reminders Sent (MTD)</div>
+            <div class="stat-value">42K</div>
+            <div class="stat-delta" style="color:var(--teal)">Multi-channel</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Payment Response Rate</div>
+            <div class="stat-value">34%</div>
+            <div class="stat-delta delta-up">↑ 14% vs generic SMS</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">NPA Prevention (Est.)</div>
+            <div class="stat-value">₹18Cr</div>
+            <div class="stat-delta delta-yellow">MTD value protected</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Opt-out Rate</div>
+            <div class="stat-value">0.8%</div>
+            <div class="stat-delta delta-up">Low (RBI compliant)</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-pane" id="tab-uc-doc-prep">
+        <div class="page-header">
+          <div class="page-header-top">
+            <div>
+              <div class="page-title">Document Preparation BOT</div>
+              <div class="page-subtitle">Auto-generates loan sanction letters, facility agreements, mortgage deeds, and
+                correspondence from structured data — eliminating manual drafting time.</div>
+            </div><span class="page-tag tag-genai">Document AI</span>
+          </div>
+        </div>
+        <div class="grid-4" style="margin-bottom:18px">
+          <div class="stat-card">
+            <div class="stat-label">Documents Generated/Day</div>
+            <div class="stat-value">280</div>
+            <div class="stat-delta delta-up">Across all loan types</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Error Rate</div>
+            <div class="stat-value">0.3%</div>
+            <div class="stat-delta delta-up">↓ from 4.2% manual</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Avg. Gen. Time</div>
+            <div class="stat-value">35s</div>
+            <div class="stat-delta delta-up">↓ vs 45 min manual</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Document Types</div>
+            <div class="stat-value">24</div>
+            <div class="stat-delta" style="color:var(--teal)">All key formats</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- LIVE POLICY BOT -->
+      <div class="tab-pane" id="tab-live-policy">
+        <div class="page-header">
+          <div class="page-header-top">
+            <div>
+              <div class="page-title">Policy Bot (Live API)</div>
+              <div class="page-subtitle">Interact with the PolicyRAGAgent in real-time. Enter a query to see the multi-agent orchestration.</div>
+            </div><span class="page-tag tag-agentic">Live API</span>
+          </div>
+        </div>
+        <div class="live-bot-container">
+          <div class="live-bot-input-area">
+            <input type="text" id="input-policy" class="live-bot-input" placeholder="e.g., What are the rules for dormant accounts?">
+            <button class="live-bot-btn" id="btn-policy" onclick="runLiveQuery('policy')">Ask Policy Bot</button>
+          </div>
+          <div class="live-bot-results">
+            <div class="live-bot-graph">
+              <h3 style="font-size:14px;color:var(--slate);margin-bottom:12px;font-family:'IBM Plex Mono',monospace">Agent Thought Graph</h3>
+              <div id="graph-policy"></div>
+            </div>
+            <div class="live-bot-final">
+              <h3 style="font-size:14px;color:var(--slate);margin-bottom:12px;font-family:'IBM Plex Mono',monospace">Final Synthesized Output</h3>
+              <div id="final-policy" class="final-output-text">Results will appear here...</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- LIVE LOAN BOT -->
+      <div class="tab-pane" id="tab-live-loan">
+        <div class="page-header">
+          <div class="page-header-top">
+            <div>
+              <div class="page-title">Loan Eligibility Bot (Live API)</div>
+              <div class="page-subtitle">Interact with the LoanEligibilityRAGAgent in real-time. It uses decision matrices to assess eligibility.</div>
+            </div><span class="page-tag tag-agentic">Live API</span>
+          </div>
+        </div>
+        <div class="live-bot-container">
+          <div class="live-bot-input-area">
+            <input type="text" id="input-loan" class="live-bot-input" placeholder="e.g., Calculate max personal loan for 35k income and 12k existing EMI">
+            <button class="live-bot-btn" id="btn-loan" onclick="runLiveQuery('loan')">Assess Eligibility</button>
+          </div>
+          <div class="live-bot-results">
+            <div class="live-bot-graph">
+              <h3 style="font-size:14px;color:var(--slate);margin-bottom:12px;font-family:'IBM Plex Mono',monospace">Agent Thought Graph</h3>
+              <div id="graph-loan"></div>
+            </div>
+            <div class="live-bot-final">
+              <h3 style="font-size:14px;color:var(--slate);margin-bottom:12px;font-family:'IBM Plex Mono',monospace">Final Synthesized Output</h3>
+              <div id="final-loan" class="final-output-text">Results will appear here...</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /main -->
+  </div><!-- /layout -->
+
+  <!-- ── APPROVAL MODAL ── -->
+  <div class="modal-overlay" id="approval-modal">
+    <div class="modal">
+      <div class="modal-header">
+        <div>
+          <div class="modal-title">Submit to Credit Committee</div>
+          <div style="font-size:12px;color:var(--slate-dim);margin-top:4px">Credit Note CN-2026-0441 · Bharat Forge Ltd
+            · ₹350 Cr Term Loan</div>
+        </div>
+        <button class="modal-close" onclick="closeApprovalModal()">✕</button>
+      </div>
+      <div class="alert-success" style="margin-bottom:18px">✅ AI validation complete — all guardrails passed. 1 flag
+        noted (director succession — documented).</div>
+      <div style="font-size:12.5px;color:var(--slate);margin-bottom:16px;line-height:1.8">
+        The credit note will be dispatched to the Zonal Credit Committee with all supporting data, AI confidence scores,
+        audit trail, and officer sign-off attached. The system will track approval status and notify Rahul Shenoy upon
+        decision.
+      </div>
+      <div style="display:flex;gap:8px;justify-content:flex-end">
+        <button class="btn btn-ghost" onclick="closeApprovalModal()">Cancel</button>
+        <button class="btn btn-primary" onclick="submitApproval()">📤 Confirm Submission</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── STATUS BAR ── -->
+  <div class="status-bar">
+    <div class="status-item">
+      <div class="status-dot" style="background:var(--green);animation:pulse 1.8s infinite"></div> AI: Online
+    </div>
+    <div class="status-item">
+      <div class="status-dot" style="background:var(--green)"></div> 5 Agents Active
+    </div>
+    <div class="status-item" style="flex:1;overflow:hidden;margin:0 12px">
+      <span style="color:var(--ey-yellow);margin-right:6px;font-size:9px">▶ LIVE</span>
+      <span id="activity-ticker" style="transition:opacity 0.3s;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">⚡ Credit memo CN-2026-0441 advanced to Review stage</span>
+    </div>
+    <div>Bank · EY AI · 7 May 2026 · <span id="live-clock-bar" style="color:var(--slate)">--:--</span></div>
+  </div>
+
+
+  <!-- ══════════════════════ SCRIPTS ══════════════════════ -->
+  <script>
+    // --- LIVE API LOGIC ---
+    let sessionIds = { policy: null, loan: null };
+
+    async function runLiveQuery(type) {
+      const inputEl = document.getElementById(`input-${type}`);
+      const btnEl = document.getElementById(`btn-${type}`);
+      const graphEl = document.getElementById(`graph-${type}`);
+      const finalEl = document.getElementById(`final-${type}`);
+      
+      const query = inputEl.value.trim();
+      if (!query) return;
+
+      // Reset UI
+      btnEl.disabled = true;
+      btnEl.textContent = "Processing...";
+      graphEl.innerHTML = '<div class="loader"></div><div style="text-align:center;color:var(--slate-dim);font-size:12px;margin-top:10px">Orchestrating Agents...</div>';
+      finalEl.innerHTML = '';
+
+      try {
+        const payload = { query: query };
+        if (sessionIds[type]) payload.session_id = sessionIds[type];
+
+        const response = await fetch('http://localhost:8000/api/v1/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        if (!response.ok) {
+          throw new Error(`Server returned ${response.status}: ${await response.text()}`);
+        }
+
+        const data = await response.json();
+        sessionIds[type] = data.session_id;
+
+        console.log("AUDIT TRAIL RECEIVED:", data.audit_trail);
+        renderLiveGraph(graphEl, data.audit_trail);
+        finalEl.innerHTML = data.final ? data.final.replace(/\n/g, '<br>') : "No final output returned.";
+
+      } catch (err) {
+        graphEl.innerHTML = `<div style="color:var(--red);padding:10px;border:1px solid var(--red);border-radius:4px">Error: ${err.message}</div>`;
+        finalEl.innerHTML = '';
+      } finally {
+        btnEl.disabled = false;
+        btnEl.textContent = type === 'policy' ? "Ask Policy Bot" : "Assess Eligibility";
+        inputEl.value = '';
+      }
+    }
+
+    function renderLiveGraph(container, steps) {
+      if (!steps || !steps.length) {
+        container.innerHTML = '<div style="color:var(--slate-dim)">No intermediate steps available.</div>';
+        return;
+      }
+      
+      let html = '<div class="graph-container">';
+      steps.forEach((step, idx) => {
+        let inputStr = typeof step.input === 'object' ? JSON.stringify(step.input, null, 2) : step.input;
+        let findingStr = typeof step.finding === 'object' ? JSON.stringify(step.finding, null, 2) : step.finding;
+        
+        html += `<div class="graph-node" style="animation:fadeIn 0.4s ease-out ${idx * 0.15}s both">
+          <div class="node-header">
+            <span style="color:var(--ey-yellow);font-weight:600">${step.action.toUpperCase()}</span>
+            <span>STEP ${step.step}</span>
+          </div>
+          <div class="node-content">
+            <div style="color:var(--slate);margin-bottom:8px;font-size:11px;font-weight:600">AGENT: ${step.agent}</div>
+            
+            <div style="color:var(--slate-dim);margin-bottom:4px;font-size:10px;text-transform:uppercase;letter-spacing:0.5px">Input</div>
+            <div style="background:rgba(0,0,0,0.3);padding:8px;border-radius:4px;margin-bottom:12px;font-family:'IBM Plex Mono',monospace;font-size:11px;max-height:80px;overflow-y:auto;border:1px solid rgba(255,255,255,0.05)">${inputStr}</div>
+            
+            <div style="color:var(--slate-dim);margin-bottom:4px;font-size:10px;text-transform:uppercase;letter-spacing:0.5px">Finding</div>
+            <div style="background:rgba(46,204,113,0.05);padding:8px;border-radius:4px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--green);max-height:120px;overflow-y:auto;border:1px solid rgba(46,204,113,0.1)">${findingStr}</div>
+          </div>
+        </div>`;
+        
+        if (idx < steps.length - 1) {
+          html += '<div class="node-connector"></div>';
+        }
+      });
+      html += '</div>';
+      container.innerHTML = html;
+    }
+
+    // ── NAV ──
+    function showTab(id) {
+      document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+      const pane = document.getElementById('tab-' + id);
+      if (pane) pane.classList.add('active');
+      // Highlight nav
+      document.querySelectorAll('.nav-item').forEach(item => {
+        if (item.getAttribute('onclick') && item.getAttribute('onclick').includes("'" + id + "'")) {
+          item.classList.add('active');
+        }
+      });
+    }
+
+    // ── GROUP TOGGLE ──
+    function toggleGroup(id) {
+      const ch = document.getElementById('grp-' + id + '-ch');
+      const hdr = document.getElementById('grp-' + id);
+      if (!ch) return;
+      const isOpen = ch.classList.contains('open');
+      ch.classList.toggle('open', !isOpen);
+      hdr.classList.toggle('open', !isOpen);
+    }
+
+    // ── CREDIT NOTE VIEWS ──
+    function showCrdView(view) {
+      document.getElementById('crd-dashboard').style.display = view === 'dashboard' ? 'block' : 'none';
+      document.getElementById('crd-note').style.display = view === 'note' ? 'block' : 'none';
+      if (view === 'note') {
+        renderNoteSections();
+        cnStep(2); // default to AI draft step
+      }
+    }
+
+    // ── CREDIT NOTE STEPS ──
+    const crdStepData = {
+      0: { label: '01', text: '✓ Initiation' },
+      1: { label: '02', text: '✓ Data Fetch' },
+      2: { label: '03', text: '⬤ AI Draft' },
+      3: { label: '04', text: 'Edit & Validate' },
+      4: { label: '05', text: 'Review & Approve' }
+    };
+    function cnStep(n) {
+      // Update steps
+      document.querySelectorAll('.step-item').forEach((el, i) => {
+        el.classList.remove('done', 'active');
+        if (i < n) el.classList.add('done');
+        else if (i === n) el.classList.add('active');
+      });
+      // Show pane
+      document.querySelectorAll('.cn-pane').forEach((p, i) => {
+        p.style.display = i === n ? 'block' : 'none';
+      });
+    }
+
+    // ── RENDER NOTE SECTIONS ──
+    const noteSections = [
+      { title: '1. Borrower Identification', content: 'Bharat Forge Ltd — CIF 7803241 · Incorporated 1961 · Listed BSE/NSE · CIN L29299PN1961PLC012344', confidence: 99, status: 'verified' },
+      { title: '2. Facility Details', content: 'Term Loan ₹350 Cr · Tenor: 7 years · Purpose: Capacity Expansion — Forge Line 4 · Rate: MCLR + 0.85%', confidence: 99, status: 'verified' },
+      { title: '3. Management Profile', content: 'B.N. Kalyani — CMD · Amit Kalyani — MD. Board comprises 8 directors. Director DIN 07654321 flagged as struck-off in MCA.', confidence: 82, status: 'flagged' },
+      { title: '4. Financial Analysis — FY25', content: 'Revenue ₹4,280 Cr (↑18% YoY) · EBITDA ₹941 Cr · PAT ₹312 Cr · D/E Ratio 2.1x (Industry: 2.8x) · ICR 4.2x', confidence: 96, status: 'verified' },
+      { title: '5. Cash Flow Analysis', content: 'Net Operating CF: ₹680 Cr · DSCR: 1.45x (Min required: 1.25x) · Working Capital Cycle: 68 days · 12M forecast generated via GST linkage', confidence: 91, status: 'verified' },
+      { title: '6. Risk Assessment', content: 'Risk Rating: BB+ / Low-Moderate. Key risks: Director succession (flagged), sector cyclicality. Mitigants: Strong balance sheet, diversified client base.', confidence: 81, status: 'ai-generated' },
+      { title: '7. Security & Collateral', content: 'Primary: Equitable mortgage of factory premises Pune ₹210 Cr · Collateral: Plant & Machinery ₹180 Cr · CERSAI charge ₹240 Cr (noted)', confidence: 88, status: 'verified' },
+      { title: '8. Shareholding (SEBI)', content: 'PENDING — SEBI API data fetch in progress. Section will auto-populate. Promoter holding approx. 46% per last quarter filing.', confidence: 40, status: 'pending' },
+      { title: '9. Regulatory Compliance', content: 'KYC updated · LEI Valid (Sep 2026) · ITR filed AY 2024-25 · GST compliant · No RBI defaulter list flags', confidence: 97, status: 'verified' },
+    ];
+    function renderNoteSections() {
+      const el = document.getElementById('note-sections');
+      if (!el) return;
+      el.innerHTML = noteSections.map((s, i) => {
+        const color = s.status === 'flagged' ? 'var(--amber)' : s.status === 'pending' ? 'var(--slate-dim)' : s.status === 'ai-generated' ? 'var(--AI-purple)' : 'var(--green)';
+        const badge = s.status === 'flagged' ? '<span class="badge badge-amber">⚠ Flagged</span>' : s.status === 'pending' ? '<span class="badge badge-dim">⏳ Pending</span>' : s.status === 'ai-generated' ? '<span class="badge badge-AI">AI</span>' : '<span class="badge badge-green">✓</span>';
+        return `<div style="padding:10px 0;border-bottom:1px solid var(--border-subtle)">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:5px">
+        <div style="font-size:12px;font-weight:600;color:var(--white)">${s.title}</div>
+        <div style="display:flex;align-items:center;gap:6px">${badge}<span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:${color}">${s.confidence}%</span></div>
+      </div>
+      <div style="font-size:11.5px;color:var(--slate-dim);line-height:1.6">${s.content}</div>
+    </div>`;
+      }).join('');
+    }
+
+    // ── SELF-CURE CHAT ──
+    const selfCureResponses = [
+      "ज़रूर! आपका अनुरोध प्रोसेस हो रहा है। कृपया एक क्षण प्रतीक्षा करें। (Processing your request, please wait.)",
+      "आपकी सेवा के लिए यह कार्य हो गया है। क्या आपको कोई और सहायता चाहिए? (Done! Is there anything else I can help you with?)",
+      "मैंने आपका अनुरोध नोट कर लिया है। हमारा एजेंट आपसे 2 घंटे में संपर्क करेगा। (Noted. Our agent will contact you within 2 hours.)",
+      "यह सुविधा आपके लिए 24x7 उपलब्ध है। (This service is available for you 24x7.)"
+    ];
+    let scIdx = 0;
+    function sendSelfCureMsg() {
+      const input = document.getElementById('selfcure-input');
+      const chat = document.getElementById('selfcure-chat');
+      if (!input.value.trim()) return;
+      chat.innerHTML += `<div class="chat-msg user"><div class="chat-sender">Customer</div><div class="bubble">${input.value}</div></div>`;
+      const userMsg = input.value;
+      input.value = '';
+      chat.innerHTML += `<div class="chat-msg ai" id="sc-typing"><div class="chat-sender">AI Bot</div><div class="bubble"><div class="loading-dots"><span class="ldot"></span><span class="ldot"></span><span class="ldot"></span></div></div></div>`;
+      chat.scrollTop = chat.scrollHeight;
+      setTimeout(() => {
+        const typing = document.getElementById('sc-typing');
+        if (typing) typing.remove();
+        const resp = selfCureResponses[scIdx % selfCureResponses.length];
+        scIdx++;
+        chat.innerHTML += `<div class="chat-msg ai"><div class="chat-sender">AI Bot · Multilingual Agent</div><div class="bubble">${resp}</div></div>`;
+        chat.scrollTop = chat.scrollHeight;
+      }, 1200);
+    }
+
+    // ── MODAL ──
+    function showApprovalModal() { document.getElementById('approval-modal').classList.add('open'); }
+    function closeApprovalModal() { document.getElementById('approval-modal').classList.remove('open'); }
+    function submitApproval() {
+      closeApprovalModal();
+      // Show success state
+      showTab('uc-credit-memo');
+      setTimeout(() => {
+        const dashboard = document.getElementById('crd-dashboard');
+        const note = document.getElementById('crd-note');
+        if (note) note.style.display = 'none';
+        if (dashboard) dashboard.style.display = 'block';
+      }, 100);
+      // Brief flash
+      setTimeout(() => {
+        const success = document.createElement('div');
+        success.className = 'alert-success';
+        success.style.cssText = 'position:fixed;top:70px;right:24px;z-index:999;padding:12px 20px;border-radius:8px;animation:fadeIn 0.3s;';
+        success.innerHTML = '✅ Credit Note CN-2026-0441 submitted to Credit Committee. Tracking active.';
+        document.body.appendChild(success);
+        setTimeout(() => success.remove(), 4000);
+      }, 200);
+    }
+
+
+    // ── INIT ──
+    document.addEventListener('DOMContentLoaded', () => {
+      // Animate reuse bars
+      setTimeout(() => {
+        document.querySelectorAll('.reuse-fill').forEach(el => {
+          const w = el.style.width;
+          el.style.width = '0%';
+          setTimeout(() => { el.style.width = w; }, 100);
+        });
+      }, 300);
+      
+      // Start live updates
+      startLiveUpdates();
+      updateClock();
+      setInterval(updateClock, 1000);
+      setInterval(() => {
+        const now = new Date();
+        const t = now.toLocaleTimeString('en-IN', {hour:'2-digit', minute:'2-digit', hour12:false});
+        const bar = document.getElementById('live-clock-bar');
+        if(bar) bar.textContent = t;
+      }, 1000);
+      
+      // Auto-run credit demo simulation on credit memo tab
+      document.querySelectorAll('.nav-item').forEach(item => {
+        item.addEventListener('click', function() {
+          const tabId = this.getAttribute('onclick');
+          if(tabId && tabId.includes('uc-credit-memo')) {
+            setTimeout(() => animateCreditDemoIfVisible(), 500);
+          }
+        });
+      });
+    });
+
+    // ── LIVE CLOCK ──
+    function updateClock() {
+      const now = new Date();
+      const timeStr = now.toLocaleTimeString('en-IN', {hour:'2-digit', minute:'2-digit', second:'2-digit', hour12:false});
+      const el = document.getElementById('live-clock');
+      if(el) el.textContent = timeStr;
+    }
+
+    // ── LIVE METRIC UPDATES ──
+    const liveMetrics = {
+      'lm-active-calls': { base: 308, variance: 12, suffix: '', color: 'var(--teal)' },
+      'lm-docs-checked': { base: 142, variance: 5, suffix: '', color: 'var(--green)' },
+      'lm-self-cure': { base: 84, variance: 3, suffix: 'K', color: 'var(--green)' },
+      'lm-policy-queries': { base: 2100, variance: 80, suffix: '', color: 'var(--white)' },
+    };
+    
+    function startLiveUpdates() {
+      setInterval(() => {
+        // Also update overview strip
+        const ovEl = document.getElementById('lm-active-calls');
+        if(ovEl) {
+          const cur = parseInt(ovEl.dataset.val || 312);
+          const nv = Math.max(290, cur + Math.floor((Math.random()-0.4)*8));
+          ovEl.dataset.val = nv;
+          ovEl.textContent = nv;
+        }
+        Object.entries(liveMetrics).forEach(([id, cfg]) => {
+          const el = document.getElementById(id);
+          if(!el) return;
+          const delta = Math.floor((Math.random() - 0.4) * cfg.variance);
+          const current = parseInt(el.dataset.val || cfg.base);
+          const newVal = Math.max(cfg.base - cfg.variance, current + delta);
+          el.dataset.val = newVal;
+          const display = newVal >= 1000 ? (newVal/1000).toFixed(1)+'K' : newVal + cfg.suffix;
+          el.textContent = display;
+          el.style.color = cfg.color;
+          // Flash animation
+          el.style.transition = 'all 0.4s';
+          el.style.opacity = '0.5';
+          setTimeout(() => { el.style.opacity = '1'; }, 400);
+        });
+        // Update status bar agent count
+        const agentTick = document.getElementById('agent-tick');
+        if(agentTick) {
+          const ops = ['Processing', 'Analyzing', 'Orchestrating', 'Validating', 'Reasoning'];
+          agentTick.textContent = ops[Math.floor(Math.random()*ops.length)];
+        }
+      }, 4000);
+      
+      // Ticker for activity log
+      startActivityTicker();
+    }
+
+    // ── ACTIVITY TICKER ──
+    const activityEvents = [
+      '⚡ Credit memo CN-2026-0441 advanced to Review stage',
+      '🔵 Multi-Lingual Bot resolved 3 new customer queries',
+      '✅ Document check cleared for Karnataka Weavers CC Limit',
+      '🛡️ Guardrail check passed on new financial analysis section',
+      '📊 Policy Navigator answered 12 RBI queries in last 5 mins',
+      '🎯 Product Recommendation Agent flagged 4 new cross-sell opportunities',
+      '⚠️ Anomaly detected: unusual transaction pattern — Account monitoring active',
+      '💬 Live Co-Pilot active on 312 concurrent calls',
+      '✅ Repayment reminder campaign: 24 payments received this hour',
+      '🔍 AI Confidence Score updated for Bharat Forge — 81% → 83%',
+    ];
+    let tickerIdx = 0;
+    function startActivityTicker() {
+      const ticker = document.getElementById('activity-ticker');
+      if(!ticker) return;
+      setInterval(() => {
+        tickerIdx = (tickerIdx + 1) % activityEvents.length;
+        ticker.style.opacity = '0';
+        setTimeout(() => {
+          ticker.textContent = activityEvents[tickerIdx];
+          ticker.style.opacity = '1';
+        }, 300);
+      }, 3500);
+    }
+
+    // ── ANIMATED CREDIT DEMO ──
+    function animateCreditWorkflow() {
+      // Auto step through the workflow to show it's live
+      showCrdView('note');
+      cnStep(0);
+      const steps = [1, 2, 3, 4];
+      steps.forEach((step, i) => {
+        setTimeout(() => { cnStep(step); }, (i+1) * 1200);
+      });
+    }
+
+    // ── ENHANCED SEBI DATA RESOLVE (DEMO) ──
+    function resolveSebiData() {
+      const btn = event.target;
+      btn.textContent = '⟳ Fetching SEBI data...';
+      btn.disabled = true;
+      setTimeout(() => {
+        // Update the SEBI section in noteSections
+        noteSections[7] = {
+          title: '8. Shareholding (SEBI)',
+          content: 'Promoter holding: 46.3% · FII: 18.2% · DII: 14.1% · Public: 21.4% — As per SEBI quarterly filing Q3 FY25. No pledge reported.',
+          confidence: 94,
+          status: 'verified'
+        };
+        renderNoteSections();
+        showToast('✅ SEBI shareholding data loaded successfully — Section 8 updated');
+        btn.textContent = '✅ Resolved';
+      }, 2000);
+    }
+
+    // ── TOAST NOTIFICATION ──
+    function showToast(msg, type) {
+      if (!type) type = 'success';
+      var toast = document.createElement('div');
+      var colorMap = { success: 'var(--green)', warn: 'var(--amber)', info: 'var(--teal)' };
+      var c = colorMap[type] || colorMap.success;
+      toast.style.cssText = 'position:fixed;top:70px;right:24px;z-index:9999;padding:12px 20px;border-radius:8px;background:rgba(14,30,54,0.98);border:1px solid ' + c + ';color:' + c + ';font-size:12.5px;max-width:420px;line-height:1.5;animation:fadeIn 0.3s;box-shadow:0 4px 24px rgba(0,0,0,0.4);';
+      toast.textContent = msg;
+      document.body.appendChild(toast);
+      setTimeout(function() { toast.style.opacity='0'; toast.style.transition='opacity 0.5s'; }, 3500);
+      setTimeout(function() { if(toast.parentNode) toast.parentNode.removeChild(toast); }, 4000);
+    }
+
+    // ── AGENT PULSE ANIMATION ──
+    function pulseAgent(agentId) {
+      const el = document.getElementById(agentId);
+      if(!el) return;
+      el.classList.add('running');
+      setTimeout(() => el.classList.remove('running'), 2000);
+    }
+  </script>
+</body>
+
+</html>
