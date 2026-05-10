@@ -2,12 +2,26 @@ import json
 import logging
 import importlib
 from groq import Groq
-from banking_agents.config.settings import get_groq_client, MODEL_ORCHESTRATOR
+from banking_agents.config.settings import (
+    get_groq_client,
+    MODEL_ORCHESTRATOR,
+    MODEL_INTENT_CLASSIFIER,
+    MODEL_TASK_DECOMPOSER,
+    MODEL_POLICY_RAG_DEFAULT,
+    MODEL_LOAN_ELIGIBILITY,
+)
 from banking_agents.communication.message import UserQuery, AgentContext, AgentResponse
 from banking_agents.agents.reusable.intent_classifier import IntentClassifierAgent
 from banking_agents.agents.reusable.task_decomposer import TaskDecomposerAgent
 
 logger = logging.getLogger(__name__)
+
+TOOL_MODEL_MAP = {
+    "classify_intent":       MODEL_INTENT_CLASSIFIER,
+    "decompose_task":        MODEL_TASK_DECOMPOSER,
+    "consult_policy_expert": MODEL_POLICY_RAG_DEFAULT,
+    "consult_loan_expert":   MODEL_LOAN_ELIGIBILITY,
+}
 
 
 class OrchestratorAgent:
@@ -108,42 +122,89 @@ class OrchestratorAgent:
     # ------------------------------------------------------------------
     # Tool execution dispatcher
     # ------------------------------------------------------------------
-    def _execute_tool(self, tool_name: str, input_data: dict) -> str:
+    def _execute_tool(self, tool_name: str, input_data: dict, audit_trail: list) -> str:
         logger.info("[OrchestratorAgent._execute_tool] >>> Tool: '%s' | Input: %s", tool_name, input_data)
+
+        # Resolve display labels before execution
+        if tool_name == "classify_intent":
+            action      = "Analyzing Intent"
+            agent_label = "Classifier"
+        elif tool_name == "decompose_task":
+            action      = "Strategic Planning"
+            agent_label = "Planner"
+        elif tool_name in self.tool_instances:
+            action      = "Domain Consultation"
+            agent_label = type(self.tool_instances[tool_name]).__name__
+        else:
+            action      = "Unknown"
+            agent_label = tool_name
+
+        # Node 1 — tool dispatch (routing decision, no LLM)
+        audit_trail.append({
+            "step":      len(audit_trail) + 1,
+            "call_type": "tool",
+            "agent":     "Orchestrator",
+            "model":     None,
+            "action":    tool_name,
+            "summary":   f"Dispatching {agent_label}",
+        })
+
         try:
             if tool_name == "classify_intent":
-                logger.debug("[OrchestratorAgent._execute_tool] Delegating to IntentClassifierAgent.classify()")
-                result = self.intent_classifier.classify(input_data["query"])
+                result     = self.intent_classifier.classify(input_data["query"])
+                result_str = json.dumps(result)
+                summary    = f"Intent: {result.get('intent')} (confidence: {result.get('confidence', 0):.0%})"
                 logger.info("[OrchestratorAgent._execute_tool] <<< classify_intent result: %s", result)
-                return json.dumps(result)
 
             elif tool_name == "decompose_task":
-                logger.debug("[OrchestratorAgent._execute_tool] Delegating to TaskDecomposerAgent.decompose()")
                 tasks = self.task_decomposer.decompose(input_data["query"], input_data["intent"])
-                # Apply max_subtasks guardrail to prevent flooding domain agents
                 if len(tasks) > self.max_subtasks:
                     logger.warning(
-                        "[OrchestratorAgent._execute_tool] TaskDecomposer returned %d tasks, truncating to %d (max_subtasks).",
-                        len(tasks), self.max_subtasks
+                        "[OrchestratorAgent._execute_tool] TaskDecomposer returned %d tasks, truncating to %d.",
+                        len(tasks), self.max_subtasks,
                     )
                     tasks = tasks[:self.max_subtasks]
+                result_str = json.dumps(tasks)
+                summary    = f"Split into {len(tasks)} sub-task(s)"
                 logger.info("[OrchestratorAgent._execute_tool] <<< decompose_task result: %s", tasks)
-                return json.dumps(tasks)
 
             elif tool_name in self.tool_instances:
-                logger.debug("[OrchestratorAgent._execute_tool] Delegating to dynamic tool: '%s'", tool_name)
-                input_val = list(input_data.values())[0]
-                result = self.tool_instances[tool_name].answer(input_val)
-                logger.info("[OrchestratorAgent._execute_tool] <<< '%s' result: %d chars", tool_name, len(result))
-                return result
+                input_val  = list(input_data.values())[0]
+                result_str = self.tool_instances[tool_name].answer(input_val)
+                summary    = f"Retrieved answer ({len(result_str)} chars)"
+                logger.info("[OrchestratorAgent._execute_tool] <<< '%s' result: %d chars", tool_name, len(result_str))
 
             else:
                 logger.warning("[OrchestratorAgent._execute_tool] Tool '%s' not found.", tool_name)
-                return f"Error: Tool '{tool_name}' not found."
+                result_str = f"Error: Tool '{tool_name}' not found."
+                summary    = "Tool not found"
+
+            # Node 2 — sub-agent model call (the LLM inference inside the tool)
+            audit_trail.append({
+                "step":      len(audit_trail) + 1,
+                "call_type": "model",
+                "agent":     agent_label,
+                "model":     TOOL_MODEL_MAP.get(tool_name),
+                "action":    action,
+                "summary":   summary,
+                "output":    result_str,
+            })
+
+            return result_str
 
         except Exception as e:
             logger.error("[OrchestratorAgent._execute_tool] Error in tool '%s': %s", tool_name, e, exc_info=True)
-            return f"Error executing {tool_name}: {str(e)}"
+            error_str = f"Error executing {tool_name}: {str(e)}"
+            audit_trail.append({
+                "step":      len(audit_trail) + 1,
+                "call_type": "model",
+                "agent":     agent_label,
+                "model":     TOOL_MODEL_MAP.get(tool_name),
+                "action":    action,
+                "summary":   f"Error: {str(e)}",
+                "output":    error_str,
+            })
+            return error_str
 
     # ------------------------------------------------------------------
     # Main reasoning loop
@@ -169,6 +230,17 @@ Synthesize a final, polite, and helpful response for the user based on the tool 
         while iteration < self.max_iterations:
             iteration += 1
             logger.debug("[OrchestratorAgent.run] --- Iteration #%d | Messages: %d ---", iteration, len(messages))
+
+            # Orchestrator model call node — reasoning step
+            audit_trail.append({
+                "step":      len(audit_trail) + 1,
+                "call_type": "model",
+                "agent":     "Orchestrator",
+                "model":     self.model_id,
+                "action":    "Reasoning",
+                "summary":   f"Deciding next step (iteration {iteration})",
+            })
+
             logger.info("[OrchestratorAgent.run] Calling Groq API | Model: %s", self.model_id)
 
             try:
@@ -210,15 +282,12 @@ Synthesize a final, polite, and helpful response for the user based on the tool 
             if choice.finish_reason != "tool_calls" or not assistant_message.tool_calls:
                 final_text = assistant_message.content or ""
                 logger.info("[OrchestratorAgent.run] <<< Done after %d iteration(s). Returning response.", iteration)
-                
-                # Add final synthesis as an audit step
-                audit_trail.append({
-                    "step": len(audit_trail) + 1,
-                    "action": "Final Synthesis",
-                    "agent": "Orchestrator",
-                    "input": "Synthesize all agent findings into a cohesive response.",
-                    "finding": final_text
-                })
+
+                # Promote the last reasoning node to Final Synthesis in-place
+                # (same Groq call — no need for a separate node)
+                audit_trail[-1]["action"]  = "Final Synthesis"
+                audit_trail[-1]["summary"] = "Composing final response"
+                audit_trail[-1]["output"]  = final_text
 
                 context.history.append({"user": user_query.query, "assistant": final_text})
                 print(f"\n[DEBUG] AUDIT TRAIL LOG: {json.dumps(audit_trail, indent=2)}\n")
@@ -235,28 +304,7 @@ Synthesize a final, polite, and helpful response for the user based on the tool 
                 tool_id    = tool_call.id
 
                 logger.debug("[OrchestratorAgent.run] Tool call: '%s' (id: %s)", tool_name, tool_id)
-                result_str = self._execute_tool(tool_name, tool_input)
-
-                # Determine semantic action label
-                action = "Domain Consultation"
-                agent_label = tool_name
-                if tool_name == "classify_intent":
-                    action = "Analyzing Intent"
-                    agent_label = "Classifier"
-                elif tool_name == "decompose_task":
-                    action = "Strategic Planning"
-                    agent_label = "Planner"
-                elif tool_name in self.tool_instances:
-                    agent_label = type(self.tool_instances[tool_name]).__name__
-
-                # Record audit step
-                audit_trail.append({
-                    "step": len(audit_trail) + 1,
-                    "action": action,
-                    "agent": agent_label,
-                    "input": tool_input,
-                    "finding": result_str
-                })
+                result_str = self._execute_tool(tool_name, tool_input, audit_trail)
 
                 # Groq tool result format
                 messages.append({
