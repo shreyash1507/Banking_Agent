@@ -1529,26 +1529,41 @@
       height: 5px;
       border-radius: 50%;
     }
-    
+
     /* ── LIVE UPDATE FLASH ── */
     @keyframes flashGreen {
-      0% { color: var(--white); }
-      30% { color: var(--green); }
-      100% { color: var(--white); }
+      0% {
+        color: var(--white);
+      }
+
+      30% {
+        color: var(--green);
+      }
+
+      100% {
+        color: var(--white);
+      }
     }
+
     .stat-value[data-val] {
       transition: opacity 0.4s;
     }
-    
+
     /* ── AGENT RUNNING PULSE ── */
     .agent-node-box.running {
       animation: agentPulse 0.8s infinite alternate;
     }
+
     @keyframes agentPulse {
-      from { box-shadow: 0 0 0 0 rgba(0,196,204,0.3); }
-      to { box-shadow: 0 0 12px 4px rgba(0,196,204,0.15); }
+      from {
+        box-shadow: 0 0 0 0 rgba(0, 196, 204, 0.3);
+      }
+
+      to {
+        box-shadow: 0 0 12px 4px rgba(0, 196, 204, 0.15);
+      }
     }
-    
+
     /* ── IMPROVED STEP FLOW ── */
     .step-flow {
       background: var(--surface);
@@ -1556,30 +1571,35 @@
       border-radius: 10px;
       padding: 4px;
     }
+
     .step-item {
       border-radius: 7px !important;
       border: none !important;
     }
+
     .step-item.done {
       background: rgba(46, 204, 113, 0.08) !important;
     }
+
     .step-item.active {
       background: rgba(255, 230, 0, 0.12) !important;
     }
-    
+
     /* ── HOVER LIFT ── */
     .stat-card {
       transition: all 0.2s;
     }
+
     .stat-card:hover {
       transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
     }
-    
+
     /* ── OVERVIEW PULSE METRIC ── */
     .live-metric {
       position: relative;
     }
+
     .live-metric::after {
       content: '';
       position: absolute;
@@ -1591,7 +1611,7 @@
       background: var(--green);
       animation: pulse 2s infinite;
     }
-  
+
     /* --- NEW LIVE BOTS CSS --- */
     .live-bot-container {
       display: flex;
@@ -1599,12 +1619,14 @@
       gap: 20px;
       height: calc(100vh - 120px);
     }
+
     .live-bot-input-area {
       background: var(--surface);
       border: 1px solid var(--border-subtle);
       border-radius: 8px;
       padding: 20px;
     }
+
     .live-bot-input {
       width: 100%;
       padding: 12px 16px;
@@ -1617,10 +1639,12 @@
       outline: none;
       transition: all 0.2s;
     }
+
     .live-bot-input:focus {
       border-color: var(--ey-yellow);
       box-shadow: 0 0 0 2px rgba(255, 230, 0, 0.1);
     }
+
     .live-bot-btn {
       margin-top: 10px;
       background: var(--ey-yellow);
@@ -1633,23 +1657,32 @@
       font-size: 14px;
       transition: opacity 0.2s;
     }
-    .live-bot-btn:hover { opacity: 0.9; }
-    .live-bot-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-    
+
+    .live-bot-btn:hover {
+      opacity: 0.9;
+    }
+
+    .live-bot-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
     .live-bot-results {
       flex: 1;
       display: flex;
       padding: 20px;
       width: 100%;
     }
+
     .live-bot-graph {
       min-height: 300px;
       overflow-x: auto;
     }
+
     .live-bot-final {
       min-height: 200px;
     }
-    
+
     .graph-container {
       display: flex;
       align-items: center;
@@ -1665,14 +1698,15 @@
       width: 320px;
       flex-shrink: 0;
       position: relative;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
       transition: transform 0.2s;
     }
+
     .graph-node:hover {
       transform: translateY(-2px);
       border-color: var(--ey-yellow);
     }
-    
+
     .node-connector {
       width: 40px;
       height: 2px;
@@ -1680,6 +1714,7 @@
       flex-shrink: 0;
       position: relative;
     }
+
     .node-connector::after {
       content: '▶';
       position: absolute;
@@ -1689,6 +1724,7 @@
       color: var(--border-subtle);
       font-size: 12px;
     }
+
     .node-header {
       font-family: 'IBM Plex Mono', monospace;
       font-size: 11px;
@@ -1697,18 +1733,21 @@
       display: flex;
       justify-content: space-between;
     }
+
     .node-content {
       font-size: 13px;
       color: var(--white);
       white-space: pre-wrap;
       word-wrap: break-word;
     }
+
     .final-output-text {
       font-size: 15px;
       line-height: 1.6;
       color: var(--white);
       white-space: pre-wrap;
     }
+
     .loader {
       border: 3px solid var(--surface2);
       border-top: 3px solid var(--ey-yellow);
@@ -1718,9 +1757,18 @@
       animation: spin 1s linear infinite;
       margin: 20px auto;
     }
-    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-  
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+
     /* --- NEW LIVE BOTS CSS --- */
     .live-bot-container {
       display: flex;
@@ -1728,12 +1776,14 @@
       gap: 20px;
       height: calc(100vh - 120px);
     }
+
     .live-bot-input-area {
       background: var(--surface);
       border: 1px solid var(--border-subtle);
       border-radius: 8px;
       padding: 20px;
     }
+
     .live-bot-input {
       width: 100%;
       padding: 12px 16px;
@@ -1746,10 +1796,12 @@
       outline: none;
       transition: all 0.2s;
     }
+
     .live-bot-input:focus {
       border-color: var(--ey-yellow);
       box-shadow: 0 0 0 2px rgba(255, 230, 0, 0.1);
     }
+
     .live-bot-btn {
       margin-top: 10px;
       background: var(--ey-yellow);
@@ -1762,15 +1814,24 @@
       font-size: 14px;
       transition: opacity 0.2s;
     }
-    .live-bot-btn:hover { opacity: 0.9; }
-    .live-bot-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-    
+
+    .live-bot-btn:hover {
+      opacity: 0.9;
+    }
+
+    .live-bot-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
     .live-bot-results {
       display: flex;
       flex-direction: column;
       gap: 20px;
     }
-    .live-bot-graph, .live-bot-final {
+
+    .live-bot-graph,
+    .live-bot-final {
       background: var(--surface);
       border: 1px solid var(--border-subtle);
       border-radius: 8px;
@@ -1778,16 +1839,17 @@
       overflow-x: auto;
       overflow-y: hidden;
     }
-    
+
     .graph-node {
       background: var(--surface2);
       border-left: 3px solid var(--ey-yellow);
       border-radius: 4px;
-      padding: 12px;
+      padding: 8px;
       flex-shrink: 0;
-      width: 280px;
+      width: 340px;
       position: relative;
     }
+
     .graph-node::before {
       content: '';
       position: absolute;
@@ -1797,27 +1859,34 @@
       height: 2px;
       background: var(--border-subtle);
     }
-    .graph-node:first-child::before { display: none; }
+
+    .graph-node:first-child::before {
+      display: none;
+    }
+
     .node-header {
       font-family: 'IBM Plex Mono', monospace;
       font-size: 11px;
       color: var(--slate);
-      margin-bottom: 6px;
+      margin-bottom: 24px;
       display: flex;
       justify-content: space-between;
     }
+
     .node-content {
       font-size: 13px;
       color: var(--white);
-      white-space: pre-wrap;
+      white-space: normal;
       word-wrap: break-word;
     }
+
     .final-output-text {
       font-size: 15px;
       line-height: 1.6;
       color: var(--white);
       white-space: pre-wrap;
     }
+
     .loader {
       border: 3px solid var(--surface2);
       border-top: 3px solid var(--ey-yellow);
@@ -1827,8 +1896,16 @@
       animation: spin 1s linear infinite;
       margin: 20px auto;
     }
-    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
   </style>
 </head>
 
@@ -1849,7 +1926,8 @@
     </div>
     <div class="header-right">
       <div class="header-pill">All Systems Operational</div>
-      <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--slate-dim);display:flex;align-items:center;gap:6px;">
+      <div
+        style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--slate-dim);display:flex;align-items:center;gap:6px;">
         <span style="color:var(--green);font-size:10px">●</span>
         <span id="live-clock">--:--:--</span>
       </div>
@@ -1925,26 +2003,38 @@
 
       <div class="sidebar-divider"></div>
 
-      
-        <div class="nav-section">LIVE BOTS (API INTEGRATED)</div>
-        <div class="nav-item nav-sub" onclick="showTab('live-policy')">
-          <div style="display:flex;align-items:center;gap:8px">
-            <div style="width:16px;height:16px;border-radius:4px;background:rgba(46,204,113,0.15);display:flex;align-items:center;justify-content:center;color:var(--green)">
-              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-            </div>
-            Policy Bot
-          </div>
-        </div>
-        <div class="nav-item nav-sub" onclick="showTab('live-loan')">
-          <div style="display:flex;align-items:center;gap:8px">
-            <div style="width:16px;height:16px;border-radius:4px;background:rgba(46,204,113,0.15);display:flex;align-items:center;justify-content:center;color:var(--green)">
-              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
-            </div>
-            Loan Eligibility Bot
-          </div>
-        </div>
 
-        <!-- WAVE 1 USE CASES -->
+      <div class="sidebar-section-label">LIVE BOTS (API INTEGRATED)</div>
+      <div class="nav-item nav-sub" onclick="showTab('live-policy')">
+        <div style="display:flex;align-items:center;gap:8px">
+          <div
+            style="width:16px;height:16px;border-radius:4px;background:rgba(46,204,113,0.15);display:flex;align-items:center;justify-content:center;color:var(--green)">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+              <polyline points="10 9 9 9 8 9"></polyline>
+            </svg>
+          </div>
+          Policy Bot
+        </div>
+      </div>
+      <div class="nav-item nav-sub" onclick="showTab('live-loan')">
+        <div style="display:flex;align-items:center;gap:8px">
+          <div
+            style="width:16px;height:16px;border-radius:4px;background:rgba(46,204,113,0.15);display:flex;align-items:center;justify-content:center;color:var(--green)">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="16" x2="12" y2="12"></line>
+              <line x1="12" y1="8" x2="12.01" y2="8"></line>
+            </svg>
+          </div>
+          Loan Eligibility Bot
+        </div>
+      </div>
+
+      <!-- WAVE 1 USE CASES -->
       <div class="sidebar-section-label">Wave 1 Use Cases</div>
       <div class="nav-group-header open" id="grp-credit" onclick="toggleGroup('credit')">
         <span class="nav-icon">🏦</span> Credit & Risk
@@ -1953,7 +2043,7 @@
       <div class="nav-group-children open" id="grp-credit-ch">
         <div class="nav-item nav-sub" onclick="showTab('uc-credit-memo')">
           <span class="nav-icon">📝</span> Credit Memo Generator
-          
+
         </div>
         <div class="nav-item nav-sub" onclick="showTab('uc-doc-checker')">
           <span class="nav-icon">✅</span> Document Checker BOT
@@ -2030,7 +2120,9 @@
             <div style="display:flex;gap:8px;align-items:center;flex-shrink:0;">
               <span class="page-tag tag-AI">✦ Already in AI</span>
               <span class="page-tag tag-wave1">Wave 1</span>
-              <button class="btn btn-primary btn-sm" onclick="showTab('uc-credit-memo');setTimeout(()=>showToast('🚀 Credit Memo Generator activated — all 5 agent layers online','info'),500)">▶ Launch Demo</button>
+              <button class="btn btn-primary btn-sm"
+                onclick="showTab('uc-credit-memo');setTimeout(()=>showToast('🚀 Credit Memo Generator activated — all 5 agent layers online','info'),500)">▶
+                Launch Demo</button>
             </div>
           </div>
         </div>
@@ -2060,27 +2152,42 @@
         </div>
 
         <!-- LIVE AGENT ACTIVITY STRIP -->
-        <div style="background:var(--surface);border:1px solid var(--border-subtle);border-radius:10px;padding:12px 18px;margin-bottom:18px;display:flex;align-items:center;gap:20px;overflow:hidden">
-          <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--ey-yellow);text-transform:uppercase;letter-spacing:0.1em;flex-shrink:0">● Live Activity</div>
+        <div
+          style="background:var(--surface);border:1px solid var(--border-subtle);border-radius:10px;padding:12px 18px;margin-bottom:18px;display:flex;align-items:center;gap:20px;overflow:hidden">
+          <div
+            style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--ey-yellow);text-transform:uppercase;letter-spacing:0.1em;flex-shrink:0">
+            ● Live Activity</div>
           <div style="display:flex;gap:16px;flex:1;flex-wrap:wrap">
             <div style="display:flex;align-items:center;gap:8px">
-              <div style="width:8px;height:8px;border-radius:50%;background:var(--green);animation:pulse 1.5s infinite"></div>
-              <span style="font-size:11.5px;color:var(--slate)">Credit Memo Agent — <span style="color:var(--ey-yellow)">Drafting CN-2026-0441</span></span>
+              <div style="width:8px;height:8px;border-radius:50%;background:var(--green);animation:pulse 1.5s infinite">
+              </div>
+              <span style="font-size:11.5px;color:var(--slate)">Credit Memo Agent — <span
+                  style="color:var(--ey-yellow)">Drafting CN-2026-0441</span></span>
             </div>
             <div style="display:flex;align-items:center;gap:8px">
-              <div style="width:8px;height:8px;border-radius:50%;background:var(--teal);animation:pulse 1.5s infinite 0.5s"></div>
-              <span style="font-size:11.5px;color:var(--slate)">Self-Cure Bot — <span style="color:var(--teal)" id="lm-active-calls">312</span> active concurrent sessions</span>
+              <div
+                style="width:8px;height:8px;border-radius:50%;background:var(--teal);animation:pulse 1.5s infinite 0.5s">
+              </div>
+              <span style="font-size:11.5px;color:var(--slate)">Self-Cure Bot — <span style="color:var(--teal)"
+                  id="lm-active-calls">312</span> active concurrent sessions</span>
             </div>
             <div style="display:flex;align-items:center;gap:8px">
-              <div style="width:8px;height:8px;border-radius:50%;background:var(--AI-purple);animation:pulse 1.5s infinite 1s"></div>
-              <span style="font-size:11.5px;color:var(--slate)">Guardrail Engine — <span style="color:var(--green)">All checks passing</span></span>
+              <div
+                style="width:8px;height:8px;border-radius:50%;background:var(--AI-purple);animation:pulse 1.5s infinite 1s">
+              </div>
+              <span style="font-size:11.5px;color:var(--slate)">Guardrail Engine — <span style="color:var(--green)">All
+                  checks passing</span></span>
             </div>
             <div style="display:flex;align-items:center;gap:8px">
-              <div style="width:8px;height:8px;border-radius:50%;background:var(--amber);animation:pulse 1.5s infinite 1.5s"></div>
-              <span style="font-size:11.5px;color:var(--slate)">HITL Gate — <span style="color:var(--amber)">1 pending officer review</span></span>
+              <div
+                style="width:8px;height:8px;border-radius:50%;background:var(--amber);animation:pulse 1.5s infinite 1.5s">
+              </div>
+              <span style="font-size:11.5px;color:var(--slate)">HITL Gate — <span style="color:var(--amber)">1 pending
+                  officer review</span></span>
             </div>
           </div>
-          <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--slate-dim);flex-shrink:0" id="agent-tick">Processing</div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--slate-dim);flex-shrink:0"
+            id="agent-tick">Processing</div>
         </div>
 
         <!-- MAIN ARCHITECTURE VIEW -->
@@ -2185,7 +2292,7 @@
                 <div class="use-case-chip" onclick="showTab('uc-credit-memo')">
                   <div class="use-case-dot" style="background:var(--amber)"></div>
                   Credit Memo Generator
-                  
+
                 </div>
                 <div class="use-case-chip" onclick="showTab('uc-doc-checker')">
                   <div class="use-case-dot" style="background:var(--amber)"></div>
@@ -2271,7 +2378,8 @@
 
         <!-- Alert / CTA -->
         <div class="alert-info" style="display:flex;align-items:center;justify-content:space-between">
-          <span>🎯 Credit Memo Generator — all 5 foundational agent layers orchestrating a complete credit note workflow</span>
+          <span>🎯 Credit Memo Generator — all 5 foundational agent layers orchestrating a complete credit note
+            workflow</span>
           <button class="btn btn-primary btn-sm" onclick="showTab('uc-credit-memo')">Launch Demo →</button>
         </div>
       </div>
@@ -2429,7 +2537,8 @@
           </div>
         </div>
         <div class="alert-info">🔵 Multilingual agents power the <strong>Multi-Lingual Self Cure BOT</strong> and
-          <strong>Live Call Co-Pilot</strong> — both Wave 1 service use cases.</div>
+          <strong>Live Call Co-Pilot</strong> — both Wave 1 service use cases.
+        </div>
       </div>
 
       <!-- FOUNDATIONAL: CONVERSATION -->
@@ -2793,7 +2902,9 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr style="cursor:pointer;transition:background 0.2s" onmouseover="this.style.background='rgba(255,230,0,0.04)'" onmouseout="this.style.background=''" onclick="showCrdView('note')">
+                    <tr style="cursor:pointer;transition:background 0.2s"
+                      onmouseover="this.style.background='rgba(255,230,0,0.04)'" onmouseout="this.style.background=''"
+                      onclick="showCrdView('note')">
                       <td>Bharat Forge Ltd</td>
                       <td style="color:var(--slate-dim);font-family:'IBM Plex Mono',monospace;font-size:11px">
                         CL-2024-8821</td>
@@ -3126,7 +3237,9 @@
                   <div class="card-title">⚠️ AI Flags — Action Required</div>
                   <div class="alert-warn">Director DIN 07654321 — flagged as struck-off in MCA database. Recommend board
                     resolution for replacement.</div>
-                  <div class="alert-warn" style="display:flex;align-items:center;justify-content:space-between">SEBI shareholding data pending — section 8 marked incomplete. <button class="btn btn-secondary btn-sm" onclick="resolveSebiData()" style="margin-left:10px;flex-shrink:0">⚡ Fetch Now</button></div>
+                  <div class="alert-warn" style="display:flex;align-items:center;justify-content:space-between">SEBI
+                    shareholding data pending — section 8 marked incomplete. <button class="btn btn-secondary btn-sm"
+                      onclick="resolveSebiData()" style="margin-left:10px;flex-shrink:0">⚡ Fetch Now</button></div>
                   <div class="alert-info">CERSAI charge ₹240 Cr noted. Within sanctioned limit — no action required.
                   </div>
                 </div>
@@ -3210,7 +3323,8 @@
                     <div
                       style="display:flex;justify-content:space-between;padding-bottom:8px;border-bottom:1px solid var(--border-subtle);margin-bottom:8px">
                       <span style="color:var(--slate-dim)">Borrower</span><span style="color:var(--white)">Bharat Forge
-                        Ltd</span></div>
+                        Ltd</span>
+                    </div>
                     <div style="display:flex;justify-content:space-between"><span
                         style="color:var(--slate-dim)">Facility</span><span style="color:var(--white)">Term Loan ₹350
                         Cr</span></div>
@@ -3700,22 +3814,26 @@
           <div class="page-header-top">
             <div>
               <div class="page-title">Policy Bot (Live API)</div>
-              <div class="page-subtitle">Interact with the PolicyRAGAgent in real-time. Enter a query to see the multi-agent orchestration.</div>
+              <div class="page-subtitle">Interact with the PolicyRAGAgent in real-time. Enter a query to see the
+                multi-agent orchestration.</div>
             </div><span class="page-tag tag-agentic">Live API</span>
           </div>
         </div>
         <div class="live-bot-container">
           <div class="live-bot-input-area">
-            <input type="text" id="input-policy" class="live-bot-input" placeholder="e.g., What are the rules for dormant accounts?">
+            <input type="text" id="input-policy" class="live-bot-input"
+              placeholder="e.g., What are the rules for dormant accounts?">
             <button class="live-bot-btn" id="btn-policy" onclick="runLiveQuery('policy')">Ask Policy Bot</button>
           </div>
           <div class="live-bot-results">
             <div class="live-bot-final">
-              <h3 style="font-size:14px;color:var(--slate);margin-bottom:12px;font-family:'IBM Plex Mono',monospace">Final Synthesized Output</h3>
+              <h3 style="font-size:14px;color:var(--slate);margin-bottom:12px;font-family:'IBM Plex Mono',monospace">
+                Final Synthesized Output</h3>
               <div id="final-policy" class="final-output-text">Results will appear here...</div>
             </div>
             <div class="live-bot-graph">
-              <h3 style="font-size:14px;color:var(--slate);margin-bottom:12px;font-family:'IBM Plex Mono',monospace">Agent Thought Graph</h3>
+              <h3 style="font-size:14px;color:var(--slate);margin-bottom:12px;font-family:'IBM Plex Mono',monospace">
+                Agent Thought Graph</h3>
               <div id="graph-policy"></div>
             </div>
           </div>
@@ -3728,22 +3846,26 @@
           <div class="page-header-top">
             <div>
               <div class="page-title">Loan Eligibility Bot (Live API)</div>
-              <div class="page-subtitle">Interact with the LoanEligibilityRAGAgent in real-time. It uses decision matrices to assess eligibility.</div>
+              <div class="page-subtitle">Interact with the LoanEligibilityRAGAgent in real-time. It uses decision
+                matrices to assess eligibility.</div>
             </div><span class="page-tag tag-agentic">Live API</span>
           </div>
         </div>
         <div class="live-bot-container">
           <div class="live-bot-input-area">
-            <input type="text" id="input-loan" class="live-bot-input" placeholder="e.g., Calculate max personal loan for 35k income and 12k existing EMI">
+            <input type="text" id="input-loan" class="live-bot-input"
+              placeholder="e.g., Calculate max personal loan for 35k income and 12k existing EMI">
             <button class="live-bot-btn" id="btn-loan" onclick="runLiveQuery('loan')">Assess Eligibility</button>
           </div>
           <div class="live-bot-results">
             <div class="live-bot-final">
-              <h3 style="font-size:14px;color:var(--slate);margin-bottom:12px;font-family:'IBM Plex Mono',monospace">Final Synthesized Output</h3>
+              <h3 style="font-size:14px;color:var(--slate);margin-bottom:12px;font-family:'IBM Plex Mono',monospace">
+                Final Synthesized Output</h3>
               <div id="final-loan" class="final-output-text">Results will appear here...</div>
             </div>
             <div class="live-bot-graph">
-              <h3 style="font-size:14px;color:var(--slate);margin-bottom:12px;font-family:'IBM Plex Mono',monospace">Agent Thought Graph</h3>
+              <h3 style="font-size:14px;color:var(--slate);margin-bottom:12px;font-family:'IBM Plex Mono',monospace">
+                Agent Thought Graph</h3>
               <div id="graph-loan"></div>
             </div>
           </div>
@@ -3788,7 +3910,9 @@
     </div>
     <div class="status-item" style="flex:1;overflow:hidden;margin:0 12px">
       <span style="color:var(--ey-yellow);margin-right:6px;font-size:9px">▶ LIVE</span>
-      <span id="activity-ticker" style="transition:opacity 0.3s;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">⚡ Credit memo CN-2026-0441 advanced to Review stage</span>
+      <span id="activity-ticker"
+        style="transition:opacity 0.3s;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">⚡ Credit memo
+        CN-2026-0441 advanced to Review stage</span>
     </div>
     <div>Bank · EY AI · 7 May 2026 · <span id="live-clock-bar" style="color:var(--slate)">--:--</span></div>
   </div>
@@ -3804,7 +3928,7 @@
       const btnEl = document.getElementById(`btn-${type}`);
       const graphEl = document.getElementById(`graph-${type}`);
       const finalEl = document.getElementById(`final-${type}`);
-      
+
       const query = inputEl.value.trim();
       if (!query) return;
 
@@ -3850,38 +3974,17 @@
         container.innerHTML = '<div style="color:var(--slate-dim)">No intermediate steps available.</div>';
         return;
       }
-      
+
       let html = '<div class="graph-container" style="display:flex; flex-direction:row; gap:20px; padding: 20px 0;">';
       steps.forEach((step, idx) => {
         // Map new fields from d.json
-        const summary = step.summary || "";
-        const outputText = typeof step.output === 'object' ? JSON.stringify(step.output, null, 2) : (step.output || "");
+        const summary = (step.summary || "").replace(/\n+/g, ' ').trim();
+        const rawOutput = typeof step.output === 'object' ? JSON.stringify(step.output, null, 2) : (step.output || "");
+        const outputText = rawOutput.replace(/\n{3,}/g, '\n\n').trim();
         const modelBadge = step.model ? `<span class="mini-pill" style="margin-left:8px;font-size:8px;opacity:0.8">${step.model}</span>` : "";
-        const typeIcon = step.call_type === 'tool' ? '🔧' : '🤖';
         const isOrchestrator = step.agent === 'Orchestrator';
-        
-        html += `<div class="graph-node" style="animation:fadeIn 0.4s ease-out ${idx * 0.1}s both; ${isOrchestrator ? 'border-left-color:var(--AI-purple);' : ''}">
-          <div class="node-header">
-            <div style="display:flex;align-items:center;gap:6px">
-              <span style="font-size:12px">${typeIcon}</span>
-              <span style="color:${isOrchestrator ? 'var(--AI-purple)' : 'var(--ey-yellow)'};font-weight:600;letter-spacing:0.5px">${step.action.toUpperCase()}</span>
-            </div>
-            <span>STEP ${step.step}</span>
-          </div>
-          <div class="node-content">
-            <div style="display:flex;align-items:center;margin-bottom:8px">
-              <div style="color:var(--white);font-size:11px;font-weight:600">${step.agent}</div>
-              ${modelBadge}
-            </div>
-            
-            <div style="color:var(--slate);margin-bottom:10px;font-size:12px;line-height:1.5">${summary}</div>
-            
-            ${outputText ? `
-            <div style="color:var(--slate-dim);margin-bottom:4px;font-size:9px;text-transform:uppercase;letter-spacing:0.5px">Finding / Output</div>
-            <div style="background:rgba(0,0,0,0.3);padding:10px;border-radius:6px;font-family:'IBM Plex Mono',monospace;font-size:10px;max-height:120px;overflow-y:auto;border:1px solid rgba(255,255,255,0.05);color:var(--slate);line-height:1.4">${outputText}</div>
-            ` : ''}
-          </div>
-        </div>`;
+
+        html += `<div class="graph-node" style="animation:fadeIn 0.4s ease-out ${idx * 0.1}s both; ${isOrchestrator ? 'border-left-color:var(--AI-purple);' : ''}"><div class="node-header"><div style="display:flex;align-items:center;gap:6px"><span style="color:${isOrchestrator ? 'var(--AI-purple)' : 'var(--ey-yellow)'};font-weight:600;letter-spacing:0.5px">${step.action.toUpperCase()}</span></div></div><div class="node-content"><div style="display:flex;align-items:center;margin-bottom:24px"><div style="color:var(--white);font-size:11px;font-weight:600">${step.agent}</div>${modelBadge}</div><div style="color:var(--slate);margin-bottom:24px;font-size:12px;line-height:1.4">${summary}</div>${outputText ? `<div style="color:var(--slate-dim);margin-bottom:16px;font-size:9px;text-transform:uppercase;letter-spacing:0.5px">Finding / Output</div><div style="background:rgba(0,0,0,0.4);padding:10px;border-radius:6px;font-family:'IBM Plex Mono',monospace;font-size:12px;max-height:250px;overflow-y:auto;border:1px solid rgba(255,255,255,0.1);color:var(--white);line-height:1.4;white-space:pre-wrap;">${outputText}</div>` : ''}</div></div>`;
       });
       html += '</div>';
       container.innerHTML = html;
@@ -4032,23 +4135,23 @@
           setTimeout(() => { el.style.width = w; }, 100);
         });
       }, 300);
-      
+
       // Start live updates
       startLiveUpdates();
       updateClock();
       setInterval(updateClock, 1000);
       setInterval(() => {
         const now = new Date();
-        const t = now.toLocaleTimeString('en-IN', {hour:'2-digit', minute:'2-digit', hour12:false});
+        const t = now.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', hour12: false });
         const bar = document.getElementById('live-clock-bar');
-        if(bar) bar.textContent = t;
+        if (bar) bar.textContent = t;
       }, 1000);
-      
+
       // Auto-run credit demo simulation on credit memo tab
       document.querySelectorAll('.nav-item').forEach(item => {
-        item.addEventListener('click', function() {
+        item.addEventListener('click', function () {
           const tabId = this.getAttribute('onclick');
-          if(tabId && tabId.includes('uc-credit-memo')) {
+          if (tabId && tabId.includes('uc-credit-memo')) {
             setTimeout(() => animateCreditDemoIfVisible(), 500);
           }
         });
@@ -4058,9 +4161,9 @@
     // ── LIVE CLOCK ──
     function updateClock() {
       const now = new Date();
-      const timeStr = now.toLocaleTimeString('en-IN', {hour:'2-digit', minute:'2-digit', second:'2-digit', hour12:false});
+      const timeStr = now.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
       const el = document.getElementById('live-clock');
-      if(el) el.textContent = timeStr;
+      if (el) el.textContent = timeStr;
     }
 
     // ── LIVE METRIC UPDATES ──
@@ -4070,25 +4173,25 @@
       'lm-self-cure': { base: 84, variance: 3, suffix: 'K', color: 'var(--green)' },
       'lm-policy-queries': { base: 2100, variance: 80, suffix: '', color: 'var(--white)' },
     };
-    
+
     function startLiveUpdates() {
       setInterval(() => {
         // Also update overview strip
         const ovEl = document.getElementById('lm-active-calls');
-        if(ovEl) {
+        if (ovEl) {
           const cur = parseInt(ovEl.dataset.val || 312);
-          const nv = Math.max(290, cur + Math.floor((Math.random()-0.4)*8));
+          const nv = Math.max(290, cur + Math.floor((Math.random() - 0.4) * 8));
           ovEl.dataset.val = nv;
           ovEl.textContent = nv;
         }
         Object.entries(liveMetrics).forEach(([id, cfg]) => {
           const el = document.getElementById(id);
-          if(!el) return;
+          if (!el) return;
           const delta = Math.floor((Math.random() - 0.4) * cfg.variance);
           const current = parseInt(el.dataset.val || cfg.base);
           const newVal = Math.max(cfg.base - cfg.variance, current + delta);
           el.dataset.val = newVal;
-          const display = newVal >= 1000 ? (newVal/1000).toFixed(1)+'K' : newVal + cfg.suffix;
+          const display = newVal >= 1000 ? (newVal / 1000).toFixed(1) + 'K' : newVal + cfg.suffix;
           el.textContent = display;
           el.style.color = cfg.color;
           // Flash animation
@@ -4098,12 +4201,12 @@
         });
         // Update status bar agent count
         const agentTick = document.getElementById('agent-tick');
-        if(agentTick) {
+        if (agentTick) {
           const ops = ['Processing', 'Analyzing', 'Orchestrating', 'Validating', 'Reasoning'];
-          agentTick.textContent = ops[Math.floor(Math.random()*ops.length)];
+          agentTick.textContent = ops[Math.floor(Math.random() * ops.length)];
         }
       }, 4000);
-      
+
       // Ticker for activity log
       startActivityTicker();
     }
@@ -4124,7 +4227,7 @@
     let tickerIdx = 0;
     function startActivityTicker() {
       const ticker = document.getElementById('activity-ticker');
-      if(!ticker) return;
+      if (!ticker) return;
       setInterval(() => {
         tickerIdx = (tickerIdx + 1) % activityEvents.length;
         ticker.style.opacity = '0';
@@ -4142,7 +4245,7 @@
       cnStep(0);
       const steps = [1, 2, 3, 4];
       steps.forEach((step, i) => {
-        setTimeout(() => { cnStep(step); }, (i+1) * 1200);
+        setTimeout(() => { cnStep(step); }, (i + 1) * 1200);
       });
     }
 
@@ -4174,14 +4277,14 @@
       toast.style.cssText = 'position:fixed;top:70px;right:24px;z-index:9999;padding:12px 20px;border-radius:8px;background:rgba(14,30,54,0.98);border:1px solid ' + c + ';color:' + c + ';font-size:12.5px;max-width:420px;line-height:1.5;animation:fadeIn 0.3s;box-shadow:0 4px 24px rgba(0,0,0,0.4);';
       toast.textContent = msg;
       document.body.appendChild(toast);
-      setTimeout(function() { toast.style.opacity='0'; toast.style.transition='opacity 0.5s'; }, 3500);
-      setTimeout(function() { if(toast.parentNode) toast.parentNode.removeChild(toast); }, 4000);
+      setTimeout(function () { toast.style.opacity = '0'; toast.style.transition = 'opacity 0.5s'; }, 3500);
+      setTimeout(function () { if (toast.parentNode) toast.parentNode.removeChild(toast); }, 4000);
     }
 
     // ── AGENT PULSE ANIMATION ──
     function pulseAgent(agentId) {
       const el = document.getElementById(agentId);
-      if(!el) return;
+      if (!el) return;
       el.classList.add('running');
       setTimeout(() => el.classList.remove('running'), 2000);
     }
