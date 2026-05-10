@@ -1639,14 +1639,6 @@
     .live-bot-results {
       flex: 1;
       display: flex;
-      flex-direction: column;
-      gap: 20px;
-      overflow-y: auto;
-    }
-    .live-bot-graph, .live-bot-final {
-      background: var(--surface);
-      border: 1px solid var(--border-subtle);
-      border-radius: 8px;
       padding: 20px;
       width: 100%;
     }
@@ -1774,18 +1766,17 @@
     .live-bot-btn:disabled { opacity: 0.5; cursor: not-allowed; }
     
     .live-bot-results {
-      flex: 1;
       display: flex;
+      flex-direction: column;
       gap: 20px;
-      overflow: hidden;
     }
     .live-bot-graph, .live-bot-final {
       background: var(--surface);
       border: 1px solid var(--border-subtle);
       border-radius: 8px;
       padding: 20px;
-      overflow-y: auto;
-      flex: 1;
+      overflow-x: auto;
+      overflow-y: hidden;
     }
     
     .graph-node {
@@ -1793,16 +1784,17 @@
       border-left: 3px solid var(--ey-yellow);
       border-radius: 4px;
       padding: 12px;
-      margin-bottom: 12px;
+      flex-shrink: 0;
+      width: 280px;
       position: relative;
     }
     .graph-node::before {
       content: '';
       position: absolute;
-      left: 16px;
-      top: -12px;
-      height: 12px;
-      width: 2px;
+      left: -20px;
+      top: 50%;
+      width: 20px;
+      height: 2px;
       background: var(--border-subtle);
     }
     .graph-node:first-child::before { display: none; }
@@ -3718,13 +3710,13 @@
             <button class="live-bot-btn" id="btn-policy" onclick="runLiveQuery('policy')">Ask Policy Bot</button>
           </div>
           <div class="live-bot-results">
-            <div class="live-bot-graph">
-              <h3 style="font-size:14px;color:var(--slate);margin-bottom:12px;font-family:'IBM Plex Mono',monospace">Agent Thought Graph</h3>
-              <div id="graph-policy"></div>
-            </div>
             <div class="live-bot-final">
               <h3 style="font-size:14px;color:var(--slate);margin-bottom:12px;font-family:'IBM Plex Mono',monospace">Final Synthesized Output</h3>
               <div id="final-policy" class="final-output-text">Results will appear here...</div>
+            </div>
+            <div class="live-bot-graph">
+              <h3 style="font-size:14px;color:var(--slate);margin-bottom:12px;font-family:'IBM Plex Mono',monospace">Agent Thought Graph</h3>
+              <div id="graph-policy"></div>
             </div>
           </div>
         </div>
@@ -3746,13 +3738,13 @@
             <button class="live-bot-btn" id="btn-loan" onclick="runLiveQuery('loan')">Assess Eligibility</button>
           </div>
           <div class="live-bot-results">
-            <div class="live-bot-graph">
-              <h3 style="font-size:14px;color:var(--slate);margin-bottom:12px;font-family:'IBM Plex Mono',monospace">Agent Thought Graph</h3>
-              <div id="graph-loan"></div>
-            </div>
             <div class="live-bot-final">
               <h3 style="font-size:14px;color:var(--slate);margin-bottom:12px;font-family:'IBM Plex Mono',monospace">Final Synthesized Output</h3>
               <div id="final-loan" class="final-output-text">Results will appear here...</div>
+            </div>
+            <div class="live-bot-graph">
+              <h3 style="font-size:14px;color:var(--slate);margin-bottom:12px;font-family:'IBM Plex Mono',monospace">Agent Thought Graph</h3>
+              <div id="graph-loan"></div>
             </div>
           </div>
         </div>
@@ -3859,30 +3851,37 @@
         return;
       }
       
-      let html = '<div class="graph-container">';
+      let html = '<div class="graph-container" style="display:flex; flex-direction:row; gap:20px; padding: 20px 0;">';
       steps.forEach((step, idx) => {
-        let inputStr = typeof step.input === 'object' ? JSON.stringify(step.input, null, 2) : step.input;
-        let findingStr = typeof step.finding === 'object' ? JSON.stringify(step.finding, null, 2) : step.finding;
+        // Map new fields from d.json
+        const summary = step.summary || "";
+        const outputText = typeof step.output === 'object' ? JSON.stringify(step.output, null, 2) : (step.output || "");
+        const modelBadge = step.model ? `<span class="mini-pill" style="margin-left:8px;font-size:8px;opacity:0.8">${step.model}</span>` : "";
+        const typeIcon = step.call_type === 'tool' ? '🔧' : '🤖';
+        const isOrchestrator = step.agent === 'Orchestrator';
         
-        html += `<div class="graph-node" style="animation:fadeIn 0.4s ease-out ${idx * 0.15}s both">
+        html += `<div class="graph-node" style="animation:fadeIn 0.4s ease-out ${idx * 0.1}s both; ${isOrchestrator ? 'border-left-color:var(--AI-purple);' : ''}">
           <div class="node-header">
-            <span style="color:var(--ey-yellow);font-weight:600">${step.action.toUpperCase()}</span>
+            <div style="display:flex;align-items:center;gap:6px">
+              <span style="font-size:12px">${typeIcon}</span>
+              <span style="color:${isOrchestrator ? 'var(--AI-purple)' : 'var(--ey-yellow)'};font-weight:600;letter-spacing:0.5px">${step.action.toUpperCase()}</span>
+            </div>
             <span>STEP ${step.step}</span>
           </div>
           <div class="node-content">
-            <div style="color:var(--slate);margin-bottom:8px;font-size:11px;font-weight:600">AGENT: ${step.agent}</div>
+            <div style="display:flex;align-items:center;margin-bottom:8px">
+              <div style="color:var(--white);font-size:11px;font-weight:600">${step.agent}</div>
+              ${modelBadge}
+            </div>
             
-            <div style="color:var(--slate-dim);margin-bottom:4px;font-size:10px;text-transform:uppercase;letter-spacing:0.5px">Input</div>
-            <div style="background:rgba(0,0,0,0.3);padding:8px;border-radius:4px;margin-bottom:12px;font-family:'IBM Plex Mono',monospace;font-size:11px;max-height:80px;overflow-y:auto;border:1px solid rgba(255,255,255,0.05)">${inputStr}</div>
+            <div style="color:var(--slate);margin-bottom:10px;font-size:12px;line-height:1.5">${summary}</div>
             
-            <div style="color:var(--slate-dim);margin-bottom:4px;font-size:10px;text-transform:uppercase;letter-spacing:0.5px">Finding</div>
-            <div style="background:rgba(46,204,113,0.05);padding:8px;border-radius:4px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--green);max-height:120px;overflow-y:auto;border:1px solid rgba(46,204,113,0.1)">${findingStr}</div>
+            ${outputText ? `
+            <div style="color:var(--slate-dim);margin-bottom:4px;font-size:9px;text-transform:uppercase;letter-spacing:0.5px">Finding / Output</div>
+            <div style="background:rgba(0,0,0,0.3);padding:10px;border-radius:6px;font-family:'IBM Plex Mono',monospace;font-size:10px;max-height:120px;overflow-y:auto;border:1px solid rgba(255,255,255,0.05);color:var(--slate);line-height:1.4">${outputText}</div>
+            ` : ''}
           </div>
         </div>`;
-        
-        if (idx < steps.length - 1) {
-          html += '<div class="node-connector"></div>';
-        }
       });
       html += '</div>';
       container.innerHTML = html;
