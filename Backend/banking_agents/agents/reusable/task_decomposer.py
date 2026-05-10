@@ -1,50 +1,57 @@
 import json
-from banking_agents.config.settings import get_bedrock_client, MODEL_TASK_DECOMPOSER
+import logging
+from groq import Groq
+from banking_agents.config.settings import get_groq_client, MODEL_TASK_DECOMPOSER
+
+logger = logging.getLogger(__name__)
 
 class TaskDecomposerAgent:
     def __init__(self):
-        self.client = get_bedrock_client()
+        logger.info("[TaskDecomposerAgent] Initializing TaskDecomposerAgent.")
+        self.client: Groq = get_groq_client()
         self.model_id = MODEL_TASK_DECOMPOSER
-        
+        logger.debug("[TaskDecomposerAgent] Using model: %s", self.model_id)
+
     def decompose(self, query: str, intent: str) -> list[str]:
-        """
-        Decomposes a complex user query into a list of actionable sub-tasks using Claude Haiku.
-        """
+        """Decomposes a complex user query into a list of actionable sub-tasks."""
+        logger.info("[TaskDecomposerAgent.decompose] >>> Query: '%s' | Intent: '%s'", query, intent)
+
         system_prompt = f"""You are an expert banking task decomposer.
-        The user has asked a query that has been broadly classified as: {intent}.
-        Your job is to break this query down into a logical sequence of atomic sub-tasks that our domain agents need to answer.
-        
-        Return the result as a JSON array of strings. 
-        Do not return any other text or markdown blocks, JUST the JSON array.
-        Example: ["What is the current auto loan interest rate?", "What is the minimum credit score required for an auto loan?"]
-        """
-        
-        messages = [
-            {"role": "user", "content": [{"text": query}]}
-        ]
-        
+The user has asked a query classified as: {intent}.
+Break this query into a logical sequence of atomic sub-tasks for domain agents to answer.
+
+Return ONLY a JSON array of strings. No markdown, no extra text.
+Example: ["What is the current auto loan interest rate?", "What is the minimum credit score required?"]"""
+
         try:
-            response = self.client.converse(
-                modelId=self.model_id,
-                messages=messages,
-                system=[{"text": system_prompt}],
-                inferenceConfig={"temperature": 0.2}
+            logger.debug("[TaskDecomposerAgent.decompose] Calling Groq API | Model: %s", self.model_id)
+            response = self.client.chat.completions.create(
+                model=self.model_id,
+                messages=[
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user",   "content": query},
+                ],
+                temperature=0.2,
             )
-            
-            output_text = response['output']['message']['content'][0]['text'].strip()
-            
-            # Clean up potential markdown formatting
+            output_text = response.choices[0].message.content.strip()
+            logger.debug("[TaskDecomposerAgent.decompose] Raw response: %s", output_text)
+
+            # Strip markdown code fences if present
             if output_text.startswith("```json"):
                 output_text = output_text[7:]
+            if output_text.startswith("```"):
+                output_text = output_text[3:]
             if output_text.endswith("```"):
                 output_text = output_text[:-3]
-                
+
             tasks = json.loads(output_text.strip())
             if isinstance(tasks, list):
+                logger.info("[TaskDecomposerAgent.decompose] <<< Decomposed into %d subtask(s): %s", len(tasks), tasks)
                 return tasks
-            return [query] # Fallback to single task
-            
+
+            logger.warning("[TaskDecomposerAgent.decompose] Unexpected format, falling back to single task.")
+            return [query]
+
         except Exception as e:
-            print(f"Error decomposing tasks: {e}")
-            # Fallback to returning the original query as a single task
+            logger.error("[TaskDecomposerAgent.decompose] Error: %s", e, exc_info=True)
             return [query]
